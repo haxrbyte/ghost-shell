@@ -1,24 +1,181 @@
-/* HaxrByte custom overrides for Hacker Theme */
+/* ================================
+   HaxrByte — Hacker Theme Overrides
+   Palette: Electric Blue #00F0FF, Toxic Yellow #FCD200
+   Fonts: prefer monospace for hacker vibe
+   ================================ */
 
-/* Headings */
-h1, h2, h3, h4, h5, h6 {
-  color: #00F0FF !important; /* Electric Blue */
-  text-shadow: 0 0 6px #FCD200, 0 0 12px #00F0FF;
-  font-family: 'Fira Code', monospace;
-  letter-spacing: 0.5px;
+/* Base layout: centered column with breathing room */
+:root{
+  --hx-blue:#00F0FF;
+  --hx-yellow:#FCD200;
+  --hx-fg:#E6F1FF;
+  --hx-dim:#9BB3C7;
+  --hx-bg:#0b0f14;       /* subtle deep navy-black */
+  --hx-border:rgba(0,240,255,.25);
 }
+
+html,body{
+  background-color: var(--hx-bg);
+  color: var(--hx-fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wrapper{
+  max-width: 960px;     /* wider than default */
+  margin: 0 auto;       /* center */
+  padding: 0 24px;
+  text-align: left;     /* keep content left-aligned inside centered column */
+}
+
+/* Optional: gently push everything a tad right on huge screens */
+@media (min-width:1400px){
+  .wrapper{ margin-left: calc(50% - 420px + 60px); }
+}
+
+/* Headings: neon blue with toxic yellow glow */
+h1,h2,h3,h4,h5,h6{
+  color: var(--hx-blue) !important;
+  text-shadow:
+    0 0 6px var(--hx-yellow),
+    0 0 12px var(--hx-blue),
+    0 0 24px rgba(0,240,255,.35);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Fira Code", "Liberation Mono", Consolas, monospace;
+  letter-spacing: .4px;
+  line-height: 1.15;
+  margin-top: 1.2em;
+  margin-bottom: .5em;
+}
+h1{ font-size: clamp(2rem, 3.6vw, 2.6rem); }
+h2{ font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+h3{ font-size: clamp(1.35rem, 2.1vw, 1.6rem); }
+
+/* Body text + lists */
+p,li{ color: var(--hx-fg); }
+ul,ol{ padding-left: 1.4rem; }
+li + li{ margin-top: .25rem; }
 
 /* Links */
-a, a:visited {
-  color: #FCD200 !important; /* Toxic Yellow */
+a, a:visited{
+  color: var(--hx-yellow) !important;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(252,210,0,.35);
 }
-a:hover {
-  color: #00F0FF !important;
-  text-shadow: 0 0 5px #00F0FF;
+a:hover{
+  color: var(--hx-blue) !important;
+  text-shadow: 0 0 6px var(--hx-blue);
+  border-bottom-color: rgba(0,240,255,.45);
 }
 
-/* Keep it left-aligned but with more breathing space */
-.wrapper {
-  margin-left: 120px;   /* shift content right */
-  margin-right: 40px;   /* add some space on the right edge */
+/* Buttons (utility class you can use in Markdown with raw HTML) */
+.button{
+  display:inline-block;
+  padding:.6rem 1rem;
+  border:1.5px solid var(--hx-blue);
+  color:var(--hx-blue) !important;
+  border-radius:8px;
+  font-weight:700;
+  letter-spacing:.4px;
+  transition:.15s ease;
 }
+.button:hover{
+  background:var(--hx-blue);
+  color:#0b0f14 !important;
+  box-shadow:0 0 16px var(--hx-blue);
+}
+
+/* Code blocks + inline code: terminal card style */
+code, pre, tt{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Fira Code", "Liberation Mono", Consolas, monospace;
+}
+code{
+  background: rgba(0,240,255,.06);
+  color: var(--hx-blue);
+  padding: .15em .35em;
+  border: 1px solid var(--hx-border);
+  border-radius: 6px;
+}
+pre{
+  background: linear-gradient(180deg, rgba(0,240,255,.05), rgba(0,0,0,.35));
+  border: 1px solid var(--hx-border);
+  border-left: 3px solid var(--hx-blue);
+  padding: 16px 18px;
+  border-radius: 10px;
+  overflow: auto;
+  box-shadow: inset 0 0 24px rgba(0,240,255,.08);
+}
+pre code{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: #d7faff;
+}
+
+/* Blockquotes: info panel */
+blockquote{
+  border-left: 3px solid var(--hx-yellow);
+  background: linear-gradient(90deg, rgba(252,210,0,.07), rgba(0,0,0,0));
+  padding: .8rem 1rem;
+  color: var(--hx-dim);
+  border-radius: 6px;
+}
+
+/* Tables: grid with neon header */
+table{
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: .98rem;
+}
+th, td{
+  border: 1px solid rgba(255,255,255,.08);
+  padding: .55rem .6rem;
+}
+th{
+  background: rgba(0,240,255,.08);
+  color: var(--hx-blue);
+  text-shadow: 0 0 6px rgba(0,240,255,.35);
+}
+
+/* Horizontal rule */
+hr{
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,240,255,.0), rgba(0,240,255,.4), rgba(0,240,255,.0));
+  margin: 2rem 0;
+}
+
+/* Images: subtle border & glow on hover */
+img{
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+img:hover{
+  box-shadow: 0 0 18px rgba(0,240,255,.18);
+}
+
+/* Page title (Hacker theme uses header .page-header sometimes) */
+.page-header h1, .page-header h2{
+  color: var(--hx-blue) !important;
+}
+
+/* Small meta text */
+small, .post-meta{
+  color: var(--hx-dim);
+}
+
+/* Selection color */
+::selection{
+  background: rgba(0,240,255,.35);
+  color: #031018;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px){
+  .wrapper{ padding: 0 16px; }
+  pre{ padding: 14px; }
+}
+
+/* Optional: gently push content to the right (if desired)
+body{ margin-left: 60px; }  /* uncomment to nudge right */
