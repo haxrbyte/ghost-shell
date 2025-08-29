@@ -247,3 +247,13 @@ body{ margin-left: 60px; }  /* uncomment to nudge right */
 
 /* Make sure code container can host absolutely-positioned children */
 div.highlight{ position:relative; }
+
+/* Add extra padding inside code blocks so the label doesn't overlap */
+div.highlight pre {
+  padding-top: 2.2rem;   /* increase top padding */
+}
+
+/* Optional: adjust the language label position */
+.hx-lang {
+  top: 8px;              /* push label slightly down */
+}
