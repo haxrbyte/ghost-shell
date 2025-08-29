@@ -6,7 +6,7 @@ title: Welcome to the GhostShell
 
 Code, notes, and red‑team tactics straight from the channel.
 
-[▶️ Subscribe on YouTube](https://youtube.com/@xxx)
+[▶️ Subscribe on YouTube](https://youtube.com/@xxx)  
 [💬 Join the Discord](https://discord.gg/your-invite)
 
 ## Latest Operations
