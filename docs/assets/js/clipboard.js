@@ -1,9 +1,7 @@
-// HaxrByte — Copy buttons for code blocks
-
-console.log("HaxrByte clipboard.js loaded");
-
+// HaxrByte — Copy buttons for code blocks (neon edition)
 (function () {
-  // Utility: create button
+  console.log("HaxrByte clipboard.js loaded");
+
   function makeBtn(label = "Copy") {
     const b = document.createElement("button");
     b.className = "hx-copy";
@@ -14,19 +12,19 @@ console.log("HaxrByte clipboard.js loaded");
   }
 
   function addButtons() {
-    // Select code blocks inside <pre>
-    document.querySelectorAll("pre > code").forEach((code) => {
-      const pre = code.parentElement;
-      if (pre.classList.contains("hx-has-copy")) return; // prevent dupes
+    // Matches both plain <pre><code> and Rouge <div class="highlight"><pre><code>
+    document.querySelectorAll("pre code, div.highlight pre code").forEach((code) => {
+      const pre = code.closest("pre");
+      if (!pre || pre.classList.contains("hx-has-copy")) return;
       pre.classList.add("hx-has-copy");
 
-      // Wrap <pre> to position button
+      // Wrap <pre> for positioning
       const wrap = document.createElement("div");
       wrap.className = "hx-codewrap";
-      pre.replaceWith(wrap);
+      pre.parentNode.insertBefore(wrap, pre);
       wrap.appendChild(pre);
 
-      // Add a language label if present (class like "language-bash")
+      // Add language label if available
       const lang = (code.className.match(/language-([a-z0-9+\-]+)/i) || [,"code"])[1];
       const label = document.createElement("div");
       label.className = "hx-lang";
@@ -43,7 +41,6 @@ console.log("HaxrByte clipboard.js loaded");
           if (navigator.clipboard && window.isSecureContext) {
             await navigator.clipboard.writeText(text);
           } else {
-            // Fallback
             const ta = document.createElement("textarea");
             ta.value = text;
             ta.style.position = "fixed";
