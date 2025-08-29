@@ -179,3 +179,51 @@ small, .post-meta{
 
 /* Optional: gently push content to the right (if desired)
 body{ margin-left: 60px; }  /* uncomment to nudge right */
+
+/* HaxrByte copy button + code wrapper */
+.hx-codewrap{
+  position: relative;
+  margin: 1rem 0;
+}
+.hx-codewrap pre{
+  margin: 0; /* remove extra gap now that we wrap it */
+}
+.hx-lang{
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  font-size: 12px;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  pointer-events: none;
+}
+.hx-copy{
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  padding: .25rem .55rem;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  border:1px solid var(--hx-blue);
+  border-radius: 6px;
+  background: rgba(0,240,255,.06);
+  color: var(--hx-blue);
+  cursor: pointer;
+  transition: .15s ease;
+}
+.hx-copy:hover{
+  background: var(--hx-blue);
+  color: #0b0f14;
+  box-shadow: 0 0 12px var(--hx-blue);
+}
+.hx-copy.hx-copied{
+  border-color: var(--hx-yellow);
+  background: rgba(252,210,0,.12);
+  color: var(--hx-yellow);
+}
+.hx-copy.hx-failed{
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
