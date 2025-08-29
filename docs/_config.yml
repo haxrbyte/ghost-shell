@@ -3,6 +3,11 @@ remote_theme: pages-themes/hacker@v0.2.0
 color_scheme: dark
 plugins: [jekyll-seo-tag, jekyll-sitemap, jekyll-remote-theme]
 
+plugins:
+  - jekyll-remote-theme
+
+baseurl: "/ghost-shell"
+
 # Add a hook for custom CSS
 include:
   - assets/css/custom.css
