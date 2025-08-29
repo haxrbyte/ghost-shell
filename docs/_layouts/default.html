@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>{{ page.title }} | {{ site.title }}</title>
   <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
 </head>
 <body>
-  <div class="wrapper">
-    {{ content }}
-  </div>
-
-  <!-- Load after content so buttons can attach -->
-  <script src="{{ '/assets/js/clipboard.js' | relative_url }}"></script>
+  <div class="wrapper">{{ content }}</div>
+  <script defer src="{{ '/assets/js/clipboard.js' | relative_url }}"></script>
 </body>
 </html>
