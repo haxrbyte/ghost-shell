@@ -21,3 +21,8 @@ Code, notes, and red‑team tactics straight from the channel.
 ```bash
 nmap -sC -sV -oA scan target
 ```
+
+
+```bash
+nmap -sC -sV -oA scan target
+```
