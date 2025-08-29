@@ -14,20 +14,6 @@
   --hx-border:rgba(0,240,255,.25);
 }
 
-html,body{
-  background-color: var(--hx-bg);
-  color: var(--hx-fg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.wrapper{
-  max-width: 960px;     /* wider than default */
-  margin: 0 auto;       /* center */
-  padding: 0 20px;
-  text-align: left;     /* keep content left-aligned inside centered column */
-}
-
 /* Optional: gently push everything a tad right on huge screens */
 @media (min-width:1400px){
   .wrapper{ margin-left: calc(50% - 420px + 60px); }
@@ -274,4 +260,18 @@ h1, h2, h3, h4, h5, h6 {
 /* Inline code + preformatted stays monospace */
 code, pre, tt {
   font-family: 'Fira Code', monospace;
+}
+
+/* Restore Hacker theme background and keep centered layout */
+html, body {
+  background: none !important;            /* don’t paint over the theme */
+  background-color: #151515 !important;   /* Hacker theme body color */
+}
+
+/* Keep your centered column, but don’t touch background */
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: left;
 }
