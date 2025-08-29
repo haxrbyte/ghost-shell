@@ -21,13 +21,6 @@ html,body{
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*
-/* Ensure the Hacker theme background stays untouched */
-html, body {
-  background: inherit;   /* don’t override the theme’s bg */
-}
-*/
-
 .wrapper{
   max-width: 960px;     /* wider than default */
   margin: 0 auto;       /* center */
