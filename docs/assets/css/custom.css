@@ -227,3 +227,23 @@ body{ margin-left: 60px; }  /* uncomment to nudge right */
   border-color: #ff6b6b;
   color: #ff6b6b;
 }
+
+/* Copy button + language label (inside .highlight) */
+.hx-lang{
+  position:absolute; top:6px; left:10px; z-index:5;
+  font-size:12px; letter-spacing:.4px; text-transform:uppercase;
+  color: rgba(255,255,255,.6); pointer-events:none;
+}
+.hx-copy{
+  position:absolute; top:6px; right:8px; z-index:6;
+  padding:.25rem .55rem; font-size:12px; font-weight:700; letter-spacing:.3px;
+  border:1px solid var(--hx-blue); border-radius:6px;
+  background: rgba(0,240,255,.06); color: var(--hx-blue);
+  cursor:pointer; transition:.15s ease;
+}
+.hx-copy:hover{ background: var(--hx-blue); color:#0b0f14; box-shadow:0 0 12px var(--hx-blue); }
+.hx-copy.hx-copied{ border-color: var(--hx-yellow); background: rgba(252,210,0,.12); color: var(--hx-yellow); }
+.hx-copy.hx-failed{ border-color:#ff6b6b; color:#ff6b6b; }
+
+/* Make sure code container can host absolutely-positioned children */
+div.highlight{ position:relative; }
