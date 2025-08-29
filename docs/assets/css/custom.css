@@ -16,3 +16,9 @@ a:hover {
   color: #00F0FF !important;
   text-shadow: 0 0 5px #00F0FF;
 }
+
+/* Keep it left-aligned but with more breathing space */
+.wrapper {
+  margin-left: 120px;   /* shift content right */
+  margin-right: 40px;   /* add some space on the right edge */
+}
