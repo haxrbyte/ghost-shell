@@ -279,7 +279,7 @@ html, body {
 /* Floating TOC on the right */
 .hx-sidebar{
   position: fixed;
-  top: 100px;
+  top: 100px;                 /* adjust if header size changes */
   right: 24px;
   width: 260px;
   max-height: calc(100vh - 140px);
@@ -291,11 +291,7 @@ html, body {
   box-shadow: 0 0 14px rgba(0,240,255,.08);
   z-index: 1000;
 }
-body.with-sidebar .wrapper{ margin-right: 300px; }
-@media (max-width: 1100px){
-  .hx-sidebar{ position: static; width: auto; max-height: none; margin: 10px 0 20px; }
-  body.with-sidebar .wrapper{ margin-right: 0; }
-}
+body.with-sidebar .wrapper{ margin-right: 300px; } /* make space */
 .hx-sidebar__title{ font-weight:800; color:#00F0FF; text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px; }
 .hx-sidebar ul{ list-style:none; margin:0; padding:0; }
 .hx-sidebar li{ margin:6px 0; }
@@ -303,3 +299,9 @@ body.with-sidebar .wrapper{ margin-right: 300px; }
 .hx-sidebar a{ color:#E6F1FF; text-decoration:none; border-bottom:1px dashed rgba(0,240,255,.25); }
 .hx-sidebar a:hover{ color:#00F0FF; }
 .hx-sidebar a.active{ color:#FCD200; text-shadow:0 0 6px rgba(252,210,0,.5); }
+
+/* Mobile: stack above content */
+@media (max-width: 1100px){
+  .hx-sidebar{ position: static; width: auto; max-height: none; margin: 10px 0 20px; }
+  body.with-sidebar .wrapper{ margin-right: 0; }
+}
