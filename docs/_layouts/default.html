@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
-  <head>
-    <meta charset="utf-8">
-    <title>{{ page.title }} | {{ site.title }}</title>
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+</head>
+<body>
+  <div class="wrapper">
+    {{ content }}
+  </div>
 
-    <!-- Load the Hacker theme’s CSS -->
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-
-    <!-- Load your overrides -->
-    <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
-  </head>
-  <body>
-    <div class="wrapper">
-      {{ content }}
-    </div>
-  </body>
+  <!-- Load after content so buttons can attach -->
+  <script src="{{ '/assets/js/clipboard.js' | relative_url }}"></script>
+</body>
 </html>
