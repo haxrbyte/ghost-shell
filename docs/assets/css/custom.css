@@ -276,35 +276,28 @@ html, body {
   text-align: left;
 }
 
-/* === HaxrByte Sidebar Index === */
+/* === HaxrByte TOC (safe, non-intrusive) === */
 .hx-sidebar{
-  position: sticky;
-  top: 20px;
-  align-self: flex-start;
-  max-height: calc(100vh - 40px);
-  overflow: auto;
+  position: fixed;
+  top: 100px;           /* adjust if your header is taller */
+  right: 24px;          /* put it on the right */
   width: 260px;
+  max-height: calc(100vh - 140px);
+  overflow: auto;
   padding: 12px 14px;
-  margin: 20px 20px 20px 0;
   border: 1px solid rgba(0,240,255,.25);
   border-radius: 12px;
   background: linear-gradient(180deg, rgba(0,240,255,.06), rgba(0,0,0,.25));
   box-shadow: 0 0 14px rgba(0,240,255,.08);
+  z-index: 1000;
 }
 
-/* place sidebar to the left and content to the right */
-body{
-  display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: 20px;
-}
-.wrapper{
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 20px;
+/* Make room so the TOC doesn’t overlap the content */
+body.with-sidebar .wrapper{
+  margin-right: 300px;  /* sidebar width + gap */
 }
 
-/* sidebar internals */
+/* Sidebar internals */
 .hx-sidebar__title{
   font-weight: 800;
   color: var(--hx-blue, #00F0FF);
@@ -326,14 +319,8 @@ body{
   text-shadow: 0 0 6px rgba(252,210,0,.5);
 }
 
-/* Mobile: collapse sidebar above content */
-@media (max-width: 900px){
-  body{
-    display: block;
-  }
-  .hx-sidebar{
-    position: relative;
-    width: auto;
-    margin: 10px 0 20px 0;
-  }
+/* Mobile: move TOC above content */
+@media (max-width: 1100px){
+  .hx-sidebar{ position: static; width: auto; max-height: none; margin: 10px 0 20px; }
+  body.with-sidebar .wrapper{ margin-right: 0; }
 }
