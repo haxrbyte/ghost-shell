@@ -1,35 +1,23 @@
-// HaxrByte — Auto sidebar index from H2/H3
-(function () {
-  const ENABLED = (document.body.dataset.toc ?? "true") !== "false"; // allow per-page disable
-  if (!ENABLED) return;
-
+// HaxrByte — Auto sidebar index (safe version)
+(function(){
   document.addEventListener("DOMContentLoaded", () => {
-    const contentRoot = document.querySelector(".wrapper") || document.body;
-
-    // Collect headings
-    const heads = [...contentRoot.querySelectorAll("h2, h3")];
+    const root = document.querySelector(".wrapper") || document.body;
+    const heads = [...root.querySelectorAll("h2, h3")];
     if (!heads.length) return;
 
-    // Ensure headings have ids
+    // assign ids if missing
     heads.forEach(h => {
       if (!h.id) {
-        h.id = h.textContent.trim()
-          .toLowerCase()
-          .replace(/[^\w\- ]+/g, "")
-          .replace(/\s+/g, "-")
-          .substring(0, 64);
+        h.id = h.textContent.trim().toLowerCase()
+          .replace(/[^\w\- ]+/g,"").replace(/\s+/g,"-").slice(0,64);
       }
     });
 
-    // Build nav
     const nav = document.createElement("nav");
     nav.className = "hx-sidebar";
-    const title = document.createElement("div");
-    title.className = "hx-sidebar__title";
-    title.textContent = "Index";
-    nav.appendChild(title);
+    nav.innerHTML = `<div class="hx-sidebar__title">Index</div><ul></ul>`;
+    const ul = nav.querySelector("ul");
 
-    const ul = document.createElement("ul");
     heads.forEach(h => {
       const li = document.createElement("li");
       li.className = h.tagName === "H3" ? "lvl-3" : "lvl-2";
@@ -38,20 +26,20 @@
       a.textContent = h.textContent.trim();
       a.addEventListener("click", (e) => {
         e.preventDefault();
-        document.querySelector(a.getAttribute("href"))?.scrollIntoView({ behavior: "smooth", block: "start" });
-        history.replaceState(null, "", a.getAttribute("href"));
+        document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", `#${h.id}`);
       });
       li.appendChild(a);
       ul.appendChild(li);
     });
-    nav.appendChild(ul);
-    document.body.appendChild(nav);
 
-    // Active section highlight
-    const observer = new IntersectionObserver((entries) => {
+    document.body.appendChild(nav);
+    document.body.classList.add("with-sidebar");
+
+    // highlight active section
+    const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        const id = entry.target.id;
-        const link = nav.querySelector(`a[href="#${CSS.escape(id)}"]`);
+        const link = nav.querySelector(`a[href="#${CSS.escape(entry.target.id)}"]`);
         if (!link) return;
         if (entry.isIntersecting) {
           nav.querySelectorAll("a.active").forEach(a => a.classList.remove("active"));
@@ -60,6 +48,6 @@
       });
     }, { rootMargin: "0px 0px -70% 0px", threshold: 0.1 });
 
-    heads.forEach(h => observer.observe(h));
+    heads.forEach(h => obs.observe(h));
   });
 })();
