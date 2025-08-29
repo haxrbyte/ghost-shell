@@ -27,3 +27,13 @@ nmap -sC -sV -oA scan target
 ```bash
 nmap -sC -sV -oA scan target
 ```
+
+
+
+# HaxrByte Ops Hub
+
+## Latest Operations
+...content...
+
+## Tagline
+...content...
