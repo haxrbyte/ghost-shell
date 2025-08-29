@@ -14,18 +14,38 @@
   --hx-border:rgba(0,240,255,.25);
 }
 
+/*
 html,body{
   background-color: var(--hx-bg);
   color: var(--hx-fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+*/
+
+/* Ensure the Hacker theme background stays untouched */
+html, body {
+  background: inherit;   /* don’t override the theme’s bg */
+}
 
 .wrapper{
   max-width: 960px;     /* wider than default */
   margin: 0 auto;       /* center */
-  padding: 0 10px;
+  padding: 0 20px;
   text-align: left;     /* keep content left-aligned inside centered column */
+}
+
+/* Optional: center all page content vertically as well */
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centers vertically */
+}
+.wrapper {
+  flex: 0 0 auto;         /* prevent it from stretching */
 }
 
 /* Optional: gently push everything a tad right on huge screens */
