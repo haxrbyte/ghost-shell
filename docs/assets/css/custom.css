@@ -35,19 +35,6 @@ html, body {
   text-align: left;     /* keep content left-aligned inside centered column */
 }
 
-/* Optional: center all page content vertically as well */
-html, body {
-  height: 100%;
-}
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* centers vertically */
-}
-.wrapper {
-  flex: 0 0 auto;         /* prevent it from stretching */
-}
-
 /* Optional: gently push everything a tad right on huge screens */
 @media (min-width:1400px){
   .wrapper{ margin-left: calc(50% - 420px + 60px); }
