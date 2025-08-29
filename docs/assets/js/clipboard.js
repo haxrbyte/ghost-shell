@@ -1,4 +1,4 @@
-// HaxrByte — Copy buttons for code blocks (neon edition)
+// HaxrByte — Copy buttons for code blocks (highlight-aware)
 (function () {
   console.log("HaxrByte clipboard.js loaded");
 
@@ -12,28 +12,29 @@
   }
 
   function addButtons() {
-    // Matches both plain <pre><code> and Rouge <div class="highlight"><pre><code>
-    document.querySelectorAll("pre code, div.highlight pre code").forEach((code) => {
-      const pre = code.closest("pre");
-      if (!pre || pre.classList.contains("hx-has-copy")) return;
-      pre.classList.add("hx-has-copy");
+    const blocks = document.querySelectorAll("div.highlight pre code, pre code");
+    console.log("HaxrByte code blocks found:", blocks.length);
 
-      // Wrap <pre> for positioning
-      const wrap = document.createElement("div");
-      wrap.className = "hx-codewrap";
-      pre.parentNode.insertBefore(wrap, pre);
-      wrap.appendChild(pre);
+    blocks.forEach((code) => {
+      const container =
+        code.closest("div.highlight") ||      // Rouge container
+        code.closest("pre")?.parentElement || // fallback parent
+        code.parentElement;
 
-      // Add language label if available
+      if (!container || container.classList.contains("hx-has-copy")) return;
+      container.classList.add("hx-has-copy");
+      container.style.position = container.style.position || "relative";
+
+      // Add language label
       const lang = (code.className.match(/language-([a-z0-9+\-]+)/i) || [,"code"])[1];
       const label = document.createElement("div");
       label.className = "hx-lang";
       label.textContent = lang.toLowerCase();
-      wrap.appendChild(label);
+      container.appendChild(label);
 
       // Add copy button
       const btn = makeBtn();
-      wrap.appendChild(btn);
+      container.appendChild(btn);
 
       btn.addEventListener("click", async () => {
         const text = code.innerText;
@@ -56,7 +57,7 @@
             btn.classList.remove("hx-copied");
             btn.querySelector(".hx-copy__label").textContent = "Copy";
           }, 1200);
-        } catch (e) {
+        } catch {
           btn.classList.add("hx-failed");
           btn.querySelector(".hx-copy__label").textContent = "Failed";
           setTimeout(() => {
