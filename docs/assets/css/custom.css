@@ -14,19 +14,19 @@
   --hx-border:rgba(0,240,255,.25);
 }
 
-/*
 html,body{
   background-color: var(--hx-bg);
   color: var(--hx-fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-*/
 
+/*
 /* Ensure the Hacker theme background stays untouched */
 html, body {
   background: inherit;   /* don’t override the theme’s bg */
 }
+*/
 
 .wrapper{
   max-width: 960px;     /* wider than default */
