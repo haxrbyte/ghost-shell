@@ -1,6 +1,6 @@
 title: HaxrByte — GhostShell Ops
-theme: minima
+remote_theme: pages-themes/hacker@v0.2.0
 minima:
   skin: dark
-plugins: [jekyll-seo-tag, jekyll-sitemap]
+plugins: [jekyll-seo-tag, jekyll-sitemap, jekyll-remote-theme]
 markdown: kramdown
