@@ -276,6 +276,7 @@ html, body {
   text-align: left;
 }
 
+/* Floating TOC */
 .hx-sidebar{
   position: fixed; top: 100px; right: 24px; width: 260px;
   max-height: calc(100vh - 140px); overflow: auto; padding: 12px 14px;
