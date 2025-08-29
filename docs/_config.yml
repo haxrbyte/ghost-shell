@@ -1,0 +1,6 @@
+title: HaxrByte — GhostShell Ops
+theme: minima
+minima:
+  skin: dark
+plugins: [jekyll-seo-tag, jekyll-sitemap]
+markdown: kramdown
