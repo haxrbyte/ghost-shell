@@ -257,3 +257,21 @@ div.highlight pre {
 .hx-lang {
   top: 8px;              /* push label slightly down */
 }
+
+/* Body text override: readable sans-serif */
+body, p, li {
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 1.05rem;     /* bump slightly for readability */
+  line-height: 1.65;      /* more breathing room */
+  color: var(--hx-fg);
+}
+
+/* Keep headings in neon monospace */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fira Code', monospace;
+}
+
+/* Inline code + preformatted stays monospace */
+code, pre, tt {
+  font-family: 'Fira Code', monospace;
+}
