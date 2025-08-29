@@ -5,6 +5,8 @@ color_scheme: dark
 
 plugins:
   - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
 baseurl: "/ghost-shell"
 
