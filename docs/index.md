@@ -29,3 +29,6 @@ nmap -sC -sV -oA scan target
 ```bash
 nmap -sC -sV -oA scan target
 ```
+
+```bash
+nmap -sC -sV -oA scan target
