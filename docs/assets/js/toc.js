@@ -1,18 +1,33 @@
-// HaxrByte — Auto sidebar index (safe version)
-(function(){
+// HaxrByte — Auto sidebar index (robust)
+(function () {
   document.addEventListener("DOMContentLoaded", () => {
-    const root = document.querySelector(".wrapper") || document.body;
-    const heads = [...root.querySelectorAll("h2, h3")];
-    if (!heads.length) return;
+    console.log("[TOC] init");
 
-    // assign ids if missing
+    const root = document.querySelector(".wrapper") || document.body;
+
+    // 1) Try H2/H3 (docs style). If none, fall back to H1/H2.
+    let heads = [...root.querySelectorAll("h2, h3")];
+    if (heads.length === 0) heads = [...root.querySelectorAll("h1, h2")];
+
+    console.log("[TOC] headings found:", heads.map(h => h.tagName + "#" + (h.id || "(no id)")));
+
+    if (!heads.length) {
+      console.log("[TOC] no headings found; abort");
+      return;
+    }
+
+    // Ensure IDs
     heads.forEach(h => {
       if (!h.id) {
-        h.id = h.textContent.trim().toLowerCase()
-          .replace(/[^\w\- ]+/g,"").replace(/\s+/g,"-").slice(0,64);
+        h.id = h.textContent.trim()
+          .toLowerCase()
+          .replace(/[^\w\- ]+/g, "")
+          .replace(/\s+/g, "-")
+          .slice(0, 64);
       }
     });
 
+    // Build sidebar
     const nav = document.createElement("nav");
     nav.className = "hx-sidebar";
     nav.innerHTML = `<div class="hx-sidebar__title">Index</div><ul></ul>`;
@@ -36,7 +51,7 @@
     document.body.appendChild(nav);
     document.body.classList.add("with-sidebar");
 
-    // highlight active section
+    // Active highlight
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         const link = nav.querySelector(`a[href="#${CSS.escape(entry.target.id)}"]`);
