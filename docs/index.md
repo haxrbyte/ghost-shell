@@ -37,3 +37,9 @@ nmap -sC -sV -oA scan target
 
 ## Tagline
 ...content...
+
+
+
+# HaxrByte Ops Hub
+## Latest Operations
+## Tagline
