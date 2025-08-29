@@ -1,4 +1,7 @@
 // HaxrByte — Copy buttons for code blocks
+
+console.log("HaxrByte clipboard.js loaded");
+
 (function () {
   // Utility: create button
   function makeBtn(label = "Copy") {
