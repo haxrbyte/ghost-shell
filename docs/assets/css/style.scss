@@ -1,12 +1,4 @@
-        ---
-        ---
-        @import "{{ site.theme }}";
+@import "{{ site.theme }}";
 
-        body {
-          background-color: #333;
-          color: #eee;
-        }
-
-        h1 {
-          color: #fcd200;
-        }
+// Override variables
+$text-color: #fcd200;
