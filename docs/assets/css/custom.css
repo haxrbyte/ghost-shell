@@ -20,6 +20,7 @@
 }
 
 /* Headings: neon blue with toxic yellow glow */
+/*
 h1,h2,h3,h4,h5,h6{
   color: var(--hx-blue) !important;
   text-shadow:
@@ -27,6 +28,19 @@ h1,h2,h3,h4,h5,h6{
     0 0 12px var(--hx-blue),
     0 0 24px rgba(0,240,255,.35);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Fira Code", "Liberation Mono", Consolas, monospace;
+  letter-spacing: .4px;
+  line-height: 1.15;
+  margin-top: 1.2em;
+  margin-bottom: .5em;
+}
+*/
+/* Headings: toned-down neon */
+h1, h2, h3, h4, h5, h6 {
+  color: #00F0FF !important;   /* Electric Blue */
+  text-shadow:
+    0 0 2px #FCD200,           /* subtle yellow halo */
+    0 0 4px #00F0FF;           /* softer blue glow */
+  font-family: 'Fira Code', monospace;
   letter-spacing: .4px;
   line-height: 1.15;
   margin-top: 1.2em;
