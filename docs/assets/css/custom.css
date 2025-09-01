@@ -317,10 +317,18 @@ code, pre, tt {
   font-family: 'Fira Code', monospace;
 }
 
-/* Restore Hacker theme background and keep centered layout */
+/*
+// Restore Hacker theme background and keep centered layout
 html, body {
-  background: none !important;            /* don’t paint over the theme */
-  background-color: #151515 !important;   /* Hacker theme body color */
+  background: none !important;            // don’t paint over the theme
+  background-color: #151515 !important;   // Hacker theme body color
+}
+*/
+
+/* Background: dark grey gradient instead of pure black */
+html, body {
+  background: linear-gradient(180deg, #1a1a1a, #0d0d0d);  /* dark grey fade */
+  color: #E6F1FF;   /* keep text readable */
 }
 
 /* Keep your centered column, but don’t touch background */
