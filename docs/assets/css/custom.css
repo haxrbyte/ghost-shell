@@ -68,7 +68,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Headings: inverted neon block style */
 h1, h2, h3, h4, h5, h6 {
-  display: inline-block;               /* shrink background to text */
+  /*display: inline-block;               /* shrink background to text */
+  display: block;         /* ensures each heading is on its own line */
   padding: 0.25em 0.6em;               /* spacing around text */
   background: #00F0FF;                 /* Electric Blue background */
   color: #0b0f14 !important;           /* dark text inside */
