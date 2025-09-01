@@ -30,9 +30,9 @@ nmap -sC -sV -oA scan target
 
 
 
-# HaxrByte Ops Hub  
+# HaxrByte Ops Hub
 
-## Latest Operations  
+## Latest Operations
 ...content...
 
 ## Tagline
@@ -40,6 +40,6 @@ nmap -sC -sV -oA scan target
 
 
 
-# HaxrByte Ops Hub  
-## Latest Operations  
+# HaxrByte Ops Hub
+## Latest Operations
 ## Tagline
