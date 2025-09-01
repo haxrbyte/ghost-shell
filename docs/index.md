@@ -17,6 +17,10 @@ Code, notes, and red‑team tactics straight from the channel.
 
 **Tagline:** *Everyday Hacks to Elite Attacks — Cyber Warfare. Ghost Ops. Red Team Tactics. HaxrByte.*
 
+
+* TOC
+{:toc}
+
 ---
 
 ```bash
