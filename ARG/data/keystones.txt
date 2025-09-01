@@ -1,1 +1,8 @@
-your list of keystone lines (one per line)
+# GhostLayer keystones (one per line)
+ghost-mask
+alpha-channel
+spectral-scan
+7c9a3d
+c2VjcmV0X2xheWVyX2tleQ==
+NTLM-echo-322
+…
