@@ -67,25 +67,25 @@ h1, h2, h3, h4, h5, h6 {
 */
 
 /* Headings: inverted neon block style */
+/* Headings: neon banners, shrink background to text */
 h1, h2, h3, h4, h5, h6 {
-  /*display: inline-block;               /* shrink background to text */
-  display: block;         /* ensures each heading is on its own line */
-  padding: 0.25em 0.6em;               /* spacing around text */
-  background: #00F0FF;                 /* Electric Blue background */
-  color: #0b0f14 !important;           /* dark text inside */
+  display: inline-block;           /* shrink background to text width */
+  clear: both;                     /* force each heading onto its own line */
+  padding: 0.25em 0.6em;
+  background: #00F0FF;             /* Electric Blue background */
+  color: #0b0f14 !important;       /* dark text inside */
   font-family: 'Fira Code', monospace;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
 
-  /* Glow border effect */
-  box-shadow: 0 0 8px #00F0FF, 
-              0 0 16px rgba(0,240,255,0.6),
-              0 0 24px rgba(0,240,255,0.4);
-  
-  border-radius: 4px;                  /* soften corners */
-  margin-top: 1.2em;
-  margin-bottom: 0.6em;
+  /* Glow effect */
+  box-shadow: 0 0 6px #00F0FF,
+              0 0 12px rgba(0,240,255,0.6),
+              0 0 18px rgba(0,240,255,0.4);
+
+  border-radius: 4px;
+  margin: 1.2em 0 0.6em;
 }
 
 h1{ font-size: clamp(2rem, 3.6vw, 2.6rem); }
