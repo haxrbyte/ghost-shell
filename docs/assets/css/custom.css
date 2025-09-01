@@ -327,8 +327,8 @@ html, body {
 
 /* Background: dark grey gradient instead of pure black */
 html, body {
-  background: linear-gradient(180deg, #1a1a1a, #0d0d0d);  /* dark grey fade */
-  color: #E6F1FF;   /* keep text readable */
+    background: linear-gradient(180deg, #1a1a1a, #0d0d0d) !important;  /* dark grey fade */
+    color: #E6F1FF !important;   /* keep text readable */
 }
 
 /* Keep your centered column, but don’t touch background */
