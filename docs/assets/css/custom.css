@@ -327,9 +327,9 @@ html, body {
 }
 */
 
-/* Background: dark grey gradient instead of pure black */
+/* Background: 20% lighter grey, more pronounced gradient */
 html, body {
-    background: linear-gradient(180deg, #232323, #181818) !important;  /* 20% lighter grey fade */
+    background: linear-gradient(180deg, #353535 0%, #232323 100%) !important;  /* lighter greys, stronger fade */
     color: #E6F1FF !important;   /* keep text readable */
 }
 
