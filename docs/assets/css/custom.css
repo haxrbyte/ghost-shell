@@ -34,7 +34,9 @@ h1,h2,h3,h4,h5,h6{
   margin-bottom: .5em;
 }
 */
+
 /* Headings: toned-down neon */
+/*
 h1, h2, h3, h4, h5, h6 {
   color: #00F0FF !important;   /* Electric Blue */
   text-shadow:
@@ -46,6 +48,22 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1.2em;
   margin-bottom: .5em;
 }
+*/
+
+/* Headings: neon with subtle black shadow */
+h1, h2, h3, h4, h5, h6 {
+  color: #00F0FF !important;   /* Electric Blue */
+  text-shadow:
+    0 0 2px #FCD200,           /* faint Toxic Yellow halo */
+    0 0 4px #00F0FF,           /* soft blue glow */
+    1px 1px 2px #000000;       /* black shadow for contrast */
+  font-family: 'Fira Code', monospace;
+  letter-spacing: .4px;
+  line-height: 1.15;
+  margin-top: 1.2em;
+  margin-bottom: .5em;
+}
+
 h1{ font-size: clamp(2rem, 3.6vw, 2.6rem); }
 h2{ font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
 h3{ font-size: clamp(1.35rem, 2.1vw, 1.6rem); }
