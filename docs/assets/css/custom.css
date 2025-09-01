@@ -67,26 +67,20 @@ h1, h2, h3, h4, h5, h6 {
 */
 
 /* Headings: inverted neon block style */
-/* Neon banner headings: shrink background to text, but stack on separate lines */
 h1, h2, h3, h4, h5, h6 {
-  display: inline-block;          /* background hugs text */
+  display: block;         /* ensures each heading is on its own line */
   padding: 0.25em 0.6em;
-  background: #00F0FF;            /* Electric Blue panel */
-  color: #0b0f14 !important;      /* dark text */
+  background: #00F0FF;
+  color: #0b0f14 !important;
   font-family: 'Fira Code', monospace;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  box-shadow: 0 0 6px #00F0FF, 0 0 12px rgba(0,240,255,.6), 0 0 18px rgba(0,240,255,.4);
+  box-shadow: 0 0 8px #00F0FF,
+              0 0 16px rgba(0,240,255,0.6),
+              0 0 24px rgba(0,240,255,0.4);
   border-radius: 4px;
-  margin: 1.2em 0 0.6em;          /* vertical spacing */
-  vertical-align: top;
-}
-
-/* Force a line break after each heading (works with inline-block) */
-h1::after, h2::after, h3::after, h4::after, h5::after, h6::after {
-  content: "";
-  display: block;                  /* creates a line break */
+  margin: 1em 0 0.6em;
 }
 
 h1{ font-size: clamp(2rem, 3.6vw, 2.6rem); }
