@@ -339,7 +339,7 @@ html, body {
   text-align: left;
 }
 
-/* Floating TOC */
+/* Floating TOC 
 .hx-sidebar{
   position: fixed; top: 100px; right: 24px; width: 260px;
   max-height: calc(100vh - 140px); overflow: auto; padding: 12px 14px;
@@ -359,3 +359,76 @@ body.with-sidebar .wrapper{ margin-right: 300px; }
   .hx-sidebar{ position: static; width: auto; max-height: none; margin: 10px 0 20px; }
   body.with-sidebar .wrapper{ margin-right: 0; }
 }
+*/
+
+/* Jekyll Table of Contents */
+#markdown-toc {
+    background: linear-gradient(180deg, rgba(0,240,255,.06), rgba(0,0,0,.25));
+    border: 1px solid var(--hx-border);
+    border-radius: 12px;
+    padding: 20px 30px;
+    margin: 25px 0;
+    list-style-type: none;
+    font-family: 'Fira Code', monospace;
+    box-shadow: 0 0 14px rgba(0,240,255,.08);
+}
+
+#markdown-toc::before {
+    content: "Table of Contents";
+    display: block;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--hx-blue);
+    margin-bottom: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    text-shadow: 0 0 6px rgba(0,240,255,.35);
+}
+
+#markdown-toc ul {
+    list-style-type: none;
+    padding-left: 1.5em;
+    margin: 0.5em 0;
+}
+
+#markdown-toc li {
+    margin: 0.4em 0;
+    line-height: 1.4;
+}
+
+#markdown-toc a {
+    color: var(--hx-fg);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(0,240,255,.25);
+    transition: all 0.2s ease;
+}
+
+#markdown-toc a:hover {
+    color: var(--hx-blue);
+    text-shadow: 0 0 6px rgba(0,240,255,.35);
+    border-bottom-color: var(--hx-blue);
+}
+
+/* Add markers for hierarchy */
+#markdown-toc > li::before {
+    content: ">";
+    color: var(--hx-blue);
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+#markdown-toc ul li::before {
+    content: "-";
+    color: var(--hx-yellow);
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+/* Make TOC responsive */
+@media (max-width: 600px) {
+    #markdown-toc {
+        padding: 15px 20px;
+        font-size: 0.9em;
+    }
+}
+
