@@ -1,1 +1,31 @@
-GitHub Actions scheduler
+name: Nightly ARG Seed Rotation
+on:
+  schedule:
+    - cron: "0 3 * * *"   # 03:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rotate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rotate seed
+        run: |
+          python3 -V
+          python3 scripts/rotate_seed.py
+
+      - name: Commit & push
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "haxrbyte-bot"
+            git config user.email "ops@users.noreply.github.com"
+            git add data/arg_seed.json
+            git commit -m "ARG: rotate daily seed"
+            git push
+          else
+            echo "No changes to commit."
+          fi
