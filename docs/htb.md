@@ -1,3 +1,9 @@
+---
+layout: default
+title: HTB Battle Manual
+description: The complete beginner's guide to Hack The Box by HaxrByte
+---
+
 # THE COMPLETE HTB BEGINNER'S BATTLE MANUAL
 
 ## From Zero to Hero: Your Journey into Hack The Box

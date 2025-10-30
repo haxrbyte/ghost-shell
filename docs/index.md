@@ -7,11 +7,23 @@ title: Welcome to the GhostShell
 Code, notes, and red‑team tactics straight from the channel.
 
 [▶️ Subscribe on YouTube](https://www.youtube.com/@haxrbyte)  
-[💬 Join the Discord](https://haxrbyte.com/discord)
+[💬 Join the Discord](https://haxrbyte.com/discord)  
+[📚 HTB Battle Manual](/htb) — Your complete guide to conquering Hack The Box
 
 ## Latest Operations
 - **Vintage (HTB | Windows | Hard)** — SMB loot → WinRM foothold → SeImpersonate → SYSTEM  
-  → [Episode page](/episodes/2025-08-23-vintage-htb) · [Tools](../Tools/) · [Cheatsheets](../Cheatsheets/)
+  → [Episode page](/episodes/2025-08-23-vintage-htb)
+
+### Quick Links
+- Using relative paths:
+  - [Tools](../Tools/) 
+  - [Cheatsheets](../Cheatsheets/)
+  - [Top 20 Red Team Commands](../Cheatsheets/Topp-20-RedTeam-Commands.md)
+
+- Using site.baseurl:
+  - [Tools]({{ site.baseurl }}/Tools/) 
+  - [Cheatsheets]({{ site.baseurl }}/Cheatsheets/)
+  - [Password Spray Tool]({{ site.baseurl }}/Tools/password_spray.py)
 
 ---
 
