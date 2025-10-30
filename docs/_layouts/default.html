@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+
+  {%- seo -%}
+  {% if page.canonical %}
+    <link rel="canonical" href="{{ page.canonical | absolute_url }}">
+  {% else %}
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
+  {% endif %}
+</head>
+<body>
+  <div class="wrapper">{{ content }}</div>
+  <script defer src="{{ '/assets/js/clipboard.js' | relative_url }}"></script>
+</body>
+</html>
