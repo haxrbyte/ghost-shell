@@ -1,0 +1,436 @@
+/* ================================
+   HaxrByte — Hacker Theme Overrides
+   Palette: Electric Blue #00F0FF, Toxic Yellow #FCD200
+   Fonts: prefer monospace for hacker vibe
+   ================================ */
+
+/* Base layout: centered column with breathing room */
+:root{
+  --hx-blue:#00F0FF;
+  --hx-yellow:#FCD200;
+  --hx-fg:#E6F1FF;
+  --hx-dim:#9BB3C7;
+  --hx-bg:#0b0f14;       /* subtle deep navy-black */
+  --hx-border:rgba(0,240,255,.25);
+}
+
+/* Optional: gently push everything a tad right on huge screens */
+@media (min-width:1400px){
+  .wrapper{ margin-left: calc(50% - 420px + 60px); }
+}
+
+/* Headings: neon blue with toxic yellow glow */
+/*
+h1,h2,h3,h4,h5,h6{
+  color: var(--hx-blue) !important;
+  text-shadow:
+    0 0 6px var(--hx-yellow),
+    0 0 12px var(--hx-blue),
+    0 0 24px rgba(0,240,255,.35);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Fira Code", "Liberation Mono", Consolas, monospace;
+  letter-spacing: .4px;
+  line-height: 1.15;
+  margin-top: 1.2em;
+  margin-bottom: .5em;
+}
+*/
+
+/* Headings: toned-down neon */
+/*
+h1, h2, h3, h4, h5, h6 {
+  color: #00F0FF !important;   // Electric Blue
+  text-shadow:
+    0 0 2px #FCD200,           // subtle yellow halo
+    0 0 4px #00F0FF;           // softer blue glow
+  font-family: 'Fira Code', monospace;
+  letter-spacing: .4px;
+  line-height: 1.15;
+  margin-top: 1.2em;
+  margin-bottom: .5em;
+}
+*/
+
+/* Headings: neon with subtle black shadow */
+/*
+h1, h2, h3, h4, h5, h6 {
+  color: #00F0FF !important;   // Electric Blue
+  text-shadow:
+    0 0 2px #FCD200,           // faint Toxic Yellow halo
+    0 0 4px #00F0FF,           // soft blue glow
+    1px 1px 2px #000000;       // black shadow for contrast
+  font-family: 'Fira Code', monospace;
+  letter-spacing: .4px;
+  line-height: 1.15;
+  margin-top: 1.2em;
+  margin-bottom: .5em;
+}
+*/
+
+/* Headings: neon block style with background only behind text */
+h1, h2, h3, h4, h5, h6 {
+    display: block;             /* ensure each heading is on its own line */
+    width: fit-content;         /* shrink background to text */
+    max-width: 100%;
+    padding: 0.25em 0.6em;
+    background: #00F0FF;
+    color: #0b0f14 !important;
+    text-shadow:
+        0 0 6px var(--hx-yellow),
+        0 0 12px var(--hx-blue),
+        0 0 24px rgba(0,240,255,.35);
+    font-family: 'Fira Code', monospace;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 0 8px #00F0FF,
+                0 0 16px rgba(0,240,255,0.6),
+                0 0 24px rgba(0,240,255,0.4);
+    border-radius: 4px;
+    margin: 1em 0 0.6em;
+}
+
+h1{ font-size: clamp(2rem, 3.6vw, 2.6rem); }
+h2{ font-size: clamp(1.6rem, 2.6vw, 2.1rem); }
+h3{ font-size: clamp(1.35rem, 2.1vw, 1.6rem); }
+
+/* Body text + lists */
+p,li{ color: var(--hx-fg); }
+ul,ol{ padding-left: 1.4rem; }
+li + li{ margin-top: .25rem; }
+
+/* Links */
+a, a:visited{
+  color: var(--hx-yellow) !important;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(252,210,0,.35);
+}
+a:hover{
+  color: var(--hx-blue) !important;
+  text-shadow: 0 0 6px var(--hx-blue);
+  border-bottom-color: rgba(0,240,255,.45);
+}
+
+/* Buttons (utility class you can use in Markdown with raw HTML) */
+.button{
+  display:inline-block;
+  padding:.6rem 1rem;
+  border:1.5px solid var(--hx-blue);
+  color:var(--hx-blue) !important;
+  border-radius:8px;
+  font-weight:700;
+  letter-spacing:.4px;
+  transition:.15s ease;
+}
+.button:hover{
+  background:var(--hx-blue);
+  color:#0b0f14 !important;
+  box-shadow:0 0 16px var(--hx-blue);
+}
+
+/* Code blocks + inline code: terminal card style */
+code, pre, tt{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Fira Code", "Liberation Mono", Consolas, monospace;
+}
+code{
+  background: rgba(0,240,255,.06);
+  color: var(--hx-blue);
+  padding: .15em .35em;
+  border: 1px solid var(--hx-border);
+  border-radius: 6px;
+}
+pre{
+  background: linear-gradient(180deg, rgba(0,240,255,.05), rgba(0,0,0,.35));
+  border: 1px solid var(--hx-border);
+  border-left: 3px solid var(--hx-blue);
+  padding: 16px 18px;
+  border-radius: 10px;
+  overflow: auto;
+  box-shadow: inset 0 0 24px rgba(0,240,255,.08);
+}
+pre code{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: #d7faff;
+}
+
+/* Blockquotes: info panel */
+blockquote{
+  border-left: 3px solid var(--hx-yellow);
+  background: linear-gradient(90deg, rgba(252,210,0,.07), rgba(0,0,0,0));
+  padding: .8rem 1rem;
+  color: var(--hx-dim);
+  border-radius: 6px;
+}
+
+/* Tables: grid with neon header */
+table{
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: .98rem;
+}
+th, td{
+  border: 1px solid rgba(255,255,255,.08);
+  padding: .55rem .6rem;
+}
+th{
+  background: rgba(0,240,255,.08);
+  color: var(--hx-blue);
+  text-shadow: 0 0 6px rgba(0,240,255,.35);
+}
+
+/* Horizontal rule */
+hr{
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,240,255,.0), rgba(0,240,255,.4), rgba(0,240,255,.0));
+  margin: 2rem 0;
+}
+
+/* Images: subtle border & glow on hover */
+img{
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+img:hover{
+  box-shadow: 0 0 18px rgba(0,240,255,.18);
+}
+
+/* Page title (Hacker theme uses header .page-header sometimes) */
+.page-header h1, .page-header h2{
+  color: var(--hx-blue) !important;
+}
+
+/* Small meta text */
+small, .post-meta{
+  color: var(--hx-dim);
+}
+
+/* Selection color */
+::selection{
+  background: rgba(0,240,255,.35);
+  color: #031018;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px){
+  .wrapper{ padding: 0 16px; }
+  pre{ padding: 14px; }
+}
+
+/* Optional: gently push content to the right (if desired)
+body{ margin-left: 60px; }  /* uncomment to nudge right */
+
+/* HaxrByte copy button + code wrapper */
+.hx-codewrap{
+  position: relative;
+  margin: 1rem 0;
+}
+.hx-codewrap pre{
+  margin: 0; /* remove extra gap now that we wrap it */
+}
+.hx-lang{
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  font-size: 12px;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  pointer-events: none;
+}
+.hx-copy{
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  padding: .25rem .55rem;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  border:1px solid var(--hx-blue);
+  border-radius: 6px;
+  background: rgba(0,240,255,.06);
+  color: var(--hx-blue);
+  cursor: pointer;
+  transition: .15s ease;
+}
+.hx-copy:hover{
+  background: var(--hx-blue);
+  color: #0b0f14;
+  box-shadow: 0 0 12px var(--hx-blue);
+}
+.hx-copy.hx-copied{
+  border-color: var(--hx-yellow);
+  background: rgba(252,210,0,.12);
+  color: var(--hx-yellow);
+}
+.hx-copy.hx-failed{
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+/* Copy button + language label (inside .highlight) */
+.hx-lang{
+  position:absolute; top:6px; left:10px; z-index:5;
+  font-size:12px; letter-spacing:.4px; text-transform:uppercase;
+  color: rgba(255,255,255,.6); pointer-events:none;
+}
+.hx-copy{
+  position:absolute; top:6px; right:8px; z-index:6;
+  padding:.25rem .55rem; font-size:12px; font-weight:700; letter-spacing:.3px;
+  border:1px solid var(--hx-blue); border-radius:6px;
+  background: rgba(0,240,255,.06); color: var(--hx-blue);
+  cursor:pointer; transition:.15s ease;
+}
+.hx-copy:hover{ background: var(--hx-blue); color:#0b0f14; box-shadow:0 0 12px var(--hx-blue); }
+.hx-copy.hx-copied{ border-color: var(--hx-yellow); background: rgba(252,210,0,.12); color: var(--hx-yellow); }
+.hx-copy.hx-failed{ border-color:#ff6b6b; color:#ff6b6b; }
+
+/* Make sure code container can host absolutely-positioned children */
+div.highlight{ position:relative; }
+
+/* Add extra padding inside code blocks so the label doesn't overlap */
+div.highlight pre {
+  padding-top: 2.2rem;   /* increase top padding */
+}
+
+/* Optional: adjust the language label position */
+.hx-lang {
+  top: 8px;              /* push label slightly down */
+}
+
+/* Body text override: readable sans-serif */
+body, p, li {
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 1.05rem;     /* bump slightly for readability */
+  line-height: 1.65;      /* more breathing room */
+  color: var(--hx-fg);
+}
+
+/* Keep headings in neon monospace */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fira Code', monospace;
+}
+
+/* Inline code + preformatted stays monospace */
+code, pre, tt {
+  font-family: 'Fira Code', monospace;
+}
+
+/*
+// Restore Hacker theme background and keep centered layout
+html, body {
+  background: none !important;            // don’t paint over the theme
+  background-color: #151515 !important;   // Hacker theme body color
+}
+*/
+
+/* Background: 20% lighter grey, more pronounced gradient */
+html, body {
+    background: linear-gradient(180deg, #353535 0%, #232323 100%) !important;  /* lighter greys, stronger fade */
+    color: #E6F1FF !important;   /* keep text readable */
+}
+
+/* Keep your centered column, but don’t touch background */
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: left;
+}
+
+/* Floating TOC 
+.hx-sidebar{
+  position: fixed; top: 100px; right: 24px; width: 260px;
+  max-height: calc(100vh - 140px); overflow: auto; padding: 12px 14px;
+  border: 1px solid rgba(0,240,255,.25); border-radius: 12px;
+  background: linear-gradient(180deg, rgba(0,240,255,.06), rgba(0,0,0,.25));
+  box-shadow: 0 0 14px rgba(0,240,255,.08); z-index: 1000;
+}
+body.with-sidebar .wrapper{ margin-right: 300px; }
+.hx-sidebar__title{ font-weight:800; color:#00F0FF; text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px; }
+.hx-sidebar ul{ list-style:none; margin:0; padding:0; }
+.hx-sidebar li{ margin:6px 0; }
+.hx-sidebar li.lvl-3{ margin-left:14px; opacity:.85; }
+.hx-sidebar a{ color:#E6F1FF; text-decoration:none; border-bottom:1px dashed rgba(0,240,255,.25); }
+.hx-sidebar a:hover{ color:#00F0FF; }
+.hx-sidebar a.active{ color:#FCD200; text-shadow:0 0 6px rgba(252,210,0,.5); }
+@media (max-width: 1100px){
+  .hx-sidebar{ position: static; width: auto; max-height: none; margin: 10px 0 20px; }
+  body.with-sidebar .wrapper{ margin-right: 0; }
+}
+*/
+
+/* Jekyll Table of Contents */
+#markdown-toc {
+    background: linear-gradient(180deg, rgba(0,240,255,.06), rgba(0,0,0,.25));
+    border: 1px solid var(--hx-border);
+    border-radius: 12px;
+    padding: 20px 30px;
+    margin: 25px 0;
+    list-style-type: none;
+    font-family: 'Fira Code', monospace;
+    box-shadow: 0 0 14px rgba(0,240,255,.08);
+}
+
+#markdown-toc::before {
+    content: "Table of Contents";
+    display: block;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--hx-blue);
+    margin-bottom: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    text-shadow: 0 0 6px rgba(0,240,255,.35);
+}
+
+#markdown-toc ul {
+    list-style-type: none;
+    padding-left: 1.5em;
+    margin: 0.5em 0;
+}
+
+#markdown-toc li {
+    margin: 0.4em 0;
+    line-height: 1.4;
+}
+
+#markdown-toc a {
+    color: var(--hx-fg);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(0,240,255,.25);
+    transition: all 0.2s ease;
+}
+
+#markdown-toc a:hover {
+    color: var(--hx-blue);
+    text-shadow: 0 0 6px rgba(0,240,255,.35);
+    border-bottom-color: var(--hx-blue);
+}
+
+/* Add markers for hierarchy */
+#markdown-toc > li::before {
+    content: ">";
+    color: var(--hx-blue);
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+#markdown-toc ul li::before {
+    content: "-";
+    color: var(--hx-yellow);
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+/* Make TOC responsive */
+@media (max-width: 600px) {
+    #markdown-toc {
+        padding: 15px 20px;
+        font-size: 0.9em;
+    }
+}
+
