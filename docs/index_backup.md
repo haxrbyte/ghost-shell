@@ -11,7 +11,7 @@ Code, notes, and red‑team tactics straight from the channel.
 
 ## Latest Operations
 - **Vintage (HTB | Windows | Hard)** — SMB loot → WinRM foothold → SeImpersonate → SYSTEM  
-  → [Episode page](/episodes/2025-08-23-vintage-htb) · [Tools](../Tools/) · [Cheatsheets](../Cheatsheets/)
+  → [Episode page](/episodes/2025-08-23-vintage-htb) · [Tools](/tools/) · [Cheatsheets](/cheatsheets/)
 
 ---
 
