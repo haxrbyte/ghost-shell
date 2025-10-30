@@ -1,17 +1,8 @@
 ---
 ---
 
-@import 'jekyll-theme-hacker';
-//@import "{{ site.theme }}";
-
-//h1 {
-//      color: #fcd200; /* Example: Green */
-//}
-
-//h2 {
-//      color: blue;
-//}
-
-
-// Override variables
+// Override variables first
 $text-color: #fcd200;
+
+// Import theme after variables
+@import 'jekyll-theme-hacker';
