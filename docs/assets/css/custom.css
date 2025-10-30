@@ -19,21 +19,14 @@
   .wrapper{ margin-left: calc(50% - 420px + 60px); }
 }
 
-/* Headings: neon blue with toxic yellow glow */
-/*
+/* Headings: neon blue with subtle toxic yellow glow */
 h1,h2,h3,h4,h5,h6{
   color: var(--hx-blue) !important;
   text-shadow:
-    0 0 6px var(--hx-yellow),
-    0 0 12px var(--hx-blue),
-    0 0 24px rgba(0,240,255,.35);
+    0 0 6px rgba(252,210,0,.15),
+    0 0 12px rgba(0,240,255,.15),
+    0 0 24px rgba(0,240,255,.15);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Fira Code", "Liberation Mono", Consolas, monospace;
-  letter-spacing: .4px;
-  line-height: 1.15;
-  margin-top: 1.2em;
-  margin-bottom: .5em;
-}
-*/
 
 /* Headings: toned-down neon */
 /*
