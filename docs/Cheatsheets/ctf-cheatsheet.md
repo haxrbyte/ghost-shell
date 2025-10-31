@@ -4,17 +4,19 @@ title: CTF Cheat Sheet
 
 **Tagline:** *Everyday Hacks to Elite Attacks — Cyber Warfare. Ghost Ops. Red Team Tactics. HaxrByte.*
 
+# CTF CheatSheet
+
 * TOC
 {:toc}
 
-# PortScan
+## PortScan
 
-## Namp
+### Namp
 ```bash
 nmap <target> -sC -sV -p- -T4 -vv -oA target
 ```
 
-## RustScan
+### RustScan
 ```bash
 rustscan -a <target> -- -sCV -oA target
 ```
