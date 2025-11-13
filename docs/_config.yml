@@ -1,6 +1,6 @@
 title: HaxrByte — GhostShell Ops
-# remote_theme: pages-themes/hacker@v0.2.0
-remote_theme: pages-themes/midnight@v0.2.0
+remote_theme: pages-themes/hacker@v0.2.0
+# remote_theme: pages-themes/midnight@v0.2.0
 color_scheme: dark
 # plugins: [jekyll-seo-tag, jekyll-sitemap, jekyll-remote-theme]
 
@@ -12,8 +12,8 @@ plugins:
 baseurl: "/ghost-shell"
 
 # Add a hook for custom CSS
-# include:
-#   - assets/css/custom.css
+include:
+  - assets/css/custom.css
   
 markdown: kramdown
 kramdown:
