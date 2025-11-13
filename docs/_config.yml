@@ -12,8 +12,8 @@ plugins:
 baseurl: "/ghost-shell"
 
 # Add a hook for custom CSS
-include:
-  - assets/css/custom.css
+# include:
+#   - assets/css/custom.css
   
 markdown: kramdown
 kramdown:
