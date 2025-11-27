@@ -6,7 +6,7 @@ title: CTF Cheat Sheet
 
 # CTF CheatSheet
 
-# DATE: 27 Nov 2025
+### UPDATE DATE: 27 Nov 2025
 * TOC
 {:toc}
 
