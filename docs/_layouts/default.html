@@ -19,17 +19,47 @@
 <body>
   <div class="wrapper">{{ content }}</div>
   <script>
-    // 1. Capture original language tags from markdown BEFORE anything else runs
+    // 1. Capture original language from markdown and inject label BEFORE hljs runs
     document.querySelectorAll('pre code').forEach(function(block) {
+      // Read original language class from kramdown output
       var match = block.className.match(/language-([a-z0-9+\-]+)/i);
-      if (match) {
-        block.setAttribute('data-lang', match[1].toUpperCase());
+      var lang = match ? match[1].toUpperCase() : null;
+
+      // Also check parent div.highlight for Rouge-generated classes
+      if (!lang) {
+        var parent = block.closest('div.highlight');
+        if (parent) {
+          var pm = parent.className.match(/highlight-([a-z0-9+\-]+)/i);
+          if (pm) lang = pm[1].toUpperCase();
+        }
+      }
+
+      // Store the original language so nothing can overwrite it
+      block.setAttribute('data-lang', lang || 'CODE');
+
+      // Inject the language label directly into the DOM now
+      var container = block.closest('div.highlight') || block.parentElement;
+      if (container && !container.querySelector('.hx-lang')) {
+        container.style.position = container.style.position || 'relative';
+        var label = document.createElement('div');
+        label.className = 'hx-lang';
+        label.textContent = lang || 'CODE';
+        container.appendChild(label);
       }
     });
 
-    // 2. Run highlight.js (restricted to bash, python, html)
+    // 2. Force highlight.js to use the markdown language, not auto-detect
     hljs.configure({ languages: ['bash', 'python', 'xml'] });
     document.querySelectorAll('pre code').forEach(function(block) {
+      var lang = block.getAttribute('data-lang');
+      if (lang) {
+        // Remove any existing language classes hljs might conflict with
+        block.className = block.className.replace(/language-\S+/g, '');
+        // Map display names back to hljs language ids
+        var langMap = { 'BASH': 'bash', 'PYTHON': 'python', 'HTML': 'xml', 'XML': 'xml' };
+        var hljsLang = langMap[lang] || lang.toLowerCase();
+        block.classList.add('language-' + hljsLang);
+      }
       hljs.highlightElement(block);
     });
   </script>
