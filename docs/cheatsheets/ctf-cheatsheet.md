@@ -4,7 +4,7 @@ title: CTF Cheat Sheet
 
 **Tagline:** *Everyday Hacks to Elite Attacks — Cyber Warfare. Ghost Ops. Red Team Tactics. HaxrByte.*
 
-# CTF CheatSheet
+# 🜂 CTF CheatSheet
 
 ### UPDATE DATE: 26 Mar 2026
 * TOC
@@ -200,7 +200,7 @@ impacket-psexec <domain_name>/<username>:'<password>'@<target>
 
 # 🜂 Web Enumeration
 
-## **Files or Directories**
+## Files or Directories
 
 ```bash
 dirsearch -u http://<target>
@@ -221,7 +221,7 @@ feroxbuster -u https://<target>
 -n = no recursion
 ```
 
-## **SubDomains (vHost)**
+## SubDomains (vHost)
 
 ```bash
 gobuster vhost -u http://<target> -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
