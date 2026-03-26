@@ -18,20 +18,21 @@
 </head>
 <body>
   <div class="wrapper">{{ content }}</div>
-  <script defer src="{{ '/assets/js/clipboard.js' | relative_url }}"></script>
   <script>
-    // Restrict highlight.js to Bash, Python, and HTML only
+    // 1. Capture original language tags from markdown BEFORE anything else runs
+    document.querySelectorAll('pre code').forEach(function(block) {
+      var match = block.className.match(/language-([a-z0-9+\-]+)/i);
+      if (match) {
+        block.setAttribute('data-lang', match[1].toUpperCase());
+      }
+    });
+
+    // 2. Run highlight.js (restricted to bash, python, html)
     hljs.configure({ languages: ['bash', 'python', 'xml'] });
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('pre code').forEach(function(block) {
-        // Capture the original language from the markdown fence before hljs overwrites it
-        var match = block.className.match(/language-([a-z0-9+\-]+)/i);
-        if (match) {
-          block.setAttribute('data-lang', match[1].toUpperCase());
-        }
-        hljs.highlightElement(block);
-      });
+    document.querySelectorAll('pre code').forEach(function(block) {
+      hljs.highlightElement(block);
     });
   </script>
+  <script defer src="{{ '/assets/js/clipboard.js' | relative_url }}"></script>
 </body>
 </html>
