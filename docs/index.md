@@ -10,6 +10,9 @@ Code, Notes, and Red Team tactics straight from the channel.
 [💬 Join the Discord](https://haxrbyte.com/discord)  
 
  - [Cheatsheets]({{ site.baseurl }}/cheatsheets/ctf-cheatsheet)
+ - [Cheatsheets]({{ site.baseurl }}/cheatsheets/)
+ - [Cheatsheets](/cheatsheets/ctf-cheatsheet)
+ - [Cheatsheets](/cheatsheets/ctf-cheatsheet.md)
 
 ---
 
