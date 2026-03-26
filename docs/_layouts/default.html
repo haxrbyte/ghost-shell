@@ -20,7 +20,8 @@
   <div class="wrapper">{{ content }}</div>
   <script defer src="{{ '/assets/js/clipboard.js' | relative_url }}"></script>
   <script>
-    // Initialize highlight.js on all code blocks
+    // Restrict highlight.js to Bash and Python only
+    hljs.configure({ languages: ['bash', 'python'] });
     document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('pre code').forEach(function(block) {
         hljs.highlightElement(block);
