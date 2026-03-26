@@ -11,8 +11,8 @@ Code, Notes, and Red Team tactics straight from the channel.
 
  - [Cheatsheets]({{ site.baseurl }}/cheatsheets/ctf-cheatsheet)
  - [Cheatsheets]({{ site.baseurl }}/cheatsheets/)
- - [Cheatsheets](/cheatsheets/ctf-cheatsheet)
- - [Cheatsheets](/cheatsheets/ctf-cheatsheet.md)
+ - [Cheatsheets](/Cheatsheets/ctf-cheatsheet)
+ - [Cheatsheets](/Cheatsheets/ctf-cheatsheet.md)
 
 ---
 
