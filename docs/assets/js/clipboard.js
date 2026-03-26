@@ -25,11 +25,12 @@
       container.classList.add("hx-has-copy");
       container.style.position = container.style.position || "relative";
 
-      // Add language label
-      const lang = (code.className.match(/language-([a-z0-9+\-]+)/i) || [,"code"])[1];
+      // Add language label — prefer data-lang (set before hljs runs) over class
+      const lang = code.getAttribute('data-lang')
+        || (code.className.match(/language-([a-z0-9+\-]+)/i) || [,"CODE"])[1].toUpperCase();
       const label = document.createElement("div");
       label.className = "hx-lang";
-      label.textContent = lang.toLowerCase();
+      label.textContent = lang;
       container.appendChild(label);
 
       // Add copy button

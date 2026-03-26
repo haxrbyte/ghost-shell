@@ -24,6 +24,11 @@
     hljs.configure({ languages: ['bash', 'python', 'xml'] });
     document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('pre code').forEach(function(block) {
+        // Capture the original language from the markdown fence before hljs overwrites it
+        var match = block.className.match(/language-([a-z0-9+\-]+)/i);
+        if (match) {
+          block.setAttribute('data-lang', match[1].toUpperCase());
+        }
         hljs.highlightElement(block);
       });
     });
