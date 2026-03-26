@@ -9,7 +9,7 @@ Code, notes, and red‑team tactics straight from the channel.
 [▶️ Subscribe on YouTube](https://www.youtube.com/@haxrbyte)  
 [💬 Join the Discord](https://haxrbyte.com/discord)  
 [📚 HTB Battle Manual]({{ site.baseurl }}/htb) — Your complete guide to conquering Hack The Box
- - [Cheatsheets]({{ site.baseurl }}/cheatsheets/ctf-cheatsheet)
+ - [Cheatsheets]({{ site.baseurl }}/Cheatsheets/ctf-cheatsheet)
 
 ## Latest Operations
 - **Vintage (HTB | Windows | Hard)** — SMB loot → WinRM foothold → SeImpersonate → SYSTEM  

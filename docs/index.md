@@ -2,7 +2,7 @@
 title: Welcome to the GhostShell
 ---
 
-# HaxrByte GhostShell
+# 🜂 HaxrByte GhostShell
 
 Code, Notes, and Red Team tactics straight from the channel.
 
