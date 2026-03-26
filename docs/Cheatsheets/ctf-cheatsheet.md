@@ -10,7 +10,7 @@ title: CTF Cheat Sheet
 * TOC
 {:toc}
 
-# 🜂 ![alt text](emoji_u26a1.png) PortScan
+# 🜂 PortScan
 
 ```bash
 sudo rustscan -a <hostname> -- -sCV -oA <filename>
