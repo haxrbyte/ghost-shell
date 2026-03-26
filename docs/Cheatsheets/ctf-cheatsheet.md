@@ -10,7 +10,7 @@ title: CTF Cheat Sheet
 * TOC
 {:toc}
 
-# PortScan
+# 🜂 ![alt text](emoji_u26a1.png) PortScan
 
 ```bash
 sudo rustscan -a <hostname> -- -sCV -oA <filename>
@@ -18,7 +18,7 @@ sudo rustscan -a <hostname> -- -sCV -oA <filename>
 sudo nmap <hostname> -sT -Pn -n -sCV -p- -T4 --min-rate 5000 --max-retires 2 -oA <filename>
 ```
 
-# BloodHound
+# 🜂 BloodHound
 
 ```bash
 sudo systemctl start docker
