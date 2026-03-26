@@ -39,20 +39,20 @@ attempting parkour on a skyscraper.
 
 Core Computing Knowledge
 
-```
+```bash
 Basic networking concepts (TCP/IP, DNS, HTTP/HTTPS)
 Can you explain what happens when you type google.com and hit enter? If not, start here.
 Operating system fundamentals (Windows & Linux)
 ```
 
-```
+```bash
 You should know what a file system is and not panic when you see a command line
 Basic programming/scripting (Python, Bash, PowerShell)
 You don't need to be Neo, but you should understand what a variable is
 ```
 Essential Security Concepts
 
-```
+```bash
 Common vulnerabilities (OWASP Top 10)
 Basic cryptography (hashing, encryption basics)
 Network protocols and services
@@ -81,24 +81,24 @@ first. **4-6 boxes** : You're ready for this journey, warrior.
 
 **Option 1: Kali Linux (Recommended)**
 
-```
+```bash
 Native installation : Best performance, full control
 Virtual Machine : Safe, isolated, easy to reset
 WSL 2 (Windows) : Convenient but limited
 ```
 **Option 2: Parrot OS**
 
-```
+```bash
 Lighter resource usage
 ```
 
-```
+```bash
 Similar toolset to Kali
 Better for older hardware
 ```
 **Option 3: Custom Ubuntu/Debian**
 
-```
+```bash
 Build your own toolkit
 Learn tool installation process
 More educational but time-consuming
@@ -111,8 +111,7 @@ More educational but time-consuming
 2. **Download VPN Config** (OpenVPN)
 3. **Test Connectivity**
 
-```
-bash
+```bash
 ## NNeettwwoorrkk DDiissccoovveerryy && EEnnuummeerraattiioonn
 nmnmaapp,, mmaassssccaann,, aautorutoreecconon
 ## WWeebb AApppplliiccaattiioonn TTeessttiinngg
@@ -146,32 +145,28 @@ whole day is ruined."_
 
 **Service Enumeration**
 
-```
+```bash
 SMB: enum 4 linux, smbclient, smbmap
 FTP: ftp, anonymous access testing
 SSH: Version enumeration, user enumeration
 HTTP/HTTPS: Technology stack identification
 ```
-```
-bash
+```bash
 susuddoo opopeenvpnnvpn llaabb__ususeernrnaammee..ovpnovpn
 ppiinngg10.10^10.^10 .10.1.10.1 ## HHTTBB ggaatteewwaayy tteesstt
 ```
-```
-bash
+```bash
 mmkkddiirr ~/~/hhttbb
 ccdd ~/~/hhttbb
 mmkkddiirr{{rreecconnonnaaiissssaannccee,,eexploxploiittaattiionon,,postpost--eexploxploiittaattiionon,,notnoteess}}
 ```
-```
-bash
+```bash
 ## TThhee HHTTBB SSttaannddaarrdd AApppprrooaacchh
 nmnmaapp - -ssCC - -ssVV - -ooAA iinniittiiaall__ssccaann ttaarrggeett__iipp
 nmnmaapp - -pp-- - -ooAA ffullull__portport__ssccaann ttaarrggeett__iipp
 nmnmaapp - -ssUU ----toptop--portsports 100100 ttaarrggeett__iipp ## UUDDPP ssccaann
 ```
-```
-bash
+```bash
 ggoobbustusteerr ddiirr - -uu hhttpttp://://ttaarrggeett - -ww //usrusr//sshhaarree//worworddlliistssts//ddiirrbbustusteerr//ddiirreecctorytory--lliistst-2.3--2.3-mmeeddiiumum..txttxt
 ffffuuff - -ww //usrusr//sshhaarree//worworddlliistssts//SSeeccLLiistssts//DDiissccovoveeryry//WWeebb--CContonteentnt//ccommonommon..txttxt - -uu hhttpttp://://ttaarrggeett//FFUZZUZZ
 ```
@@ -180,7 +175,7 @@ ffffuuff - -ww //usrusr//sshhaarree//worworddlliistssts//SSeeccLLiistssts//DDiis
 
 **Information Gathering**
 
-```
+```bash
 whatweb, wappalyzer for technology identification
 Source code analysis
 robots.txt, sitemap.xml analysis
@@ -188,7 +183,7 @@ Certificate transparency logs
 ```
 **Common Vulnerabilities**
 
-```
+```bash
 SQL Injection : Manual testing + sqlmap
 XSS : Reflected, stored, DOM-based
 File Upload : Bypasses and exploitation
@@ -199,14 +194,14 @@ Command Injection : OS command execution
 
 **Buffer Overflows** (for intermediate boxes)
 
-```
+```bash
 Stack-based overflows
 Return-oriented programming (ROP)
 ASLR and NX bypass techniques
 ```
 **Privilege Escalation**
 
-```
+```bash
 Linux : SUID binaries, kernel exploits, cron jobs, file permissions
 Windows : Token manipulation, service exploitation, registry analysis
 ```
@@ -214,7 +209,7 @@ Windows : Token manipulation, service exploitation, registry analysis
 
 **Information Gathering**
 
-```
+```bash
 System enumeration scripts (linpeas, winpeas)
 Network discovery from compromised host
 Data exfiltration techniques
@@ -259,7 +254,7 @@ day you become obsolete."_
     **Skills** : MongoDB client, database enumeration
 
 
-```
+```bash
 Time : 90-120 minutes
 ```
 8. **Synced** (Rsync exploitation)
@@ -383,11 +378,11 @@ attempts **Week 11-12** : Consistent easy machine solving (sub-4 hours)
 
 **Daily Practice Schedule:**
 
-```
+```bash
 1-2 hours weekdays : Study walkthroughs, practice techniques
 ```
 
-```
+```bash
 3-4 hours weekends : Attempt new machines, review concepts
 30 minutes daily : Note review, tool practice
 ```
@@ -399,28 +394,28 @@ _This is your sacred methodology for avoiding frustration-induced keyboard throw
 
 **2 Hours** : Active enumeration and initial attempts
 
-```
+```bash
 Thorough reconnaissance
 Basic exploitation attempts
 Service-specific enumeration
 ```
 **4 Hours Total** : Targeted research and advanced techniques
 
-```
+```bash
 Specific vulnerability research
 Alternative attack vectors
 Community forums and hints
 ```
 **8 Hours Total** : Hint consultation and guided learning
 
-```
+```bash
 Official hints (if available)
 Community discussions
 Selective walkthrough consultation
 ```
 **Beyond 8 Hours** : Full walkthrough study
 
-```
+```bash
 Complete walkthrough review
 Concept learning and documentation
 Preparation for retry
@@ -431,12 +426,12 @@ Preparation for retry
 
 **Symptoms** : "I don't know what to attack" **Solutions** :
 
-```
+```bash
 Run AutoRecon for comprehensive scanning
 Check all ports (1-65535), not just top 1000
 ```
 
-```
+```bash
 Enumerate every discovered service thoroughly
 Review nmap scripts output carefully
 ```
@@ -444,7 +439,7 @@ Review nmap scripts output carefully
 
 **Symptoms** : "I know the vulnerability but can't exploit it" **Solutions** :
 
-```
+```bash
 Research exact version numbers
 Check exploit-db for working exploits
 Modify exploits for your target environment
@@ -454,7 +449,7 @@ Verify all prerequisites are met
 
 **Symptoms** : "I have initial access but can't escalate" **Solutions** :
 
-```
+```bash
 Run enumeration scripts (linpeas/winpeas)
 Check running processes and scheduled tasks
 Analyze file permissions and SUID binaries
@@ -464,7 +459,7 @@ Enumerate database contents and configuration files
 
 **Symptoms** : "Stuck at user-level access" **Solutions** :
 
-```
+```bash
 Use multiple enumeration tools
 Check kernel version for known exploits
 Analyze service configurations
@@ -482,7 +477,7 @@ Look for stored credentials and secrets
 **Signs you need a break:**
 
 
-```
+```bash
 Tunnel vision (only focusing on one attack vector)
 Repeating the same failed commands
 Anger at "stupid" machine design
@@ -490,7 +485,7 @@ Comparing yourself to others' completion times
 ```
 **Recovery strategies:**
 
-```
+```bash
 Work on a different machine temporarily
 Practice specific techniques in isolation
 Review fundamental concepts
@@ -510,7 +505,7 @@ difference between you and them is time and persistence."_
 
 **Optimal Session Structure:**
 
-```
+```bash
 10 minutes : Setup and environment preparation
 30-45 minutes : Initial enumeration phase
 5-minute break : Process findings
@@ -521,7 +516,7 @@ difference between you and them is time and persistence."_
 ```
 ### Building Your Methodology
 
-```
+```bash
 MMaacchhiinnee:: [[NNaammee]]
 DDaattee:: [[SSttaartrt DDaattee]]
 DDiiffffiiccultyulty:: [[EEaasysy//MMeeddiiumum//HHaarrdd]]
@@ -552,7 +547,7 @@ LLEESSSSOONNSS LLEEAARRNNEEDD::
 
 **Phase 2: Vulnerability Assessment**
 
-```
+```bash
 Research specific service versions
 Check for known CVEs
 Identify configuration issues
@@ -560,7 +555,7 @@ Look for default credentials
 ```
 **Phase 3: Exploitation**
 
-```
+```bash
 Start with highest-impact vulnerabilities
 Verify exploits in test environment first
 Document all attempts (successful and failed)
@@ -568,7 +563,7 @@ Maintain detailed logs
 ```
 **Phase 4: Post-Exploitation**
 
-```
+```bash
 Immediate privilege escalation attempts
 System enumeration
 Persistence establishment (for learning)
@@ -578,17 +573,13 @@ Flag collection and documentation
 
 **HTTP/HTTPS Services:**
 
-```
-bash
+```bash
 ## NNeettwwoorrkk DDiissccoovveerryy
 nmnmaapp - -ssCC - -ssVV - -ooAA iinniittiiaall $$ttaarrggeett
 ## PPoorrtt DDiissccoovveerryy
 nmnmaapp - -pp-- ----mmiinn--rraattee 10001000 $$ttaarrggeett
 ## SSeerrvviiccee--SSppeecciiffiicc EEnnuummeerraattiioonn
 ## [[CCuussttoommiizzee bbaasseedd oonn ddiissccoovveerreedd sseerrvviicceess]]
-```
-```
-bash
 ```
 
 **SMB Services:**
@@ -603,7 +594,7 @@ bash
 
 1. **IppSec YouTube Channel**
 
-```
+```bash
 ## TTeecchhnnoollooggyy iiddeennttiiffiiccaattiioonn
 wwhhaatwtweebb $$ttaarrggeett
 nmnmaapp ----ssccrriiptpt hhttpttp-*-* $$ttaarrggeett - -pp 80,443 80 , 443
@@ -613,8 +604,7 @@ ggoobbustusteerr ddiirr - -uu hhttpttp://://$$ttaarrggeett - -ww //ppaatthh//tot
 ## PPaarraammeetteerr ffuuzzzziinngg
 ffffuuff - -ww //ppaatthh//toto//ppaarraamsms..txttxt - -uu hhttpttp://://$$ttaarrggeett//ppaaggee..pphhpp??FFUZZUZZ==tteestst
 ```
-```
-bash
+```bash
 ## AAnnoonnyymmoouuss eennuummeerraattiioonn
 smsmbbcclliieentnt - -LL \\\\\\\\$$ttaarrggeett
 eenumnum 44 lliinuxnux - -aa $$ttaarrggeett
@@ -622,8 +612,7 @@ smsmbbmmaapp - -HH $$ttaarrggeett
 ## AAuutthheennttiiccaatteedd eennuummeerraattiioonn
 smsmbbcclliieentnt \\\\\\\\$$ttaarrggeett\\\\sshhaarreennaammee - -UU ususeernrnaammee
 ```
-```
-bash
+```bash
 ## MMyySSQQLL
 mysqlmysql - -hh $$ttaarrggeett - -uu rootroot - -pp
 nmnmaapp ----ssccrriiptpt mysqlmysql-*-* $$ttaarrggeett - -pp 33063306
@@ -632,7 +621,7 @@ mssqlmssqlcclliieentnt..pypy ususeernrnaammee@@$$ttaarrggeett
 sqssqshh - -SS $$ttaarrggeett - -UU ususeernrnaammee - -PP ppaassworsswordd
 ```
 
-```
+```bash
 Detailed explanations of methodology
 Multiple solution paths shown
 Excellent for understanding "why" behind commands
@@ -654,21 +643,21 @@ Excellent for understanding "why" behind commands
 
 **HTB Official Forums**
 
-```
+```bash
 Machine discussions (spoiler-free hints)
 General help and guidance
 Community challenges and events
 ```
 **Reddit Communities**
 
-```
+```bash
 r/hackthebox: General discussions
 r/AskNetsec: Technical questions
 r/netsecstudents: Learning resources
 ```
 **Discord Servers**
 
-```
+```bash
 HTB Official Discord
 InfoSec-Prep Community
 Various cybersecurity learning groups
@@ -678,7 +667,7 @@ Various cybersecurity learning groups
 
 **Books** (Essential Reading):
 
-```
+```bash
 "The Web Application Hacker's Handbook" - Dafydd Stuttard
 "Penetration Testing: A Hands-On Introduction" - Georgia Weidman
 "The Hacker Playbook 3" - Peter Kim
@@ -686,7 +675,7 @@ Various cybersecurity learning groups
 ```
 **Video Training** :
 
-```
+```bash
 Cybrary free courses
 Professor Messer's Security+ content
 John Hammond's YouTube channel
@@ -694,7 +683,7 @@ LiveOverflow's binary exploitation series
 ```
 **Practice Platforms** (Beyond HTB):
 
-```
+```bash
 TryHackMe (beginner-friendly)
 PentesterLab (web application focus)
 OverTheWire (wargames)
@@ -704,7 +693,7 @@ PicoCTF (general CTF skills)
 
 **OSCP Preparation** :
 
-```
+```bash
 HTB provides excellent OSCP preparation
 Focus on methodology over tools
 Practice manual exploitation techniques
@@ -712,7 +701,7 @@ Develop strong enumeration skills
 ```
 **Career Development** :
 
-```
+```bash
 Document your learning journey
 Create a professional portfolio
 Engage with the cybersecurity community
@@ -725,7 +714,7 @@ Contribute back through writeups or tools
 
 **Days 1-30** : Foundation Building
 
-```
+```bash
 Complete all Starting Point machines
 Master basic enumeration techniques
 Develop consistent methodology
@@ -733,7 +722,7 @@ Build confidence with easy wins
 ```
 **Days 31-60** : Skill Expansion
 
-```
+```bash
 Tackle first 5 easy retired machines
 Study advanced walkthroughs thoroughly
 Practice specific techniques in isolation
@@ -741,7 +730,7 @@ Join community discussions
 ```
 **Days 61-90** : Independence Development
 
-```
+```bash
 Attempt machines with minimal assistance
 Write your own documentation
 Help other beginners in forums
@@ -765,11 +754,11 @@ making now.
 
 **The HTB Journey is:**
 
-```
+```bash
 30 % technical skills
 ```
 
-```
+```bash
 30 % persistence and patience
 30 % research and learning ability
 10 % pure stubborn refusal to give up
@@ -792,7 +781,7 @@ _Created with_ ❤ _by HaxrByte
 
 **Connect with HaxrByte:**
 
-```
+```bash
 YouTube: [Your Channel Link]
 Twitter: [Your Twitter]
 Blog: [Your Blog]

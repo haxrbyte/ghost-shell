@@ -72,11 +72,20 @@ h1, h2, h3, h4, h5, h6 {
     background: none;
     color: #FCD200 !important;
     text-shadow: 1px 1px 2px #0b0f14, 0 0 4px #0b0f14;
+    /*background: #00F0FF;
+    color: #0b0f14 !important;
+    text-shadow:
+        0 0 6px var(--hx-yellow),
+        0 0 12px var(--hx-blue),
+        0 0 24px rgba(0,240,255,.35);*/
     font-family: 'Fira Code', monospace;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
     box-shadow: none;
+    /*box-shadow: 0 0 8px #00F0FF,
+                0 0 16px rgba(0,240,255,0.6),
+                0 0 24px rgba(0,240,255,0.4);*/
     border-radius: 4px;
     margin: 1em 0 0.6em;
 }
@@ -522,5 +531,119 @@ pre code.hljs {
 }
 .hljs {
   background: transparent !important;
+}
+
+/* ================================
+   highlight.js — Custom Neon Hacker Overrides
+   Colorful bash: commands pop, flags stand out, values glow
+   ================================ */
+
+/* Comments — dimmed cyan-grey */
+.hljs-comment,
+.hljs-meta {
+  color: #6a8799 !important;
+  font-style: italic;
+}
+
+/* Keywords & built-in commands (if, then, else, for, sudo, echo, export) — Electric Blue, bold */
+.hljs-keyword,
+.hljs-built_in,
+.hljs-selector-tag {
+  color: #00F0FF !important;
+  font-weight: bold;
+}
+
+/* Function/command names — bright teal-green */
+.hljs-title,
+.hljs-function .hljs-title,
+.hljs-section {
+  color: #56d4bc !important;
+  font-weight: bold;
+}
+
+/* Strings (single/double quoted) — Toxic Yellow */
+.hljs-string,
+.hljs-doctag,
+.hljs-regexp {
+  color: #FCD200 !important;
+}
+
+/* Numbers — warm orange */
+.hljs-number,
+.hljs-literal {
+  color: #ff9e64 !important;
+}
+
+/* Variables ($TARGET, $USER) — vivid purple */
+.hljs-variable,
+.hljs-template-variable {
+  color: #e8a0ff !important;
+  font-weight: bold;
+}
+
+/* Flags/params (-sC, --script, -p) — sky blue */
+.hljs-params,
+.hljs-attr {
+  color: #87ceeb !important;
+}
+
+/* Operators (|, >, >>, &&, ||) — bright pink */
+.hljs-operator {
+  color: #ff79c6 !important;
+  font-weight: bold;
+}
+
+/* Symbols, punctuation — soft white */
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #d7faff !important;
+}
+
+/* Type/class names — Electric Blue */
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #00F0FF !important;
+}
+
+/* Property names / attributes — light sky blue */
+.hljs-property,
+.hljs-attribute {
+  color: #87ceeb !important;
+}
+
+/* Substrings, interpolation — yellow italic */
+.hljs-subst {
+  color: #FCD200 !important;
+  font-style: italic;
+}
+
+/* Additions (diff) — green */
+.hljs-addition {
+  color: #56d4bc !important;
+}
+
+/* Deletions (diff) — red */
+.hljs-deletion {
+  color: #ff6b6b !important;
+}
+
+/* Emphasis & strong */
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+
+/* Python-specific: decorators, self/cls */
+.hljs-decorator,
+.hljs-meta .hljs-keyword {
+  color: #e8a0ff !important;
+}
+
+/* HTML tags — Electric Blue */
+.hljs-tag {
+  color: #00F0FF !important;
+}
+.hljs-name {
+  color: #00F0FF !important;
+  font-weight: bold;
 }
 
