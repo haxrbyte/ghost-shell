@@ -12,35 +12,38 @@
     <link rel="canonical" href="{{ page.url | absolute_url }}">
   {% endif %}
 
-  <!-- highlight.js for syntax highlighting -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <!-- Prism.js for syntax highlighting (bash, python, markup/html) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/command-line/prism-command-line.min.js"></script>
 </head>
 <body>
   <div class="wrapper">{{ content }}</div>
   <script>
-    // 1. Capture original language from markdown and inject label BEFORE hljs runs
+    // 1. Capture original language from kramdown wrapper and inject labels
     document.querySelectorAll('pre code').forEach(function(block) {
       var lang = null;
 
-      // kramdown/Rouge structure: div.language-bash.highlighter-rouge > div.highlight > pre > code
-      // The language class is on the outermost wrapper div, NOT on <code>
+      // kramdown/Rouge: div.language-bash.highlighter-rouge > div.highlight > pre > code
       var wrapper = block.closest('[class*="language-"]');
       if (wrapper) {
         var match = wrapper.className.match(/language-([a-z0-9+\-]+)/i);
         if (match) lang = match[1].toUpperCase();
       }
 
-      // Fallback: check the <code> element itself (custom layouts)
+      // Fallback: check <code> element itself
       if (!lang) {
         var cm = block.className.match(/language-([a-z0-9+\-]+)/i);
         if (cm) lang = cm[1].toUpperCase();
       }
 
-      // Store the original language so nothing can overwrite it
+      // Store original language
       block.setAttribute('data-lang', lang || 'CODE');
 
-      // Inject the language label directly into the DOM now
+      // Inject language label into the DOM
       var container = block.closest('div.highlight') || block.parentElement;
       if (container && !container.querySelector('.hx-lang')) {
         container.style.position = container.style.position || 'relative';
@@ -49,22 +52,25 @@
         label.textContent = lang || 'CODE';
         container.appendChild(label);
       }
+
+      // 2. Add the correct Prism language class to <code> so Prism can highlight it
+      var langMap = { 'BASH': 'bash', 'PYTHON': 'python', 'HTML': 'markup', 'XML': 'markup' };
+      var prismLang = langMap[lang] || (lang ? lang.toLowerCase() : 'bash');
+
+      // Remove any existing language classes, then add the Prism one
+      block.className = block.className.replace(/language-\S+/g, '');
+      block.classList.add('language-' + prismLang);
+
+      // Also set on <pre> (Prism looks at both)
+      var pre = block.closest('pre');
+      if (pre) {
+        pre.className = pre.className.replace(/language-\S+/g, '');
+        pre.classList.add('language-' + prismLang);
+      }
     });
 
-    // 2. Force highlight.js to use the markdown language, not auto-detect
-    hljs.configure({ languages: ['bash', 'python', 'xml'] });
-    document.querySelectorAll('pre code').forEach(function(block) {
-      var lang = block.getAttribute('data-lang');
-      if (lang) {
-        // Remove any existing language classes hljs might conflict with
-        block.className = block.className.replace(/language-\S+/g, '');
-        // Map display names back to hljs language ids
-        var langMap = { 'BASH': 'bash', 'PYTHON': 'python', 'HTML': 'xml', 'XML': 'xml' };
-        var hljsLang = langMap[lang] || lang.toLowerCase();
-        block.classList.add('language-' + hljsLang);
-      }
-      hljs.highlightElement(block);
-    });
+    // 3. Run Prism on all code blocks
+    Prism.highlightAll();
   </script>
   <script defer src="{{ '/assets/js/clipboard.js' | relative_url }}"></script>
 </body>

