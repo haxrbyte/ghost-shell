@@ -15,6 +15,7 @@ Code, Notes, and Red Team tactics straight from the channel.
  - [Cheatsheets](/Cheatsheets/ctf-cheatsheet.md)
  OLD
 - [Cheatsheets]({{ site.baseurl }}/Cheatsheets/ctf-cheatsheet)
+- [Cheatsheets]({{ site.baseurl }}/cheatsheets/ctf-cheatsheet)
 
 ---
 
