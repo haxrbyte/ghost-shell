@@ -70,7 +70,7 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 100%;
     padding: 0.25em 0.6em;
     background: #00F0FF;
-    color: #0b0f14 !important;
+    color: #FCD200 !important;
     text-shadow:
         0 0 6px var(--hx-yellow),
         0 0 12px var(--hx-blue),
@@ -218,7 +218,7 @@ small, .post-meta{
 }
 
 /* Optional: gently push content to the right (if desired)
-body{ margin-left: 60px; }  /* uncomment to nudge right */
+body{ margin-left: 60px; }  uncomment to nudge right */
 
 /* HaxrByte copy button + code wrapper */
 .hx-codewrap{
@@ -518,5 +518,14 @@ div.highlight pre {
   border: none;
   box-shadow: none;
   margin: 0;
+}
+
+/* Override highlight.js default background so our custom pre styling shows through */
+pre code.hljs {
+  background: transparent !important;
+  padding: 0 !important;
+}
+.hljs {
+  background: transparent !important;
 }
 
