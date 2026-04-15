@@ -329,6 +329,54 @@ code, pre, tt {
   font-family: 'Noto Sans Symbols 2', 'Symbola', system-ui, sans-serif;
 }
 
+/* =========================================================================
+   SYMBOL FALLBACK SAFETY NET
+   The remote "hacker" theme sets its own font-family on headings / TOC /
+   body with higher specificity than our rules above, so our 'Noto Sans
+   Symbols 2' tail was getting dropped and U+1F702 (🜂) fell back to the
+   browser's "missing glyph" tofu box.
+
+   Strategy: re-declare font-family with !important on every element that
+   tends to contain the symbol, keeping the theme's intended look by
+   leading with the same font families the theme uses, and always ending
+   the chain with 'Noto Sans Symbols 2' so the browser can per-glyph fall
+   back to it for alchemical codepoints.
+   ========================================================================= */
+
+html body,
+html body p,
+html body li,
+html body a,
+html body td,
+html body th,
+html body .toc,
+html body .toc *,
+html body #markdown-toc,
+html body #markdown-toc * {
+  font-family: 'Inter', Arial, 'Noto Sans Symbols 2', 'Symbola', sans-serif !important;
+}
+
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body h5,
+html body h6 {
+  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco,
+               'Liberation Mono', Consolas, 'Noto Sans Symbols 2', 'Symbola',
+               monospace !important;
+}
+
+html body code,
+html body pre,
+html body tt,
+html body kbd,
+html body samp {
+  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco,
+               'Liberation Mono', Consolas, 'Noto Sans Symbols 2', 'Symbola',
+               monospace !important;
+}
+
 /*
 // Restore Hacker theme background and keep centered layout
 html, body {
