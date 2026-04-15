@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Mythos: Is Cybersecurity Over? — HaxrByte</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #06060D;
+    --fg: #E8E8ED;
+    --fg-dim: #6E6E7A;
+    --accent: #FCD200;
+    --accent-dim: rgba(252, 210, 0, 0.12);
+    --accent-glow: rgba(252, 210, 0, 0.25);
+    --sidebar-w: 260px;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-mono);
+  }
+
+  /* ── Scanline overlay ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.04) 2px,
+      rgba(0,0,0,0.04) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── Slide counter ── */
+  #slide-counter {
+    position: fixed;
+    top: 28px; right: 36px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--fg-dim);
+    letter-spacing: 2px;
+    z-index: 100;
+  }
+  #slide-counter .current {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── Sidebar nav ── */
+  #sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: var(--sidebar-w);
+    background: rgba(6, 6, 13, 0.92);
+    border-right: 1px solid rgba(252, 210, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 0 40px 28px;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .ch-item {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    padding: 14px 0;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.35s ease, transform 0.25s ease;
+  }
+  .ch-item::before {
+    content: '';
+    position: absolute;
+    left: -28px; top: 0; bottom: 0;
+    width: 2px;
+    background: transparent;
+    transition: background 0.35s ease;
+  }
+  .ch-item:hover { color: var(--fg); }
+  .ch-item.active {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .ch-item.active::before {
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+  .ch-item .ch-num {
+    display: inline-block;
+    width: 22px;
+    color: inherit;
+    opacity: 0.5;
+  }
+
+  /* ── Main stage ── */
+  #stage {
+    position: fixed;
+    left: var(--sidebar-w);
+    top: 0; right: 0; bottom: 0;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* ── Typographic classes ── */
+  .big-number {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(100px, 14vw, 200px);
+    color: var(--accent);
+    line-height: 1;
+    text-shadow: 0 0 60px var(--accent-glow);
+  }
+  .big-word {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(56px, 7vw, 110px);
+    color: var(--accent);
+    line-height: 1.05;
+    text-shadow: 0 0 40px var(--accent-glow);
+  }
+  .subtitle {
+    font-family: var(--font-mono);
+    font-size: clamp(16px, 1.8vw, 24px);
+    font-weight: 300;
+    color: var(--fg);
+    margin-top: 20px;
+    max-width: 700px;
+    text-align: center;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
+  .subtitle .hl {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    margin-bottom: 16px;
+  }
+
+  /* ── Visual: Autonomous Loop (Slide 3) ── */
+  .loop-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 900px;
+  }
+  .loop-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 24px 28px;
+    border: 1px solid rgba(252, 210, 0, 0.12);
+    border-radius: 6px;
+    background: rgba(252, 210, 0, 0.04);
+    min-width: 140px;
+    transition: border-color 0.3s;
+  }
+  .loop-step .step-icon {
+    font-size: 28px;
+    filter: grayscale(0.2);
+    width: 56px;
+    height: 56px;
+  }
+  .loop-step .step-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 6px rgba(252, 210, 0, 0.4));
+  }
+  .loop-step .step-label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .loop-arrow {
+    font-size: 22px;
+    color: var(--fg-dim);
+  }
+
+  /* ── Visual: Score Comparison (Slide 4) ── */
+  .score-compare {
+    display: flex;
+    align-items: flex-end;
+    gap: 60px;
+    margin-top: 10px;
+  }
+  .score-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .score-bar {
+    width: 100px;
+    border-radius: 6px 6px 0 0;
+    transition: height 1s ease;
+  }
+  .bar-old {
+    height: 0;
+    background: var(--fg-dim);
+  }
+  .bar-new {
+    height: 0;
+    background: var(--accent);
+    box-shadow: 0 0 30px var(--accent-glow);
+  }
+  .active .bar-old { height: 220px; }
+  .active .bar-new { height: 260px; }
+  .score-val {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 36px;
+  }
+  .score-val.old { color: var(--fg-dim); }
+  .score-val.new { color: var(--accent); }
+  .score-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── Visual: Exploit Chain (Slide 5) ── */
+  .chain {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 960px;
+  }
+  .chain-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 18px;
+    border: 1px solid rgba(252, 210, 0, 0.2);
+    border-radius: 8px;
+    background: rgba(252, 210, 0, 0.06);
+    min-width: 130px;
+    text-align: center;
+  }
+  .chain-node .node-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--accent);
+  }
+  .chain-node .node-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg);
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+  }
+  .chain-arrow {
+    font-size: 20px;
+    color: var(--accent);
+    margin: 0 6px;
+    flex-shrink: 0;
+  }
+
+  /* ── Visual: Coalition (Slide 6) ── */
+  .coalition {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    max-width: 700px;
+    margin-top: 10px;
+  }
+  .coalition-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px 18px;
+    border: 1px solid rgba(252, 210, 0, 0.12);
+    border-radius: 6px;
+    color: var(--fg);
+    letter-spacing: 0.5px;
+    background: rgba(252, 210, 0, 0.04);
+  }
+  .coalition-tag.more {
+    color: var(--fg-dim);
+    border-color: rgba(255,255,255,0.06);
+    background: transparent;
+  }
+
+  /* ── Visual: Percent Split (Slide 8) ── */
+  .split-bar-container {
+    width: 600px;
+    max-width: 90%;
+    margin-top: 30px;
+  }
+  .split-bar {
+    display: flex;
+    height: 48px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .split-agree {
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--bg);
+    transition: width 1s ease;
+    width: 0;
+  }
+  .split-disagree {
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--fg);
+    transition: width 1s ease;
+    width: 0;
+  }
+  .active .split-agree { width: 89%; }
+  .active .split-disagree { width: 11%; }
+  .split-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+  }
+  .split-labels span {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .split-labels .lbl-agree { color: var(--accent); }
+  .split-labels .lbl-disagree { color: var(--fg-dim); }
+
+  /* ── Visual: Reality Items (Slide 9, 10) ── */
+  .reality-card {
+    border: 1px solid rgba(252, 210, 0, 0.15);
+    border-radius: 10px;
+    padding: 40px 50px;
+    max-width: 640px;
+    text-align: center;
+    background: rgba(252, 210, 0, 0.03);
+  }
+  .reality-card .rc-icon {
+    font-size: 40px;
+    margin-bottom: 18px;
+    width: 56px;
+    height: 56px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .reality-card .rc-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 6px rgba(252, 210, 0, 0.4));
+  }
+  .reality-card .rc-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .reality-card .rc-body {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--fg);
+    line-height: 1.7;
+  }
+  .reality-card .rc-body .hl { color: var(--accent); font-weight: 600; }
+
+  /* ── Visual: Now What list (Slide 11) ── */
+  .nowwhat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 540px;
+  }
+  .nowwhat-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--fg);
+    line-height: 1.5;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .nowwhat-item .nw-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nowwhat-item .nw-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 6px rgba(252, 210, 0, 0.4));
+  }
+
+  /* ── Visual: Evolution Timeline (Slide 12) ── */
+  .evo-timeline {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    max-width: 800px;
+  }
+  .evo-card {
+    flex: 1;
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+  }
+  .evo-card.highlight {
+    border-color: rgba(252, 210, 0, 0.25);
+    background: var(--accent-dim);
+  }
+  .evo-card .evo-era {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    margin-bottom: 10px;
+  }
+  .evo-card .evo-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--fg);
+    margin-bottom: 8px;
+  }
+  .evo-card.highlight .evo-title { color: var(--accent); }
+  .evo-card .evo-desc {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-dim);
+    line-height: 1.5;
+  }
+  .evo-arrow {
+    font-size: 28px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── Visual: Split Diagram (Slide 13) ── */
+  .split-diagram {
+    display: flex;
+    gap: 50px;
+    align-items: stretch;
+    max-width: 780px;
+  }
+  .split-col {
+    flex: 1;
+    text-align: center;
+    padding: 36px 28px;
+    border-radius: 10px;
+  }
+  .split-col.ai-col {
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+  }
+  .split-col.human-col {
+    border: 1px solid rgba(252, 210, 0, 0.2);
+    background: var(--accent-dim);
+  }
+  .split-col .sc-icon {
+    font-size: 36px;
+    margin-bottom: 14px;
+    width: 52px;
+    height: 52px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .split-col .sc-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 6px rgba(252, 210, 0, 0.4));
+  }
+  .split-col .sc-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+  .ai-col .sc-title { color: var(--fg-dim); }
+  .human-col .sc-title { color: var(--accent); }
+  .split-col .sc-items {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--fg);
+    line-height: 2;
+    font-weight: 300;
+  }
+
+  /* ── Visual: Action Cards (Slides 15-17) ── */
+  .action-card {
+    text-align: center;
+    max-width: 640px;
+  }
+  .action-num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 80px;
+    color: var(--accent);
+    line-height: 1;
+    text-shadow: 0 0 40px var(--accent-glow);
+    margin-bottom: 10px;
+  }
+  .action-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 44px);
+    color: var(--fg);
+    margin-bottom: 16px;
+  }
+  .action-body {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--fg-dim);
+    line-height: 1.7;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .action-body .hl { color: var(--accent); font-weight: 500; }
+
+  /* ── Emphasis line ── */
+  .accent-line {
+    width: 50px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin: 20px auto;
+    box-shadow: 0 0 14px var(--accent-glow);
+  }
+
+  /* ── Spotlight (Slide 14) ── */
+  .spotlight-card {
+    text-align: center;
+    max-width: 660px;
+  }
+  .spotlight-card .sp-top {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--fg-dim);
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .spotlight-card .sp-main {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(26px, 3.5vw, 40px);
+    color: var(--fg);
+    line-height: 1.35;
+  }
+  .spotlight-card .sp-main .hl { color: var(--accent); }
+
+  /* ── Title Slide ── */
+  .title-slide-content {
+    text-align: center;
+    max-width: 800px;
+  }
+  .title-slide-content .title-top {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    margin-bottom: 24px;
+  }
+  .title-slide-content .title-main {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(44px, 6vw, 80px);
+    color: var(--fg);
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  .title-slide-content .title-main .hl {
+    color: var(--accent);
+    text-shadow: 0 0 50px var(--accent-glow);
+  }
+  .title-slide-content .title-sub {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 52px);
+    color: var(--fg);
+    line-height: 1.15;
+  }
+  .title-divider {
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    margin: 28px auto;
+    border-radius: 2px;
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+
+  /* ── Recap Slide ── */
+  .recap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 780px;
+    width: 100%;
+  }
+  .recap-item {
+    padding: 26px 28px;
+    border-radius: 10px;
+    border: 1px solid rgba(252, 210, 0, 0.1);
+    background: rgba(252, 210, 0, 0.03);
+    transition: border-color 0.3s;
+  }
+  .recap-item:hover { border-color: rgba(252, 210, 0, 0.25); }
+  .recap-item .ri-num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .recap-item .ri-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--fg);
+    margin-bottom: 8px;
+  }
+  .recap-item .ri-desc {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--fg-dim);
+    line-height: 1.6;
+  }
+  .recap-closer {
+    margin-top: 30px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(20px, 2.5vw, 30px);
+    color: var(--fg);
+    line-height: 1.4;
+  }
+  .recap-closer .hl { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- Slide counter -->
+<div id="slide-counter"><span class="current">1</span> / <span id="total">19</span></div>
+
+<!-- Sidebar chapter nav -->
+<nav id="sidebar">
+  <div class="ch-item active" data-chapter="0" onclick="goToSlide(0)">
+    <span class="ch-num">—</span> Title
+  </div>
+  <div class="ch-item" data-chapter="1" onclick="goToSlide(1)">
+    <span class="ch-num">01</span> What Actually Happened
+  </div>
+  <div class="ch-item" data-chapter="2" onclick="goToSlide(7)">
+    <span class="ch-num">02</span> What Headlines Get Wrong
+  </div>
+  <div class="ch-item" data-chapter="3" onclick="goToSlide(11)">
+    <span class="ch-num">03</span> Why Your Skills Matter More
+  </div>
+  <div class="ch-item" data-chapter="4" onclick="goToSlide(15)">
+    <span class="ch-num">04</span> What To Do About It
+  </div>
+  <div class="ch-item" data-chapter="5" onclick="goToSlide(18)">
+    <span class="ch-num">—</span> Recap
+  </div>
+</nav>
+
+<!-- Slides -->
+<div id="stage">
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- TITLE SLIDE                              -->
+  <!-- ════════════════════════════════════════ -->
+
+  <!-- Slide 1 -->
+  <div class="slide active" data-ch="0">
+    <div class="title-slide-content">
+      <div class="title-top">HaxrByte</div>
+      <div class="title-main"><span class="hl">Claude</span> <span class="hl">Mythos</span></div>
+      <div class="title-divider"></div>
+      <div class="title-sub">Is Cybersecurity Over?</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- CHAPTER 1: WHAT ACTUALLY HAPPENED       -->
+  <!-- ════════════════════════════════════════ -->
+
+  <!-- Slide 2 -->
+  <div class="slide" data-ch="1">
+    <div class="label">Autonomous Discovery</div>
+    <div class="big-word">Thousands</div>
+    <div class="subtitle">of zero-day vulnerabilities found across <span class="hl">every major OS</span> and <span class="hl">every major browser</span> — with no human steering.</div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide" data-ch="1">
+    <div class="label">Hiding in Plain Sight</div>
+    <div class="big-number">27</div>
+    <div class="subtitle">years an OpenBSD bug survived human code review and millions of automated tests. AI found it in <span class="hl">minutes</span>.</div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide" data-ch="1">
+    <div class="label">The Autonomous Loop</div>
+    <div class="loop-container">
+      <div class="loop-step">
+        <div class="step-icon"><svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 12c0-2 1-3 3-3h14v34H11c-2 0-3-1-3-3V12z" stroke="#FCD200" stroke-width="1.8"/><path d="M48 12c0-2-1-3-3-3H31v34h14c2 0 3-1 3-3V12z" stroke="#FCD200" stroke-width="1.8"/><text x="13" y="20" font-size="5" fill="#FCD200" font-family="monospace">010110</text><text x="13" y="26" font-size="5" fill="#FCD200" font-family="monospace">101011</text><text x="13" y="32" font-size="5" fill="#FCD200" font-family="monospace">011101</text><text x="13" y="38" font-size="5" fill="#FCD200" font-family="monospace">100010</text><text x="34" y="20" font-size="5" fill="#FCD200" font-family="monospace">01011</text><text x="34" y="26" font-size="5" fill="#FCD200" font-family="monospace">10110</text><text x="34" y="32" font-size="5" fill="#FCD200" font-family="monospace">10011</text><circle cx="38" cy="42" r="6" stroke="#FCD200" stroke-width="1.8" fill="none"/><line x1="42.5" y1="46.5" x2="47" y2="51" stroke="#FCD200" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="step-label">Read</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <div class="step-icon"><svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="24" r="8" stroke="#FCD200" stroke-width="1.8"/><text x="28" y="28" text-anchor="middle" font-size="14" fill="#FCD200" font-weight="bold">?</text><circle cx="14" cy="12" r="3" stroke="#FCD200" stroke-width="1.4" fill="none"/><circle cx="42" cy="12" r="3" stroke="#FCD200" stroke-width="1.4" fill="none"/><circle cx="10" cy="28" r="3" stroke="#FCD200" stroke-width="1.4" fill="none"/><circle cx="46" cy="28" r="3" stroke="#FCD200" stroke-width="1.4" fill="none"/><circle cx="14" cy="40" r="3" stroke="#FCD200" stroke-width="1.4" fill="none"/><circle cx="42" cy="40" r="3" stroke="#FCD200" stroke-width="1.4" fill="none"/><line x1="21" y1="19" x2="16" y2="14" stroke="#FCD200" stroke-width="1.2"/><line x1="35" y1="19" x2="40" y2="14" stroke="#FCD200" stroke-width="1.2"/><line x1="20" y1="24" x2="13" y2="28" stroke="#FCD200" stroke-width="1.2"/><line x1="36" y1="24" x2="43" y2="28" stroke="#FCD200" stroke-width="1.2"/><line x1="22" y1="30" x2="16" y2="38" stroke="#FCD200" stroke-width="1.2"/><line x1="34" y1="30" x2="40" y2="38" stroke="#FCD200" stroke-width="1.2"/><ellipse cx="44" cy="48" rx="7" ry="5" stroke="#FCD200" stroke-width="1.4" fill="none"/><path d="M40 46c-1-2 0-4 2-4s3 1 3 3" stroke="#FCD200" stroke-width="1.2" fill="none"/><path d="M48 46c-1-1-1-3 0-4" stroke="#FCD200" stroke-width="1.2" fill="none"/></svg></div>
+        <div class="step-label">Hypothesize</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <div class="step-icon"><svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="8" width="46" height="36" rx="3" stroke="#FCD200" stroke-width="1.8"/><circle cx="11" cy="14" r="1.5" fill="#FCD200"/><circle cx="16" cy="14" r="1.5" fill="#FCD200"/><circle cx="21" cy="14" r="1.5" fill="#FCD200"/><line x1="5" y1="19" x2="51" y2="19" stroke="#FCD200" stroke-width="1"/><text x="10" y="28" font-size="5.5" fill="#FCD200" font-family="monospace">root@hacker:~#</text><text x="10" y="35" font-size="5.5" fill="#FCD200" font-family="monospace">run_test.sh</text><rect x="15" y="39" width="26" height="9" rx="2" stroke="#FCD200" stroke-width="1.4" fill="rgba(252,210,0,0.1)"/><text x="22" y="46" font-size="6" fill="#FCD200" font-weight="bold" font-family="sans-serif">RUN ▶</text></svg></div>
+        <div class="step-label">Test</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <div class="step-icon"><svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6h24l10 10v34c0 1.5-1 2.5-2.5 2.5h-31.5c-1.5 0-2.5-1-2.5-2.5v-41.5c0-1.5 1-2.5 2.5-2.5z" stroke="#FCD200" stroke-width="1.8"/><path d="M36 6v10h10" stroke="#FCD200" stroke-width="1.4"/><polyline points="20,22 24,27 34,18" stroke="#FCD200" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="16" y1="33" x2="40" y2="33" stroke="#FCD200" stroke-width="1.2" opacity="0.6"/><line x1="16" y1="37" x2="36" y2="37" stroke="#FCD200" stroke-width="1.2" opacity="0.6"/><line x1="16" y1="41" x2="38" y2="41" stroke="#FCD200" stroke-width="1.2" opacity="0.6"/><rect x="30" y="38" width="14" height="12" rx="1.5" fill="#06060D" stroke="#FCD200" stroke-width="1.2"/><rect x="32" y="46" width="2.5" height="4" fill="#FCD200" rx="0.5"/><rect x="36" y="43" width="2.5" height="7" fill="#FCD200" rx="0.5"/><rect x="40" y="41" width="2.5" height="9" fill="#FCD200" rx="0.5"/></svg></div>
+        <div class="step-label">Report</div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:28px;">Full bug reports with PoC exploits and reproduction steps — <span class="hl">autonomously</span>.</div>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide" data-ch="1">
+    <div class="label">SWE-bench Verified</div>
+    <div class="score-compare">
+      <div class="score-col">
+        <div class="score-val old">80.8%</div>
+        <div class="score-bar bar-old"></div>
+        <div class="score-label">Previous Best</div>
+      </div>
+      <div class="score-col">
+        <div class="score-val new">93.9%</div>
+        <div class="score-bar bar-new"></div>
+        <div class="score-label">Mythos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5 -->
+  <div class="slide" data-ch="1">
+    <div class="label">Exploit Chaining</div>
+    <div class="chain">
+      <div class="chain-node">
+        <div class="node-num">1</div>
+        <div class="node-text">Browser<br>Vuln</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">
+        <div class="node-num">2</div>
+        <div class="node-text">Renderer<br>Escape</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">
+        <div class="node-num">3</div>
+        <div class="node-text">Sandbox<br>Escape</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">
+        <div class="node-num">4</div>
+        <div class="node-text">OS Sandbox<br>Bypass</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">
+        <div class="node-num">5</div>
+        <div class="node-text">Privilege<br>Escalation</div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:28px;">Multiple flaws linked into a single exploit path — <span class="hl">autonomously</span>.</div>
+  </div>
+
+  <!-- Slide 6 -->
+  <div class="slide" data-ch="1">
+    <div class="label">Project Glasswing</div>
+    <div class="big-word" style="font-size:clamp(48px,6vw,80px);">$100M</div>
+    <div class="subtitle" style="margin-bottom:24px;">committed to defensive security</div>
+    <div class="coalition">
+      <div class="coalition-tag">Microsoft</div>
+      <div class="coalition-tag">AWS</div>
+      <div class="coalition-tag">Google</div>
+      <div class="coalition-tag">Apple</div>
+      <div class="coalition-tag">CrowdStrike</div>
+      <div class="coalition-tag">Cisco</div>
+      <div class="coalition-tag">Linux Foundation</div>
+      <div class="coalition-tag more">+ 40 more</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- CHAPTER 2: WHAT HEADLINES GET WRONG      -->
+  <!-- ════════════════════════════════════════ -->
+
+  <!-- Slide 7 -->
+  <div class="slide" data-ch="2">
+    <div class="reality-card">
+      <div class="rc-icon"><svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="13" y="24" width="30" height="24" rx="3" stroke="#FCD200" stroke-width="1.8"/><path d="M20 24V18c0-5 3-10 8-10s8 5 8 10v6" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><circle cx="28" cy="34" r="3.5" stroke="#FCD200" stroke-width="1.6" fill="none"/><line x1="28" y1="37.5" x2="28" y2="42" stroke="#FCD200" stroke-width="2" stroke-linecap="round"/><rect x="16" y="27" width="24" height="18" rx="1.5" fill="rgba(252,210,0,0.05)"/></svg></div>
+      <div class="rc-title">Not Publicly Available</div>
+      <div class="rc-body">Mythos is <span class="hl">locked behind Project Glasswing</span>.<br>No random attacker can download and run it.</div>
+    </div>
+  </div>
+
+  <!-- Slide 8 -->
+  <div class="slide" data-ch="2">
+    <div class="label">Human Validation Results</div>
+    <div style="display:flex;align-items:baseline;gap:16px;">
+      <div class="big-number" style="font-size:clamp(80px,10vw,140px);">89%</div>
+      <div class="subtitle" style="margin-top:0;text-align:left;max-width:260px;">of AI severity assessments matched human expert review</div>
+    </div>
+    <div class="split-bar-container">
+      <div class="split-bar">
+        <div class="split-agree">89%</div>
+        <div class="split-disagree">11%</div>
+      </div>
+      <div class="split-labels">
+        <span class="lbl-agree">AI Correct</span>
+        <span class="lbl-disagree">Human Caught Error</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 9 -->
+  <div class="slide" data-ch="2">
+    <div class="reality-card">
+      <div class="rc-icon"><svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M28 6L4 48h48L28 6z" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="rgba(252,210,0,0.05)"/><line x1="28" y1="20" x2="28" y2="34" stroke="#FCD200" stroke-width="2.5" stroke-linecap="round"/><circle cx="28" cy="41" r="2.2" fill="#FCD200"/></svg></div>
+      <div class="rc-title">Missing Context</div>
+      <div class="rc-body">The Firefox exploit that made headlines?<br>The browser <span class="hl">sandbox wasn't enabled</span> during the test.<br><br>Proof of concept ≠ live attack scenario.</div>
+    </div>
+  </div>
+
+  <!-- Slide 10 -->
+  <div class="slide" data-ch="2">
+    <div class="reality-card">
+      <div class="rc-icon"><svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="8" y1="46" x2="8" y2="8" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="46" x2="48" y2="46" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><path d="M14 38 L22 30 L30 34 L38 22 L46 14" stroke="#FCD200" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M14 38 L22 30 L30 34 L38 22 L46 14 L46 46 L14 46 Z" fill="rgba(252,210,0,0.08)"/><circle cx="14" cy="38" r="2.5" fill="#FCD200"/><circle cx="22" cy="30" r="2.5" fill="#FCD200"/><circle cx="30" cy="34" r="2.5" fill="#FCD200"/><circle cx="38" cy="22" r="2.5" fill="#FCD200"/><circle cx="46" cy="14" r="2.5" fill="#FCD200"/><path d="M14 40 L20 34 L28 37 L36 27 L44 20" stroke="#FCD200" stroke-width="1" stroke-linecap="round" stroke-dasharray="2 3" opacity="0.35"/></svg></div>
+      <div class="rc-title">A Step Forward, Not a Cliff Edge</div>
+      <div class="rc-body">Benchmarks track closely with the <span class="hl">general trend</span> of AI improvement. Incrementally better — not a sudden, off-the-charts leap.</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- CHAPTER 3: WHY YOUR SKILLS MATTER MORE  -->
+  <!-- ════════════════════════════════════════ -->
+
+  <!-- Slide 11 -->
+  <div class="slide" data-ch="3">
+    <div class="big-word" style="margin-bottom:20px;">Now What?</div>
+    <div class="nowwhat-list">
+      <div class="nowwhat-item"><span class="nw-icon"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 6c-1.2-.7-2.8-.5-3.8.5L15 9.7l2.8 2.8-3.5 3.5L11.5 13.2 8.7 16c-1 1-1.2 2.6-.5 3.8l-5.7 5.7c-.7.7-.7 1.8 0 2.5l1.5 1.5c.7.7 1.8.7 2.5 0l5.7-5.7c1.2.7 2.8.5 3.8-.5l2.8-2.8-2.8-2.8 3.5-3.5 2.8 2.8 2.8-2.8c1-1 1.2-2.6.5-3.8l3.2-3.2-2-2L22 6z" stroke="#FCD200" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Who patches thousands of findings?</div>
+      <div class="nowwhat-item"><span class="nw-icon"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 4L4 12v8c0 8 6 14 14 16 8-2 14-8 14-16v-8L18 4z" stroke="#FCD200" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polyline points="12,18 16,22.5 24,14" stroke="#FCD200" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Who validates exploitability in production?</div>
+      <div class="nowwhat-item"><span class="nw-icon"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="7" width="8" height="22" rx="1.5" stroke="#FCD200" stroke-width="1.6"/><rect x="14" y="13" width="8" height="16" rx="1.5" stroke="#FCD200" stroke-width="1.6"/><rect x="23" y="4" width="8" height="25" rx="1.5" stroke="#FCD200" stroke-width="1.6"/><line x1="3" y1="32" x2="33" y2="32" stroke="#FCD200" stroke-width="1.4" stroke-linecap="round"/><path d="M7 11l6.5-2 7 5 7-9" stroke="#FCD200" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/><circle cx="31" cy="5" r="1.2" fill="#FCD200" opacity="0.6"/></svg></span> Who triages and prioritizes for the CISO?</div>
+      <div class="nowwhat-item"><span class="nw-icon"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6h24c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H14l-6 5v-5H6c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2z" stroke="#FCD200" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="13" x2="26" y2="13" stroke="#FCD200" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/><line x1="10" y1="17" x2="22" y2="17" stroke="#FCD200" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/><line x1="10" y1="21" x2="18" y2="21" stroke="#FCD200" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/></svg></span> Who communicates risk to leadership?</div>
+    </div>
+    <div class="subtitle" style="margin-top:24px;color:var(--accent);font-weight:500;">That's you. That's the job.</div>
+  </div>
+
+  <!-- Slide 12 -->
+  <div class="slide" data-ch="3">
+    <div class="label">We've Seen This Before</div>
+    <div class="evo-timeline">
+      <div class="evo-card">
+        <div class="evo-era">~2000s</div>
+        <div class="evo-title">Vuln Scanners</div>
+        <div class="evo-desc">"Why pay a pentester when Nessus finds all the vulns?"</div>
+      </div>
+      <div class="evo-arrow">→</div>
+      <div class="evo-card highlight">
+        <div class="evo-era">What Happened</div>
+        <div class="evo-title">Pentesting Evolved</div>
+        <div class="evo-desc">Focus shifted to creative attacks, business logic, social engineering</div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:28px;">The profession didn't die. The bar went up.</div>
+  </div>
+
+  <!-- Slide 13 -->
+  <div class="slide" data-ch="3">
+    <div class="label">The New Division of Labor</div>
+    <div class="split-diagram">
+      <div class="split-col ai-col">
+        <div class="sc-icon"><svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="16" width="28" height="24" rx="4" stroke="#FCD200" stroke-width="1.8"/><line x1="26" y1="16" x2="26" y2="8" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><circle cx="26" cy="6" r="2.5" stroke="#FCD200" stroke-width="1.6" fill="none"/><rect x="19" y="23" width="5" height="5" rx="1" fill="#FCD200" opacity="0.8"/><rect x="28" y="23" width="5" height="5" rx="1" fill="#FCD200" opacity="0.8"/><line x1="20" y1="34" x2="32" y2="34" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="24" x2="12" y2="24" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="32" x2="12" y2="32" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><line x1="40" y1="24" x2="44" y2="24" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><line x1="40" y1="32" x2="44" y2="32" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><line x1="20" y1="40" x2="20" y2="46" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/><line x1="32" y1="40" x2="32" y2="46" stroke="#FCD200" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="sc-title">AI Handles</div>
+        <div class="sc-items">
+          Volume scanning<br>
+          Code review at scale<br>
+          Pattern matching<br>
+          Report generation
+        </div>
+      </div>
+      <div class="split-col human-col">
+        <div class="sc-icon"><svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26 46V26" stroke="#FCD200" stroke-width="1.6" stroke-linecap="round"/><path d="M26 26c0-6-4-10-8-12s-8-1-9 3c-1.5 5 1 8 3 10s3 5 2 8c-1 2.5 0 5 2 7s5 3 7 3h3" stroke="#FCD200" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 26c0-6 4-10 8-12s8-1 9 3c1.5 5-1 8-3 10s-3 5-2 8c1 2.5 0 5-2 7s-5 3-7 3h-3" stroke="#FCD200" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 22c2 1 5 2 8 4" stroke="#FCD200" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/><path d="M34 22c-2 1-5 2-8 4" stroke="#FCD200" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/><path d="M16 32c3-1 6 0 10 2" stroke="#FCD200" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/><path d="M36 32c-3-1-6 0-10 2" stroke="#FCD200" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/><circle cx="20" cy="18" r="1.5" fill="#FCD200" opacity="0.4"/><circle cx="32" cy="18" r="1.5" fill="#FCD200" opacity="0.4"/><circle cx="15" cy="28" r="1.5" fill="#FCD200" opacity="0.4"/><circle cx="37" cy="28" r="1.5" fill="#FCD200" opacity="0.4"/></svg></div>
+        <div class="sc-title">Humans Handle</div>
+        <div class="sc-items">
+          Business context<br>
+          Prioritization<br>
+          Creative exploitation<br>
+          Risk communication
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 14 -->
+  <div class="slide" data-ch="3">
+    <div class="spotlight-card">
+      <div class="sp-top">The attack surface didn't shrink.</div>
+      <div class="sp-main">It got a <span class="hl">spotlight</span> on it.</div>
+      <div class="accent-line"></div>
+      <div class="subtitle" style="margin-top:10px;">Spotlights create urgency.<br>Urgency creates <span class="hl">jobs</span>.</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- CHAPTER 4: WHAT TO DO ABOUT IT           -->
+  <!-- ════════════════════════════════════════ -->
+
+  <!-- Slide 15 -->
+  <div class="slide" data-ch="4">
+    <div class="action-card">
+      <div class="action-num">01</div>
+      <div class="action-title">Don't Panic-Pivot</div>
+      <div class="action-body">Networking, Linux, scripting, understanding how systems work — <span class="hl">the fundamentals haven't changed</span>. Every tool and every AI sits on top of that knowledge.</div>
+    </div>
+  </div>
+
+  <!-- Slide 16 -->
+  <div class="slide" data-ch="4">
+    <div class="action-card">
+      <div class="action-num">02</div>
+      <div class="action-title">Work With AI</div>
+      <div class="action-body">Use it to speed up recon, automate repetitive analysis, understand unfamiliar code. <span class="hl">Fight alongside the machine</span>, not against it.</div>
+    </div>
+  </div>
+
+  <!-- Slide 17 -->
+  <div class="slide" data-ch="4">
+    <div class="action-card">
+      <div class="action-num">03</div>
+      <div class="action-title">Specialize Where AI Struggles</div>
+      <div class="action-body">Organizational politics. Legacy system constraints. Physical engagements. Talking to a non-technical exec about risk.<br><br><span class="hl">Human presence, creativity, and judgment</span> — that's where you want to be.</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- RECAP                                    -->
+  <!-- ════════════════════════════════════════ -->
+
+  <!-- Slide 19 -->
+  <div class="slide" data-ch="5">
+    <div class="label">Recap</div>
+    <div class="recap-grid">
+      <div class="recap-item">
+        <div class="ri-num">01</div>
+        <div class="ri-title">What Actually Happened</div>
+        <div class="ri-desc">Mythos found thousands of zero-days autonomously. Project Glasswing deploys it defensively.</div>
+      </div>
+      <div class="recap-item">
+        <div class="ri-num">02</div>
+        <div class="ri-title">What Headlines Get Wrong</div>
+        <div class="ri-desc">Not public. Humans still validate. Demos lacked real-world conditions. Incremental progress.</div>
+      </div>
+      <div class="recap-item">
+        <div class="ri-num">03</div>
+        <div class="ri-title">Why Your Skills Matter More</div>
+        <div class="ri-desc">AI creates volume. Humans handle context, triage, communication, and creative thinking.</div>
+      </div>
+      <div class="recap-item">
+        <div class="ri-num">04</div>
+        <div class="ri-title">What To Do About It</div>
+        <div class="ri-desc">Master fundamentals. Work alongside AI. Specialize where human presence is required.</div>
+      </div>
+    </div>
+    <div class="recap-closer">The future of cybersecurity is <span class="hl">in your hands</span>.</div>
+  </div>
+
+</div><!-- /stage -->
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const chItems = document.querySelectorAll('.ch-item');
+  const counterCurrent = document.querySelector('#slide-counter .current');
+  let current = 0;
+
+  function goToSlide(index) {
+    if (index < 0 || index >= slides.length) return;
+    slides[current].classList.remove('active');
+    current = index;
+    slides[current].classList.add('active');
+    counterCurrent.textContent = current + 1;
+    updateChapter();
+  }
+
+  function updateChapter() {
+    const ch = slides[current].dataset.ch;
+    chItems.forEach(item => {
+      item.classList.toggle('active', item.dataset.chapter === ch);
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      goToSlide(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      goToSlide(current - 1);
+    }
+  });
+
+  // Touch / swipe support for mobile
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(diff) > 60) {
+      diff < 0 ? goToSlide(current + 1) : goToSlide(current - 1);
+    }
+  });
+</script>
+</body>
+</html>
