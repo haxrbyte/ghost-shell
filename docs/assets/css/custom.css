@@ -303,22 +303,30 @@ div.highlight pre {
   top: 8px;              /* push label slightly down */
 }
 
-/* Body text override: readable sans-serif */
+/* Body text override: readable sans-serif
+   "Noto Sans Symbols 2" tail covers Alchemical Symbols (U+1F700+) like 🜂
+   so other machines without Apple Symbols / Segoe UI Symbol still render them. */
 body, p, li {
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: 'Inter', Arial, 'Noto Sans Symbols 2', 'Symbola', sans-serif;
   font-size: 1.05rem;     /* bump slightly for readability */
   line-height: 1.65;      /* more breathing room */
   color: var(--hx-fg);
 }
 
-/* Keep headings in neon monospace */
+/* Keep headings in neon monospace (with symbol fallback for 🜂 in titles) */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Fira Code', monospace;
+  font-family: 'Fira Code', 'Noto Sans Symbols 2', 'Symbola', monospace;
 }
 
 /* Inline code + preformatted stays monospace */
 code, pre, tt {
-  font-family: 'Fira Code', monospace;
+  font-family: 'Fira Code', 'Noto Sans Symbols 2', 'Symbola', monospace;
+}
+
+/* Opt-in helper: wrap rare symbols explicitly if any element needs to force the fallback.
+   Usage: <span class="alchemy">🜂</span> */
+.alchemy {
+  font-family: 'Noto Sans Symbols 2', 'Symbola', system-ui, sans-serif;
 }
 
 /*
