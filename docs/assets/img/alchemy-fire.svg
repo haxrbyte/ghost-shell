@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Alchemical symbol for fire (U+1F702 🜂) as scalable SVG.
+  Uses currentColor so the mark inherits the surrounding text color (e.g. a heading's color).
+  Hairline-tuned to read well from cap height down to ~14px.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 24 24"
+     role="img"
+     aria-label="HaxrByte mark"
+     fill="currentColor"
+     stroke="currentColor"
+     stroke-linejoin="round"
+     stroke-width="1.25">
+  <polygon points="12,3 22,21 2,21" />
+</svg>

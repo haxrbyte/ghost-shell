@@ -303,78 +303,43 @@ div.highlight pre {
   top: 8px;              /* push label slightly down */
 }
 
-/* Body text override: readable sans-serif
-   "Noto Sans Symbols 2" tail covers Alchemical Symbols (U+1F700+) like 🜂
-   so other machines without Apple Symbols / Segoe UI Symbol still render them. */
+/* Body text override: readable sans-serif */
 body, p, li {
-  font-family: 'Inter', Arial, 'Noto Sans Symbols 2', 'Symbola', sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
   font-size: 1.05rem;     /* bump slightly for readability */
   line-height: 1.65;      /* more breathing room */
   color: var(--hx-fg);
 }
 
-/* Keep headings in neon monospace (with symbol fallback for 🜂 in titles) */
+/* Keep headings in neon monospace */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Fira Code', 'Noto Sans Symbols 2', 'Symbola', monospace;
+  font-family: 'Fira Code', monospace;
 }
 
 /* Inline code + preformatted stays monospace */
 code, pre, tt {
-  font-family: 'Fira Code', 'Noto Sans Symbols 2', 'Symbola', monospace;
-}
-
-/* Opt-in helper: wrap rare symbols explicitly if any element needs to force the fallback.
-   Usage: <span class="alchemy">🜂</span> */
-.alchemy {
-  font-family: 'Noto Sans Symbols 2', 'Symbola', system-ui, sans-serif;
+  font-family: 'Fira Code', monospace;
 }
 
 /* =========================================================================
-   SYMBOL FALLBACK SAFETY NET
-   The remote "hacker" theme sets its own font-family on headings / TOC /
-   body with higher specificity than our rules above, so our 'Noto Sans
-   Symbols 2' tail was getting dropped and U+1F702 (🜂) fell back to the
-   browser's "missing glyph" tofu box.
-
-   Strategy: re-declare font-family with !important on every element that
-   tends to contain the symbol, keeping the theme's intended look by
-   leading with the same font families the theme uses, and always ending
-   the chain with 'Noto Sans Symbols 2' so the browser can per-glyph fall
-   back to it for alchemical codepoints.
+   ALCHEMY MARK (HaxrByte 🜂)
+   Inline SVG used in place of the U+1F702 character so the brand mark
+   renders identically on every machine, regardless of installed fonts.
+   See: docs/_includes/alchemy-fire.html
+   The SVG uses fill/stroke="currentColor" so it inherits the surrounding
+   text color (e.g. heading neon yellow / TOC link blue) automatically.
    ========================================================================= */
-
-html body,
-html body p,
-html body li,
-html body a,
-html body td,
-html body th,
-html body .toc,
-html body .toc *,
-html body #markdown-toc,
-html body #markdown-toc * {
-  font-family: 'Inter', Arial, 'Noto Sans Symbols 2', 'Symbola', sans-serif !important;
-}
-
-html body h1,
-html body h2,
-html body h3,
-html body h4,
-html body h5,
-html body h6 {
-  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco,
-               'Liberation Mono', Consolas, 'Noto Sans Symbols 2', 'Symbola',
-               monospace !important;
-}
-
-html body code,
-html body pre,
-html body tt,
-html body kbd,
-html body samp {
-  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco,
-               'Liberation Mono', Consolas, 'Noto Sans Symbols 2', 'Symbola',
-               monospace !important;
+.alchemy-icon {
+  display: inline-block;
+  width: 0.95em;          /* sized relative to surrounding text */
+  height: 0.95em;
+  vertical-align: -0.12em;/* sit on the baseline like a glyph */
+  margin-right: 0.18em;   /* small gap before the heading text */
+  flex-shrink: 0;
+  /* Subtle neon halo to match the existing brand vibe; uses a yellow
+     drop-shadow so it pops against dark backgrounds without overpowering
+     headings that already glow. Comment out if you want a flat mark. */
+  filter: drop-shadow(0 0 1px #FCD200) drop-shadow(0 0 3px rgba(0,240,255,.35));
 }
 
 /*

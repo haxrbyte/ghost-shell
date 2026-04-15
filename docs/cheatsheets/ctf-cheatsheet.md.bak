@@ -4,13 +4,13 @@ title: CTF Cheat Sheet
 
 **Tagline:** *Everyday Hacks to Elite Attacks — Cyber Warfare. Ghost Ops. Red Team Tactics. HaxrByte.*
 
-# {% include alchemy-fire.html %} CTF CheatSheet
+# 🜂 CTF CheatSheet
 
 ### UPDATE DATE: 26 Mar 2026
 * TOC
 {:toc}
 
-# {% include alchemy-fire.html %} PortScan
+# 🜂 PortScan
 
 ```bash
 sudo rustscan -a <hostname> -- -sCV -oA <filename>
@@ -18,7 +18,7 @@ sudo rustscan -a <hostname> -- -sCV -oA <filename>
 sudo nmap <hostname> -sT -Pn -n -sCV -p- -T4 --min-rate 5000 --max-retries 2 -vv -oA <filename>
 ```
 
-# {% include alchemy-fire.html %} BloodHound
+# 🜂 BloodHound
 
 ```bash
 sudo systemctl start docker
@@ -47,7 +47,7 @@ rusthound-ce --domain <domain_name> -k -no-pass
 
 ---
 
-# {% include alchemy-fire.html %} SMB (AD)
+# 🜂 SMB (AD)
 
 ## smbclient
 
@@ -150,7 +150,7 @@ python3 generate-ad-username/ADGenerator.py names.csv
 
 ---
 
-# {% include alchemy-fire.html %} Kerberos Auth
+# 🜂 Kerberos Auth
 
 ```bash
 
@@ -190,7 +190,7 @@ Enter new password:
 
 ---
 
-# {% include alchemy-fire.html %} Remote Access
+# 🜂 Remote Access
 
 ```bash
 impacket-psexec <domain_name>/<username>:'<password>'@<target>
@@ -198,7 +198,7 @@ impacket-psexec <domain_name>/<username>:'<password>'@<target>
 
 ---
 
-# {% include alchemy-fire.html %} Web Enumeration
+# 🜂 Web Enumeration
 
 ## Files or Directories
 
@@ -239,7 +239,7 @@ ffuf -request req.txt -request-proto http -mode clusterbomb -w usernames.txt:HFU
 
 ---
 
-# {% include alchemy-fire.html %} Vulnerability Scanner
+# 🜂 Vulnerability Scanner
 
 ```bash
 (remote scan)
@@ -253,7 +253,7 @@ nuclei -u <folder_name> -file
 
 ---
 
-# {% include alchemy-fire.html %} SHELLS
+# 🜂 SHELLS
 
 ## Listener
 
@@ -298,7 +298,7 @@ stty size
 
 ---
 
-# {% include alchemy-fire.html %} Python
+# 🜂 Python
 
 ## Python Virtual Environment
 
@@ -381,7 +381,7 @@ $ head app.py
 python3 -m http.server <8080:port> -d <directory>
 ```
 
-# {% include alchemy-fire.html %} Walkthroughs
+# 🜂 Walkthroughs
 
 ```html
 https://0xdf.gitlab.io/
@@ -389,7 +389,7 @@ https://0xdf.gitlab.io/
 
 ---
 
-# {% include alchemy-fire.html %} Resources
+# 🜂 Resources
 
 ```html
 
