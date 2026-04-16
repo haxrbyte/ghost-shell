@@ -7,7 +7,6 @@ title: CTF Cheat Sheet
 # {% include alchemy-fire.html %} CTF CheatSheet
 
 ### UPDATE DATE: 16 Apr 2026
-TEST
 * TOC
 {:toc}
 
