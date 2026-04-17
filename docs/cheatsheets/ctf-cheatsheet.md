@@ -7,6 +7,7 @@ title: CTF Cheat Sheet
 # {% include alchemy-fire.html %} CTF CheatSheet
 
 ### UPDATE DATE: 16 Apr 2026
+* TOC
 {:toc}
 
 # {% include alchemy-fire.html %} PortScan
