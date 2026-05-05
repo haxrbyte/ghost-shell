@@ -1,0 +1,40 @@
+{
+  "defaultSet": "pentest",
+  "sets": [
+    {
+      "id": "pentest",
+      "label": "Pentest",
+      "file": "commands-pentest.json",
+      "fallbackFile": "commands-pentest.data.js",
+      "description": "General engagement workflow"
+    },
+    {
+      "id": "ctf",
+      "label": "CTF",
+      "file": "commands-ctf.json",
+      "fallbackFile": "commands-ctf.data.js",
+      "description": "Challenge-oriented commands"
+    },
+    {
+      "id": "redteam",
+      "label": "Red Team",
+      "file": "commands-redteam.json",
+      "fallbackFile": "commands-redteam.data.js",
+      "description": "AD, access, and operator workflow"
+    },
+    {
+      "id": "basic",
+      "label": "Basic",
+      "file": "commands-basic.json",
+      "fallbackFile": "commands-basic.data.js",
+      "description": "Basic Pentest Commands"
+    },
+    {
+      "id": "advanced",
+      "label": "Advanced",
+      "file": "commands-advanced.json",
+      "fallbackFile": "commands-advanced.data.js",
+      "description": "Advanced getting flagged by Malware"
+    }
+  ]
+}
