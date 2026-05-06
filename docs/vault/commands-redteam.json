@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "label": "redteam",
-  "updatedDate": "2026.05.04",
+  "updatedDate": "2026.05.06",
   "categories": [
     {
       "id": "redteam-creds",
@@ -538,6 +538,14 @@
           "group": "Core Reverse Shells"
         }
       ]
+    },
+    {
+      "id": "misc",
+      "title": "Misc or References",
+      "desc": "Quick wins, common paths, and reference values",
+      "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M6 4.5h9l3 3v12H6v-15Z\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M15 4.5v3h3\" stroke=\"#FCD200\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M8.5 11h7M8.5 14h7M8.5 17h4\" stroke=\"#FCD200\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+      "tag": "t-misc",
+      "items": []
     }
   ]
 }
