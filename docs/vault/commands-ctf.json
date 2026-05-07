@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "label": "ctf",
-  "updatedDate": "2026.05.06",
+  "updatedDate": "2026.05.07",
   "categories": [
     {
       "id": "portscan",
@@ -134,7 +134,7 @@
           "id": "smb-ad-012",
           "name": "BloodyAD add machine account",
           "description": "Create a new computer account with BloodyAD.",
-          "template": "bloodyAD --host {RHOST} -u {USER} -p '{PASS}' -d {DOMAIN} add computer <name> '{PASS}'"
+          "template": "bloodyAD --host {RHOST} -u {USER} -p '{PASS}' -d {DOMAIN} add computer <name> <password>"
         },
         {
           "id": "smb-ad-013",

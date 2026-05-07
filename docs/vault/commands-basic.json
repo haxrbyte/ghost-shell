@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "label": "pentest",
-  "updatedDate": "2026.05.06",
+  "label": "basic",
+  "updatedDate": "2026.05.07",
   "categories": [
     {
       "id": "recon",

