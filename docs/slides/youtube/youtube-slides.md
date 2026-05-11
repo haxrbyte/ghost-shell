@@ -7,6 +7,7 @@ title: YouTube Slides
 # {% include alchemy-fire.html %} YouTube Slides
 
 - [Claude Mythos]({{ site.baseurl }}/slides/youtube/claude-mythos-presentation.html)
+- [VulnScan vs PenTest]({{ site.baseurl }}/slides/youtube/vulnscan-vs-pentest-presentation.html)
 
 ---
 
