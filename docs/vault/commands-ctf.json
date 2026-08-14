@@ -200,7 +200,7 @@
           "id": "smb-ad-029",
           "name": "Targeted Kerberoasting (GenerericWrite/GenericAll)",
           "description": "Abuse of a write permission on the servicePrincipalName attribute. Set and delete the temporary SPN.",
-          "template": "python3 targetedKerberoast.py -v -d {DOMAIN} -u {USER} -p '{PASSWORD}'"
+          "template": "python3 targetedKerberoast.py -v -d {DOMAIN} -u {USER} -p '{PASS}'"
         }
       ]
     },
