@@ -347,7 +347,7 @@
       "items": [
         {
           "id": "webattacks-001",
-          "name": "SQLi — detects",
+          "name": "SQLi detects",
           "description": "SQL Injection command from Web Attacks.",
           "template": "'OR 1 = 1 --\n'OR '1' = '1' --\nadmin'OR 1 = 1 --\nadmin ' or '1' = '1'\nadmin')-- -",
           "group": "Web Attacks / SQL Injection"
