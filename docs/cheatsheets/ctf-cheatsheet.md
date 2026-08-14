@@ -148,6 +148,12 @@ python3 generate-ad-username/ADGenerator.py names.csv
 [+] ScheduledTask TASK_11049927 created!
 ```
 
+## Targeted Kerberoast
+
+```bash
+python3 targetedKerberoast.py -v -d <domain> -u <username> -p <password>
+```
+
 ---
 
 # {% include alchemy-fire.html %} Kerberos Auth
